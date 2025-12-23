@@ -1,24 +1,20 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from .forms import LoginForm
-from .models import LoginModel
 
-# Create your views here.
-def naturemarket_login (request:HttpRequest):
-    nome = None
-    sbrnom = None
+def naturemarket_login(request: HttpRequest):
     if request.method == 'POST':
-        form=LoginForm(request.POST)
+        form = LoginForm(request.POST)
         if form.is_valid():
-            login = form.save()
-            request.session['nome'] = login.nome
-            request.session['sbrnom'] = login.sbrnom
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            # aqui depois tu pode usar authenticate/login
+            # por enquanto só redireciona
             return redirect('/')
-    else: 
+    else:
         form = LoginForm()
-    formulario = {
-            'form': form,
-            'nome': nome,
-            'sbrnom': sbrnom
-        }
-    return render (request, 'login/login.html', formulario)
+
+    return render(request, 'login/login.html', {
+        'form': form
+    })
