@@ -1,7 +1,10 @@
-<<<<<<< HEAD
-# produto/models.py
 from django.db import models
 
+# Create your models here.
+# produto/models.py
+from django.db import models
+from django.db import models
+#
 class Produto(models.Model):
     imagem = models.ImageField(
     upload_to='produtos/',
@@ -16,8 +19,3 @@ class Produto(models.Model):
 
     def get_preco_formatado(self):
         return f"R$ {self.preco:.2f}"
-=======
-from django.db import models
-
-# Create your models here.
->>>>>>> 8d2058ca414dee02c77770564705a0607d0ec55e
