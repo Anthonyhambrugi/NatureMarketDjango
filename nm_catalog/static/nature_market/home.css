@@ -1,6 +1,7 @@
 *{
     font-family: 'Poppins', sans-serif ;
 }
+<<<<<<< HEAD
 .catalogo-x {
     display: flex;
     flex-direction: row;
@@ -41,6 +42,8 @@
     max-height: 4.5em;
     overflow: hidden;
 }
+=======
+>>>>>>> 8d2058ca414dee02c77770564705a0607d0ec55e
 header {
     background-color: #2f7d32;
     border-radius: 15px;
