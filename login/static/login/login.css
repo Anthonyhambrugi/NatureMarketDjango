@@ -1,0 +1,60 @@
+*{
+    font-family: 'Poppins', sans-serif ;
+}
+header {
+    background-color: #2f7d32;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+header .titulo{
+    width: 150px;
+    height: auto;
+}
+body{
+    background-color:  #f3f6d5 !important;
+}
+h2 {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+.formularo form input, select, textarea{
+    background-color: #f3f6d5 !important;
+    margin: 10px;
+    border: #2f7d32 solid 3px;
+    border-radius: 15px;
+    border-left: 1px;
+    font-weight: 500;
+    color: #2f7d32;
+}
+.input-group-text{
+    background-color: #DDEAD6 !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: #2f7d32 solid 3px;
+    border-right: 1px;
+    border-radius: 15px;
+    color: #2F7D32;
+    row-gap: 0px;
+}
+.caxa{
+    row-gap: 0px;
+}
+.conflogin {
+    background-color: #2f7d32 !important;
+    margin: 10px;
+    border-radius: 6px;
+    font-weight: 500;
+    color: #ffffff;
+}
+.modal-content{
+    background-color: #f3f6d5;
+    border: #2f7d32 dotted 3px;
+    border-radius: 15px;
+    color: #2f7d32;
+}
+.formularo .is-invalid{
+    color: #dc3545;
+    background-color: #f3f6d5;
+}
