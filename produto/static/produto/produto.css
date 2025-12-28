@@ -1,8 +1,49 @@
 *{
     font-family: 'Poppins', sans-serif ;
-<<<<<<< HEAD
 }
-=======
-    overflow-x: hidden;
+header{
+    background-color: #2f7d32;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    color: #fafafa;
 }
->>>>>>> 8d2058ca414dee02c77770564705a0607d0ec55e
+header .titulo{
+    width: 150px;
+    height: auto;
+}
+.pagina{
+    color: #fafafa;
+}
+body{
+    background-color:  #fff4d7 !important;
+}
+.formularo form input, select,textarea{
+    background-color: #fff4d7 !important;
+    margin: 10px;
+    border: #2f7d32 solid 3px;
+    border-radius: 15px;
+    font-weight: 500;
+    color: #2f7d32;
+}
+.formularo form input, select:hover{
+    background-color: #fff4d7 !important;
+    margin: 10px;
+    border: #2f7d32 solid 3px;
+    border-radius: 15px;
+}
+.conflogin {
+    background-color: #fff4d7 !important;
+    margin: 10px;
+    border: #2f7d32 solid 3px;
+    border-radius: 15px;
+    font-weight: 500;
+    color: #2f7d32;
+}
+.modal-content{
+    background-color: #fff4d7;
+    border: #2f7d32 dotted 3px;
+    border-radius: 15px;
+    color: #2f7d32;
+}

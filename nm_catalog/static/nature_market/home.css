@@ -1,7 +1,6 @@
 *{
     font-family: 'Poppins', sans-serif ;
 }
-<<<<<<< HEAD
 .catalogo-x {
     display: flex;
     flex-direction: row;
@@ -12,20 +11,21 @@
 
     gap: 1rem;
 }
-
-.produto-card {
-    min-width: 10rem;
-    flex-shrink: 0;
-
+.title{
+    color: #2f7d32;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 .produto-wrapper {
     display: flex;
     justify-content: center;
 }
 .produto-card {
-    height: 100%;
+    width: 12rem;
+    height: 90%;
     display: flex;
     flex-direction: column;
+    gap: 10px !important
 }
 .produto-card .card-title {
     font-size: clamp(0.9rem, 2.5vw, 1.1rem);
@@ -42,8 +42,6 @@
     max-height: 4.5em;
     overflow: hidden;
 }
-=======
->>>>>>> 8d2058ca414dee02c77770564705a0607d0ec55e
 header {
     background-color: #2f7d32;
     border-radius: 15px;
@@ -54,42 +52,37 @@ header .titulo{
     width: 150px;
     height: auto;
 }
-
 a.dropdown-toggle button,
 a.carrin {
-  color: #ffffff;
+  color: #fafafa;
   margin: 10px;
 }
-.search input, select,textarea{
-    background-color: #f3f6d5 !important;
+.search input, select{
+    background-color: #fff6dd !important;
     margin: 10px;
     border: #2f7d32 solid 3px;
     border-radius: 15px;
     font-weight: 500;
     color: #2f7d32;
+    align-items: stretch;
 }
 .search input, select:hover{
-    background-color: #f3f6d5 !important;
+    background-color: #fff6dd !important;
     margin: 10px;
     border: #2f7d32 solid 3px;
     border-radius: 15px;
 }
-.search button{
-    background: none;
-    border: none;
-    padding: 0;
-}
 body{
-    background-color: #f3f6d5;
+    background-color: #fff4d7;
 }
 .footerend{
     background-color: #2f7d32;
-    color: white;
+    color: #fafafa;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
 .menuinfmobile{
-    background-color: #f3f6d5 !important;
+    background-color: #fff6dd !important;
     border: #2f7d32 solid 3px;
     border-radius: 15px;
     border-bottom-left-radius: 0px;
@@ -103,15 +96,32 @@ body{
   margin: 10px;
 }
 .lupa{
-    width: 30px;
+    width: 25px;
     height: auto;
-    object-fit: contain;
+    background: none;
+    position: relative;
 }
 .foryou, .lastdiscount{
     color: #2f7d32;
 }
 .card{
     border: #2f7d32 solid 3px;
-    background: #f3f6d5;
+    background: #fff6dd;
     border-radius: 15px;
+}
+.catalogo-x::-webkit-scrollbar {
+    height: 8px;
+}
+
+.catalogo-x::-webkit-scrollbar-thumb {
+    background-color: #2f7d32;
+    border-radius: 10px;
+}
+
+.catalogo-x::-webkit-scrollbar-track {
+    background: transparent;
+}
+.input-group .btn {
+    border-left: 0;
+    gap: 0px;
 }
