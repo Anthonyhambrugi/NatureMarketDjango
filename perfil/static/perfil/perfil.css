@@ -121,9 +121,11 @@ h2 {
     box-shadow: 0 5px 14px #2f7d3247;
     justify-content: center;
 }
-.footerend{
-    background-color: #2f7d32;
-    color: #fafafa;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+.aba-perfil{
+    border: #2f7d32 solid 3px;
+    border-radius: 15px;
+    background-color: #fff4d7;
+    padding: 20px;
+    box-shadow: 0 5px 14px #2f7d3247;
+    justify-content: center;
 }

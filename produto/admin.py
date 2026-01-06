@@ -1,3 +1,9 @@
+# app/admin.py
 from django.contrib import admin
+from .models import CadItmModel
 
-# Register your models here.
+@admin.register(CadItmModel)
+class CadItmModelAdmin(admin.ModelAdmin):
+    list_display = ("nome", "preco")
+    search_fields = ("nome", "descricao",)
+    list_filter = ("preco",)
