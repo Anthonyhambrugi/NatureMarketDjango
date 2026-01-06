@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from produto.models import Produto
+from produto.models import CadItmModel
 
 def nm_catalog(request):
-    produtos = Produto.objects.all()
-    return render(request, 'naturemarket/home.html', {'produtos': produtos})
+    produtos = CadItmModel.objects.all()
+
+    return render(request, 'naturemarket/NMhome.html', {'produtos': produtos})

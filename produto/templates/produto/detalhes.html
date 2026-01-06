@@ -24,9 +24,9 @@
     <main>
         <div class="container">
                 <div class="row align-items-center">
-                    <h1 class="my-5 d-block col-lg-12">
-                        {% if produto.img %}
-                            <img src="{{ produto.img.url }}" class="card-img-top" alt="{{ produto.nome }}">
+                    <h1 class="my-5 d-flex col-lg-12">
+                        {% if produto.imagem_item %}
+                            <img src="{{ produto.imagem_item.url }}" class="card-img-top imagem" alt="{{ produto.titulo }}" style="height: 250px; width: auto;">
                         {% else %}
                             <div class="d-flex align-items-center justify-content-center card-img-top bg-light text-muted"
                             style="height: 125px;">
@@ -35,16 +35,28 @@
                         {% endif %} 
                     </h1>
                 </div>
-                <div>
-                    <h2 class="my-3">
+                <div class="info d-flex flex-column position-relative col-lg-12 p-3 my-3 align-items-center">
+                    <h2 class="my-3 titulo py-4">
                         {{ produto.nome }}
                     </h2>
-                    <h1 class="my-3 fw-bold">
-                        {{ produto.preco }}
-                    </h1>
-                    <p class="my-3">
-                        {{ produto.descricao }}
-                    </p>
+                    <div class="preco col-2 fw-bolder d-lg-block d-md-none d-sm-none">
+                        <h5>Preço</h5>
+                        <h3>R$ : {{ produto.preco }}</h3>
+                    </div>
+                    <div class="precomobile col-2 fw-bolder d-lg-none d-md-block">
+                        <h5>Preço</h5>
+                        <h3>R$ : {{ produto.preco }}</h3>
+                    </div>
+                    <div class="px-3 py-3 desc content-box">
+                        <div>
+                            <h5>Produtor(a)</h5>
+                            <p>{{ produto.autor.username }}</p>
+                        </div>
+                        <h5>Descrição do produto</h5>
+                        <p class="text-break">{{ produto.descricao }}</p>
+                        <h5>Categoria</h5>
+                        <p>{{ produto.categoria }}</p>
+                    </div>
                 </div>
         </div>
     </main>
