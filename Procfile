@@ -1,1 +1,1 @@
-web: gunicorn Nature-market.wsgi
+web: gunicorn nature_market.wsgi
