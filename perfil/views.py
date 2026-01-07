@@ -16,8 +16,8 @@ def perfil_view(request, username):
     })
     
 @login_required
-def editar_perfil(request):
-    user = request.username
+def editar_perfil(request, username):
+    user = username
 
     if request.method == 'POST':
         form = EditarPerfilForm(request.POST, instance=user)
