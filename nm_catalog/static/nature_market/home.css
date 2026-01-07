@@ -69,7 +69,6 @@ header .titulo{
     margin: 10px;
     border-radius: 15px;
     align-items: stretch;
-    box-shadow: 0 0 0 3px #81C784;
 }
 body{
     background-color: #fff4d7;
@@ -81,7 +80,7 @@ body{
     border-top-right-radius: 15px;
 }
 .menuinfmobile{
-    background-color: #fff6dd !important;
+    background-color: #fff4d7 !important;
     border: #2f7d32 solid 3px;
     border-radius: 15px;
     border-bottom-left-radius: 0px;
