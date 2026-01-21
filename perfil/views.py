@@ -3,17 +3,22 @@ from django.contrib.auth.models import User
 from .forms import EditarPerfilForm
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Perfil
+from produto.models import CadItmModel
 
 @login_required(login_url='/login/')
 def perfil_view(request, username):
     username = get_object_or_404(User, username=username)
 
     perfil_obj, _ = Perfil.objects.get_or_create(user=username)
+    
+    # Pega os produtos cujo autor é o usuário
+    produtos_do_usuario = CadItmModel.objects.filter(autor=username)
 
     return render(request, 'perfil/perfil.html', {
         'user': username,
         'perfil': perfil_obj,
-        'hide_dropdown': True
+        'hide_dropdown': True,
+        'produtos_do_usuario': produtos_do_usuario
     })
     
 @login_required
@@ -37,3 +42,5 @@ def editar_perfil(request, username):
         form = EditarPerfilForm(instance=user)
 
     return render(request, 'editar/editar.html', {'form': form, 'perfil': perfil_obj})
+
+

@@ -10,7 +10,8 @@ urlpatterns = [
     path('login/', include("login.urls")),
     path('cadastro/', include("cadastro.urls")),
     path('produto/', include('produto.urls')),
-    path('perfil/', include('perfil.urls'))
+    path('perfil/', include('perfil.urls')),
+    path('carrinho/', include('carrinho_chatgpt.urls')),
 ]
 
 if settings.DEBUG:

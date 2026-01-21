@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Carrinho de Compras{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'carrinho/carrinho.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container carrinho-container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="mb-4">🛒 Carrinho de Compras</h1>
+
+            {% if messages %}
+            <div class="alert-container">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if itens %}
+                <div class="row">
+                    <div class="col-md-8">
+                        <table class="tabela-carrinho">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th style="width: 100px;">Preço</th>
+                                    <th style="width: 100px;">Quantidade</th>
+                                    <th style="width: 100px;">Subtotal</th>
+                                    <th style="width: 80px;">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in itens %}
+                                <tr>
+                                    <td>
+                                        <div class="item-produto">
+                                            {% if item.produto.imagem_item %}
+                                            <img src="{{ item.produto.imagem_item.url }}" alt="{{ item.produto.nome }}">
+                                            {% else %}
+                                            <img src="https://via.placeholder.com/60" alt="{{ item.produto.nome }}">
+                                            {% endif %}
+                                            <div class="item-info">
+                                                <h6>{{ item.produto.nome }}</h6>
+                                                <small>ID: {{ item.produto.id }}</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="preco">R$ {{ item.preco_unitario }}</td>
+                                    <td>
+                                        <form method="POST" action="{% url 'carrinho:atualizar_quantidade' item.id %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <input type="number" name="quantidade" value="{{ item.quantidade }}" min="1" max="999" class="quantidade-input" onchange="this.form.submit()">
+                                        </form>
+                                    </td>
+                                    <td class="preco">R$ {{ item.subtotal }}</td>
+                                    <td>
+                                        <form method="POST" action="{% url 'carrinho:remover_do_carrinho' item.id %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn-remover" onclick="return confirm('Tem certeza?')">Remover</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="resumo-carrinho">
+                            <h4>Resumo do Carrinho</h4>
+                            <div class="linha-resumo">
+                                <span>Total de itens:</span>
+                                <span>{{ total_itens }}</span>
+                            </div>
+                            <div class="linha-resumo">
+                                <span>Valor total:</span>
+                                <span>R$ {{ valor_total }}</span>
+                            </div>
+                        </div>
+
+                        <div class="acoes-carrinho">
+                            <form method="POST" action="{% url 'carrinho:limpar_carrinho' %}" class="w-100">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-limpar w-100" onclick="return confirm('Deseja limpar todo o carrinho?')">Limpar Carrinho</button>
+                            </form>
+                        </div>
+
+                        <div class="acoes-carrinho">
+                            <a href="/" class="btn-secundario flex-grow-1 text-center">← Continuar Comprando</a>
+                            <a href="#" class="btn-primario flex-grow-1 text-center">Finalizar Compra →</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="carrinho-vazio">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>Seu carrinho está vazio</h3>
+                    <p>Que tal começar a adicionar alguns produtos?</p>
+                    <a href="/" class="btn-primario" style="margin-top: 1rem;">Voltar ao Catálogo</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Você pode adicionar funcionalidades JavaScript aqui
+    console.log('Carrinho carregado');
+});
+</script>
+{% endblock %}

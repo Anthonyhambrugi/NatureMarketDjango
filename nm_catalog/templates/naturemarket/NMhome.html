@@ -37,7 +37,7 @@
                             <h4 class="card-subtitle fw-bolder">
                                 R$ {{ produto.preco }}
                             </h4>
-
+                            
                             <p class="card-text produto-desc overflow-y-hidden">
                                 {{ produto.descricao }}
                             </p>
@@ -63,12 +63,7 @@
             {% for produto in produtos_desconto %}
                 <a href="/produto/detalhes/{{ produto.id }}/"
                    class="text-decoration-none text-dark">
-                    <div class="card produto-card my-3 position-relative">
-                        <!-- Badge de desconto -->
-                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">
-                            -{{ produto.desconto|floatformat:0 }}%
-                        </span>
-                        
+                    <div class="card produto-card my-3">
                         <div class="card-body text-center">
                             {% if produto.imagem_item %}
                                 <img src="{{ produto.imagem_item.url }}"
@@ -83,15 +78,11 @@
 
                             <h3 class="card-title fs-5">
                                 {{ produto.nome }}
-                            </h3>
+                            </h3>    
 
-                            <h4 class="card-subtitle fw-bolder text-danger">
-                                R$ {{ produto.preco_com_desconto|floatformat:2 }}
+                            <h4 class="card-subtitle fw-bolder">
+                                R$ {{ produto.preco|floatformat:2 }}
                             </h4>
-
-                            <p class="card-text text-muted" style="font-size: 0.9rem;">
-                                <s>R$ {{ produto.preco|floatformat:2 }}</s>
-                            </p>
 
                             <p class="card-text produto-desc overflow-y-hidden">
                                 {{ produto.descricao }}
@@ -135,7 +126,7 @@
                             <h4 class="card-subtitle fw-bolder">
                                 R$ {{ produto.preco }}
                             </h4>
-
+                            
                             <p class="card-text produto-desc overflow-y-hidden">
                                 {{ produto.descricao }}
                             </p>

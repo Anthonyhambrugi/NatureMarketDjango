@@ -34,3 +34,9 @@ class CadItmModel(models.Model):
         if self.desconto > 0:
             return self.preco * (1 - self.desconto / 100)
         return self.preco
+    
+    def eh_do_usuario(self, usuario):
+        """Verifica se o produto pertence ao usuário"""
+        if usuario.is_authenticated:
+            return self.autor == usuario
+        return False

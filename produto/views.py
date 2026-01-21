@@ -6,7 +6,8 @@ from produto.models import CadItmModel
 def detalhes_produto(request, id):
     produto = get_object_or_404(CadItmModel, id=id)
     return render(request, 'produto/detalhes.html', {
-        'produto': produto
+        'produto': produto,
+        'eh_produto_proprio': produto.eh_do_usuario(request.user)
     })
 
 @login_required

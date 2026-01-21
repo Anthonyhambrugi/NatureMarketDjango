@@ -52,11 +52,24 @@
                             <h5>Produtor(a)</h5>
                             <p>{{ produto.autor.username }}</p>
                         </div>
+                        <h5>{{ produto.criado_em }}</h5>
                         <h5>Descrição do produto</h5>
                         <p class="text-break">{{ produto.descricao }}</p>
                         <h5>Categoria</h5>
                         <p>{{ produto.categoria }}</p>
                     </div>
+                    {% if not eh_produto_proprio %}
+                    <form method="POST" action="{% url 'carrinho:adicionar_ao_carrinho' produto.id %}">
+                        {% csrf_token %}
+                        <input type="number" name="quantidade" value="1" min="1">
+                        <button type="submit" class="btn">Adicionar ao Carrinho</button>
+                    </form>
+                    {% else %}
+                    <div class="alert alert-warning" role="alert">
+                        <strong>Este é seu próprio produto!</strong><br>
+                        Você não pode comprar seus próprios produtos.
+                    </div>
+                    {% endif %}
                 </div>
         </div>
     </main>

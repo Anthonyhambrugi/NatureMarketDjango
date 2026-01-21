@@ -17,3 +17,7 @@ class Perfil(models.Model):
 
     def __str__(self):
         return self.user.username
+
+def vitrine(request):
+    produtos_do_usuario = CadItmModel.objects.filter(autor=request.user)
+    return produtos_do_usuario

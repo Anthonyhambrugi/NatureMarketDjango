@@ -102,10 +102,15 @@ body{
     color: #2f7d32;
 }
 .card{
-    border: #2f7d32 solid 3px;
-    background: #fff4d7;
+    background: #fafafa;
     border-radius: 15px;
     box-shadow: 0 5px 14px #2f7d3229;
+}
+.card-img-top{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 150px;
+    object-fit: cover;
 }
 .catalogo-x::-webkit-scrollbar {
     height: 8px;
