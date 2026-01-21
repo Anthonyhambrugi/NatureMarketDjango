@@ -12,19 +12,28 @@ def perfil_view(request, username):
 
     return render(request, 'perfil/perfil.html', {
         'user': username,
-        'perfil': perfil_obj
+        'perfil': perfil_obj,
+        'hide_dropdown': True
     })
     
 @login_required
 def editar_perfil(request, username):
-    user = username
+    user = get_object_or_404(User, username=username)
+    
+    if request.user != user:
+        return redirect('perfil:perfil', username=username)
+
+    perfil_obj, _ = Perfil.objects.get_or_create(user=user)
 
     if request.method == 'POST':
-        form = EditarPerfilForm(request.POST, instance=user)
+        form = EditarPerfilForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
+            perfil_obj.fotodeperfil = request.FILES.get('fotodeperfil', perfil_obj.fotodeperfil)
+            perfil_obj.bio = request.POST.get('bio', perfil_obj.bio)
+            perfil_obj.save()
             return redirect('perfil:perfil', username=request.user.username)
     else:
         form = EditarPerfilForm(instance=user)
 
-    return render(request, 'editar/editar.html', {'form': form})
+    return render(request, 'editar/editar.html', {'form': form, 'perfil': perfil_obj})

@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('nm_catalog.urls')),
     path('login/', include("login.urls")),
+    path('cadastro/', include("cadastro.urls")),
     path('produto/', include('produto.urls')),
     path('perfil/', include('perfil.urls'))
 ]

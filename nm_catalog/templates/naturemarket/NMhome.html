@@ -6,6 +6,7 @@
 {% block content %}
 <div class="container">
     <div class="row align-items-center">
+        <!-- PARA VOCÊ -->
         <div class="foryou col-12 text-left py-2">
             <h1 class="title fs-3 fw-semibold text-center text-md-start d-block">
                 Para você!
@@ -50,11 +51,104 @@
             {% endfor %}
         </div>
 
-        <div class="col-12 mt-4">
+        <!-- DESCONTOS IMPERDÍVEIS -->
+        {% if produtos_desconto %}
+        <div class="col-12 mt-5">
             <h1 class="title fs-3 fw-semibold text-center text-md-start">
-                Descontos imperdíveis $
+                Descontos imperdíveis 💰
             </h1>
         </div>
+
+        <div class="catalogo-x d-flex flex-nowrap overflow-x-auto gap-3 py-2">
+            {% for produto in produtos_desconto %}
+                <a href="/produto/detalhes/{{ produto.id }}/"
+                   class="text-decoration-none text-dark">
+                    <div class="card produto-card my-3 position-relative">
+                        <!-- Badge de desconto -->
+                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+                            -{{ produto.desconto|floatformat:0 }}%
+                        </span>
+                        
+                        <div class="card-body text-center">
+                            {% if produto.imagem_item %}
+                                <img src="{{ produto.imagem_item.url }}"
+                                     class="card-img-top"
+                                     style="height: 150px;">
+                            {% else %}
+                                <div class="d-flex align-items-center justify-content-center card-img-top bg-light text-muted"
+                                     style="height: 150px;">
+                                    Sem imagem
+                                </div>
+                            {% endif %}
+
+                            <h3 class="card-title fs-5">
+                                {{ produto.nome }}
+                            </h3>
+
+                            <h4 class="card-subtitle fw-bolder text-danger">
+                                R$ {{ produto.preco_com_desconto|floatformat:2 }}
+                            </h4>
+
+                            <p class="card-text text-muted" style="font-size: 0.9rem;">
+                                <s>R$ {{ produto.preco|floatformat:2 }}</s>
+                            </p>
+
+                            <p class="card-text produto-desc overflow-y-hidden">
+                                {{ produto.descricao }}
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- NOVIDADES -->
+        {% if novos_produtos %}
+        <div class="col-12 mt-5">
+            <h1 class="title fs-3 fw-semibold text-center text-md-start">
+                Novidades ✨
+            </h1>
+        </div>
+
+        <div class="catalogo-x d-flex flex-nowrap overflow-x-auto gap-3 py-2">
+            {% for produto in novos_produtos %}
+                <a href="/produto/detalhes/{{ produto.id }}/"
+                   class="text-decoration-none text-dark">
+                    <div class="card produto-card my-3">
+                        <div class="card-body text-center">
+                            {% if produto.imagem_item %}
+                                <img src="{{ produto.imagem_item.url }}"
+                                     class="card-img-top"
+                                     style="height: 150px;">
+                            {% else %}
+                                <div class="d-flex align-items-center justify-content-center card-img-top bg-light text-muted"
+                                     style="height: 150px;">
+                                    Sem imagem
+                                </div>
+                            {% endif %}
+
+                            <h3 class="card-title fs-5">
+                                {{ produto.nome }}
+                            </h3>
+
+                            <h4 class="card-subtitle fw-bolder">
+                                R$ {{ produto.preco }}
+                            </h4>
+
+                            <p class="card-text produto-desc overflow-y-hidden">
+                                {{ produto.descricao }}
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            {% empty %}
+                <p class="text-center w-100">
+                    Nenhum produto novo ainda.
+                </p>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

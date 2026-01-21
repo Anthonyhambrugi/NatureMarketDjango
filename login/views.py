@@ -1,8 +1,13 @@
 from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import render, redirect
-from .forms import LoginForm, CadastroForm
+from .forms import LoginForm
+
 
 def login(request):
+    """
+    View de login, bem simples mesmo
+    Valida username e password do usuário
+    """
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -22,14 +27,3 @@ def login(request):
     return render(request, 'login/login.html', {
         'form': form
     })
-
-def cadastro(request):
-    if request.method == 'POST':
-        form = CadastroForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            auth_login(request, user)
-            return redirect('/')
-    else:
-        form = CadastroForm()
-    return render (request, 'cadastro/cadastro.html', {'form':form})

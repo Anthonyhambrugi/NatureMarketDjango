@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'nm_catalog',
     'login',
+    'cadastro',
     'produto',
     'perfil',
 ]
