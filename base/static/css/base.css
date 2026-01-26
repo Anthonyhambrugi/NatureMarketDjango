@@ -102,8 +102,7 @@ body{
     color: #2f7d32;
 }
 .card{
-    border: #2f7d32 solid 3px;
-    background: #fff4d7;
+    background: #fafafa;
     border-radius: 15px;
     box-shadow: 0 5px 14px #2f7d3229;
 }

@@ -101,7 +101,7 @@ body{
 .foryou, .lastdiscount{
     color: #2f7d32;
 }
-.card{
+.produto-card .card {
     background: #fafafa;
     border-radius: 15px;
     box-shadow: 0 5px 14px #2f7d3229;
