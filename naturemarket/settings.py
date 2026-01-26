@@ -168,3 +168,7 @@ LOGOUT_REDIRECT_URL = '/login/'
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
+
+import sys
+print("DATABASE_URL EXISTS:", bool(os.environ.get("DATABASE_URL")), file=sys.stderr)
+print("DB ENGINE:", DATABASES['default']['ENGINE'], file=sys.stderr)

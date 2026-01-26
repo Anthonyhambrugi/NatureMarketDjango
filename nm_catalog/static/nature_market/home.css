@@ -111,7 +111,6 @@ body{
     border-top-right-radius: 10px;
     height: 130px;
     width: 100%;
-    object-fit: contain;
 }
 .catalogo-x::-webkit-scrollbar {
     height: 8px;
