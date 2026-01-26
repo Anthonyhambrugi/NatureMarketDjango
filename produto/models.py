@@ -40,3 +40,15 @@ class CadItmModel(models.Model):
         if usuario.is_authenticated:
             return self.autor == usuario
         return False
+
+
+class ImagemProduto(models.Model):
+    produto = models.ForeignKey(CadItmModel, on_delete=models.CASCADE, related_name='imagens')
+    imagem = models.ImageField(upload_to='produto/imagens/')
+    criada_em = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Imagem de {self.produto.nome}"
+    
+    class Meta:
+        ordering = ['-criada_em']

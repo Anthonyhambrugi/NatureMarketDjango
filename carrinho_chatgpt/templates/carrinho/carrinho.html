@@ -43,7 +43,7 @@
                                     <td>
                                         <div class="item-produto">
                                             {% if item.produto.imagem_item %}
-                                            <img src="{{ item.produto.imagem_item.url }}" alt="{{ item.produto.nome }}">
+                                            <a href="/produto/detalhes/{{ item.produto.id }}/"><img src="{{ item.produto.imagem_item.url }}" alt="{{ item.produto.nome }}"></a>
                                             {% else %}
                                             <img src="https://via.placeholder.com/60" alt="{{ item.produto.nome }}">
                                             {% endif %}

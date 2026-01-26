@@ -1,6 +1,12 @@
 *{
     font-family: 'Poppins', sans-serif ;
 }
+
+/* ====== TRANSIÇÕES GLOBAIS ====== */
+button, input, select, textarea, a {
+    transition: all 0.3s ease;
+}
+
 header{
     background-color: #2f7d32;
     border-bottom-left-radius: 15px;
@@ -19,20 +25,33 @@ header .titulo{
 body{
     background-color:  #fff4d7 !important;
 }
-.formularo form input, select,textarea{
+
+/* ====== FORMULÁRIOS ====== */
+.formularo form input, select, textarea {
     background-color: #fff4d7 !important;
     margin: 10px;
     border: #256B2E solid 3px;
     border-radius: 15px;
     font-weight: 500;
     color: #256B2E;
+    transition: all 0.3s ease;
 }
-.formularo form input, select:hover{
+
+.formularo form input:hover, select:hover, textarea:hover {
     background-color: #fff4d7 !important;
     margin: 10px;
     border: #256B2E solid 3px;
     border-radius: 15px;
+    box-shadow: 0 0 8px rgba(47, 125, 50, 0.2);
 }
+
+.formularo form input:focus, select:focus, textarea:focus {
+    background-color: #fff4d7 !important;
+    border: #2f7d32 solid 3px;
+    box-shadow: 0 0 12px rgba(47, 125, 50, 0.4);
+    outline: none;
+}
+
 .conflogin {
     background-color: #fff4d7 !important;
     margin: 10px;
@@ -41,22 +60,79 @@ body{
     font-weight: 500;
     color: #256B2E;
 }
+
+/* ====== BOTÕES ====== */
+.btn {
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.btn-success {
+    background-color: #2f7d32;
+    border-color: #2f7d32;
+}
+
+.btn-success:hover {
+    background-color: #1e5526;
+    border-color: #1e5526;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(47, 125, 50, 0.3);
+}
+
+.btn-success:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(47, 125, 50, 0.2);
+}
+
+/* ====== MODAIS ====== */
 .modal-content{
     background-color: #fff4d7;
     border: #256B2E dotted 3px;
     border-radius: 15px;
     color: #256B2E;
+    animation: slideIn 0.3s ease;
 }
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ====== IMAGENS ====== */
 .imagem{
     border-radius: 10px;
     border: #256B2E solid 6px;
+    transition: transform 0.3s ease;
 }
+
+.imagem:hover {
+    transform: scale(1.02);
+}
+
+/* ====== SEÇÕES ====== */
 .info{
     color: #256B2E;
     border: #256B2E dotted 3px;
     justify-content: center;
     border-radius: 15px;
+    animation: fadeIn 0.4s ease;
 }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 .desc{
     border: #256B2E solid 3px;
     box-shadow: 0 5px 14px #2f7d3229;
@@ -79,4 +155,142 @@ hr{
     border-radius: 10px;
     padding: 5px 10px;
     background-color: #fff4d7;
+}
+
+/* ====== GALERIA DE IMAGENS ====== */
+.gallery-container {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+        
+.main-image-wrapper {
+    flex: 3;
+    display: flex;
+    justify-content: center;
+}
+        
+.main-product-image {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    border-radius: 8px;
+    object-fit: contain;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-thumbnails {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+        
+.thumbnail-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+        
+.thumbnail-img:hover {
+    transform: scale(1.05);
+    border-color: #2f7d32;
+    box-shadow: 0 2px 8px rgba(47, 125, 50, 0.2);
+}
+        
+.thumbnail-img.active {
+    border-color: #fff4d7;
+    box-shadow: 0 0 12px #2f7d32;
+    transform: scale(1.08);
+}
+
+/* ====== FORM INPUTS ====== */
+.input-group input[type="number"] {
+    transition: all 0.3s ease;
+}
+
+.input-group input[type="number"]:focus {
+    box-shadow: 0 0 8px rgba(47, 125, 50, 0.3);
+}
+
+/* ====== SPINNER DE CARREGAMENTO ====== */
+.spinner-border {
+    --bs-spinner-border-width: 0.25em;
+}
+
+.loading-btn {
+    position: relative;
+}
+
+.loading-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* ====== ALERTAS/TOASTS ====== */
+.alert {
+    animation: slideInDown 0.3s ease;
+    border-radius: 10px;
+    border-width: 2px;
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.toast {
+    animation: slideInUp 0.3s ease;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ====== RESPONSIVIDADE ====== */
+@media (max-width: 768px) {
+    .gallery-container {
+        flex-direction: column;
+    }
+            
+    .main-image-wrapper {
+        flex: none;
+        width: 100%;
+    }
+            
+    .thumbnails-wrapper {
+        flex: none;
+        width: 100%;
+    }
+            
+    .thumbnails-scroll {
+        flex-direction: row;
+        max-height: none;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        margin-left: 10px;
+    }
+            
+    .thumbnail {
+        min-width: 100px;
+        min-height: 100px;
+    }
 }
