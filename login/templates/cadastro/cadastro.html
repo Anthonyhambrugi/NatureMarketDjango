@@ -8,38 +8,38 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="text-center">Criar conta</h1>
+<h1 class="text-center mb-4 fs-4 fs-sm-3">Criar conta</h1>
 
-<div class="col-12 justify-content-center text-center d-flex">
-    <form method="post">
+<div class="col-12 col-sm-10 col-md-8 col-lg-6 justify-content-center text-center d-flex mx-auto">
+    <form method="post" class="w-100">
         {% csrf_token %}
         {{ form.non_field_errors }}
 
         <div class="mb-3">
-            <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+            <label for="{{ form.username.id_for_label }}" class="form-label">{{ form.username.label }}</label>
             {{ form.username }}
-            {{ form.username.errors }}
+            {% if form.username.errors %}<div class="text-danger small mt-1">{{ form.username.errors }}</div>{% endif %}
         </div>
 
         <div class="mb-3">
-            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+            <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
             {{ form.email }}
-            {{ form.email.errors }}
+            {% if form.email.errors %}<div class="text-danger small mt-1">{{ form.email.errors }}</div>{% endif %}
         </div>
 
         <div class="mb-3">
-            <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+            <label for="{{ form.password1.id_for_label }}" class="form-label">{{ form.password1.label }}</label>
             {{ form.password1 }}
-            {{ form.password1.errors }}
+            {% if form.password1.errors %}<div class="text-danger small mt-1">{{ form.password1.errors }}</div>{% endif %}
         </div>
 
         <div class="mb-3">
-            <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+            <label for="{{ form.password2.id_for_label }}" class="form-label">{{ form.password2.label }}</label>
             {{ form.password2 }}
-            {{ form.password2.errors }}
+            {% if form.password2.errors %}<div class="text-danger small mt-1">{{ form.password2.errors }}</div>{% endif %}
         </div>
 
-        <button class="btn btn-success">Cadastrar</button>
+        <button class="btn btn-success btn-sm w-100 w-sm-75">Cadastrar</button>
     </form>
 </div>
 {% endblock %}

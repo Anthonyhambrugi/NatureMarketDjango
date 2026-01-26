@@ -109,8 +109,9 @@ body{
 .card-img-top{
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    height: 150px;
-    object-fit: cover;
+    height: 130px;
+    width: 100%;
+    object-fit: contain;
 }
 .catalogo-x::-webkit-scrollbar {
     height: 8px;

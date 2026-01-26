@@ -9,19 +9,19 @@
 
 {% block content %}
 <div class="container">
-    <div class="row my-5">
-        <div class="aba-perfil col-12 col-md-8 col-lg-6">
-            <div class="col-12 d-flex align-items-start gap-3">
+    <div class="row my-3 my-sm-4 my-md-5">
+        <div class="aba-perfil col-12 col-sm-12 col-md-8 col-lg-6">
+            <div class="col-12 d-flex flex-column flex-sm-row align-items-start gap-2 gap-sm-3">
                 {% if perfil.fotodeperfil %}
-                <div>
-                    <img src="{{ perfil.fotodeperfil.url }}" alt=""  class="fotodeperfil" style="width: 160px; height: auto;">
+                <div class="mx-auto mx-sm-0">
+                    <img src="{{ perfil.fotodeperfil.url }}" alt=""  class="fotodeperfil rounded-circle" style="width: 140px; width: 140px; object-fit: cover;">
                 </div>
                 {% else %}
                     <img src="" alt="">
                 {% endif %}
-                <div>
-                <h1 class="mb-4">{{ user.first_name }} {{ user.last_name }}</h1>
-                <p>{{ user.username }}</p>
+                <div class="w-100 text-center text-sm-start">
+                <h1 class="mb-2 mb-sm-4 fs-4 fs-sm-3">{{ user.first_name }} {{ user.last_name }}</h1>
+                <p class="text-muted">@{{ user.username }}</p>
                 </div>
             </div>
             <div class="mt-4">
@@ -33,9 +33,9 @@
             <a href="{% url 'perfil:editar_perfil' user.username %}" class="btn btn-primary mx-2">Editar Perfil</a>
         </div>
         {% if produtos_do_usuario.exists %}
-        <div class="col-12">
-            <h2 class="vitrinelbl">Vitrine 🍎</h2>
-            <div class="catalogo-x d-flex flex-nowrap overflow-x-auto gap-3 py-2">
+        <div class="col-12 mt-3 mt-sm-4">
+            <h2 class="vitrinelbl fs-5 fs-sm-4">Vitrine 🍎</h2>
+            <div class="catalogo-x d-flex flex-nowrap overflow-x-auto gap-2 gap-sm-3 py-2">
                 {% for produto in produtos_do_usuario %}
                     <a href="/produto/detalhes/{{ produto.id }}/"
                        class="text-decoration-none text-dark">

@@ -4,10 +4,13 @@ from django.db.models import Q
 
 def nm_catalog(request):
     """View principal do catálogo Nature Market"""
-    todos_produtos = CadItmModel.objects.all()
+    # Para você - produtos mais recentes e populares
+    todos_produtos = CadItmModel.objects.all().order_by('-criado_em')[:8]
     
-    produtos_desconto = CadItmModel.objects.all().order_by('preco', '-criado_em')
+    # Descontos imperdíveis - produtos com desconto, ordenados por desconto
+    produtos_desconto = CadItmModel.objects.filter(desconto__gt=0).order_by('-desconto', '-criado_em')[:8]
     
+    # Novidades - produtos mais recentes
     novos_produtos = CadItmModel.objects.all().order_by('-criado_em')[:10]
 
     return render(request, 'naturemarket/NMhome.html', {

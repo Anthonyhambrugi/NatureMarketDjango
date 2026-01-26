@@ -25,16 +25,18 @@
             {% endif %}
 
             {% if itens %}
-                <div class="row">
-                    <div class="col-md-8">
-                        <table class="tabela-carrinho">
-                            <thead>
+                <div class="row g-2 g-sm-3">
+                    <div class="col-12 col-sm-12 col-md-8">
+                        <!-- Tabela para MD e maiores -->
+                        <div class="table-responsive d-none d-md-block">
+                        <table class="tabela-carrinho table table-sm table-hover">
+                            <thead class="table-success">
                                 <tr>
                                     <th>Produto</th>
-                                    <th style="width: 100px;">Preço</th>
-                                    <th style="width: 100px;">Quantidade</th>
+                                    <th style="width: 80px;">Preço</th>
+                                    <th style="width: 70px;">Quantidade</th>
                                     <th style="width: 100px;">Subtotal</th>
-                                    <th style="width: 80px;">Ação</th>
+                                    <th style="width: 60px;">Ação</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -43,9 +45,9 @@
                                     <td>
                                         <div class="item-produto">
                                             {% if item.produto.imagem_item %}
-                                            <a href="/produto/detalhes/{{ item.produto.id }}/"><img src="{{ item.produto.imagem_item.url }}" alt="{{ item.produto.nome }}"></a>
+                                            <a href="/produto/detalhes/{{ item.produto.id }}/"><img src="{{ item.produto.imagem_item.url }}" alt="{{ item.produto.nome }}" style="height: 60px;"></a>
                                             {% else %}
-                                            <img src="https://via.placeholder.com/60" alt="{{ item.produto.nome }}">
+                                            <img src="https://via.placeholder.com/60" alt="{{ item.produto.nome }}" style="height: 60px;">
                                             {% endif %}
                                             <div class="item-info">
                                                 <h6>{{ item.produto.nome }}</h6>
@@ -57,32 +59,73 @@
                                     <td>
                                         <form method="POST" action="{% url 'carrinho:atualizar_quantidade' item.id %}" class="d-inline">
                                             {% csrf_token %}
-                                            <input type="number" name="quantidade" value="{{ item.quantidade }}" min="1" max="999" class="quantidade-input" onchange="this.form.submit()">
+                                            <input type="number" name="quantidade" value="{{ item.quantidade }}" min="1" max="999" class="quantidade-input" style="width: 60px;">
                                         </form>
                                     </td>
                                     <td class="preco">R$ {{ item.subtotal }}</td>
                                     <td>
                                         <form method="POST" action="{% url 'carrinho:remover_do_carrinho' item.id %}" class="d-inline">
                                             {% csrf_token %}
-                                            <button type="submit" class="btn-remover" onclick="return confirm('Tem certeza?')">Remover</button>
+                                            <button type="submit" class="btn-remover btn btn-sm btn-danger" onclick="return confirm('Tem certeza?')">✕</button>
                                         </form>
                                     </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
+                        </div>
+
+                        <!-- Cards verticais para SM e menores -->
+                        <div class="d-block d-md-none">
+                            {% for item in itens %}
+                            <div class="card mb-3 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex gap-2 mb-2">
+                                        {% if item.produto.imagem_item %}
+                                        <a href="/produto/detalhes/{{ item.produto.id }}/"><img src="{{ item.produto.imagem_item.url }}" alt="{{ item.produto.nome }}" style="height: 80px; width: 80px; object-fit: cover; border-radius: 4px;"></a>
+                                        {% else %}
+                                        <img src="https://via.placeholder.com/80" alt="{{ item.produto.nome }}" style="height: 80px; width: 80px; object-fit: cover; border-radius: 4px;">
+                                        {% endif %}
+                                        <div class="flex-grow-1">
+                                            <h6 class="card-title mb-1">{{ item.produto.nome }}</h6>
+                                            <p class="text-muted small mb-1">ID: {{ item.produto.id }}</p>
+                                            <h5 class="text-success fw-bold mb-0">R$ {{ item.preco_unitario }}</h5>
+                                        </div>
+                                    </div>
+                                    <hr class="my-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <label class="small text-muted">Quantidade:</label>
+                                            <form method="POST" action="{% url 'carrinho:atualizar_quantidade' item.id %}" class="d-inline">
+                                                {% csrf_token %}
+                                                <input type="number" name="quantidade" value="{{ item.quantidade }}" min="1" max="999" class="quantidade-input form-control form-control-sm" style="width: 70px;">
+                                            </form>
+                                        </div>
+                                        <div class="text-end">
+                                            <p class="small text-muted mb-1">Subtotal:</p>
+                                            <h6 class="text-success fw-bold mb-2">R$ {{ item.subtotal }}</h6>
+                                            <form method="POST" action="{% url 'carrinho:remover_do_carrinho' item.id %}" class="d-inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Tem certeza?')">🗑️ Remover</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
 
-                    <div class="col-md-4">
-                        <div class="resumo-carrinho">
-                            <h4>Resumo do Carrinho</h4>
+                    <div class="col-12 col-sm-12 col-md-4">
+                        <div class="resumo-carrinho sticky-sm-top">
+                            <h4 class="fs-5 fs-sm-6">Resumo do Carrinho</h4>
                             <div class="linha-resumo">
                                 <span>Total de itens:</span>
                                 <span>{{ total_itens }}</span>
                             </div>
                             <div class="linha-resumo">
                                 <span>Valor total:</span>
-                                <span>R$ {{ valor_total }}</span>
+                                <span class="fw-bold">R$ {{ valor_total }}</span>
                             </div>
                         </div>
 

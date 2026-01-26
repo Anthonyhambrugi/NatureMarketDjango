@@ -25,20 +25,20 @@
     <div class="container">
         <div class="row align-items-center">
 
-            <div class="header col-12 col-md-11 col-lg-3 order-1">
+            <div class="header col-12 col-sm-8 col-md-11 col-lg-3 order-1 mb-2 mb-sm-0">
                 <a href="/">
                     <img src="{% static 'img/logonaturemarket.jpg' %}"
-                         class="titulo img-fluid d-flex mx-auto mx-md-0 h-auto"
+                         class="titulo img-fluid d-flex mx-auto mx-sm-0 mx-md-0 h-auto"
                          alt="">
                 </a>
             </div>
 
-            <div class="search-nav col-12 col-md-6 col-lg-4 order-3 order-md-3 order-lg-2 d-none d-md-block">
+            <div class="search-nav col-12 col-md-6 col-lg-4 order-3 order-md-3 order-lg-2 d-none d-md-block mt-2 mt-md-0">
                 <input type="text" placeholder="Pesquisar..." class="search-bar form-control text-center">
             </div>
 
-            <div class="dropdown order-3 order-lg-3 col-1 col-md-1" {% if hide_dropdown %}style="display: none;"{% endif %}>
-                <button class="btn dropdown-toggle fs-5 text-decoration-none" type="button" data-bs-toggle="dropdown">
+            <div class="dropdown order-3 order-sm-3 order-lg-3 col-1 col-sm-1 col-md-1" {% if hide_dropdown %}style="display: none;"{% endif %}>
+                <button class="btn dropdown-toggle fs-6 fs-sm-5 fs-md-5 text-decoration-none" type="button" data-bs-toggle="dropdown">
                     Perfil
                 </button>
                 <ul class="dropdown-menu">
@@ -67,8 +67,8 @@
                 </ul>
             </div>
 
-            <div class="col-2 col-lg-1 order-4 d-none d-lg-block">
-                <a href="carrinho/" class="carrin btn text-decoration-none fs-5">Carrinho</a>
+            <div class="col-sm-2 col-md-2 col-lg-1 order-4 d-none d-lg-block mt-2 mt-sm-0 mt-lg-0">
+                <a href="{% url 'carrinho:visualizar_carrinho' %}" class="carrin btn text-decoration-none fs-6 fs-sm-5 fs-md-5">Carrinho</a>
             </div>
 
         </div>
@@ -77,7 +77,7 @@
 
 <main>
 
-    <div class="search d-flex col-md-6 col-lg-4 justify-content-center d-block d-md-none">
+    <div class="search d-flex col-12 col-sm-8 col-md-6 col-lg-4 justify-content-center d-block d-md-none mx-auto mb-3">
         <button type="button">
             <img src="{% static 'img/lupa.png' %}" class="lupa me-2 img-fluid" alt="">
         </button>
@@ -94,9 +94,9 @@
             <h1 class="footerend col-12 text-center">Teste footer</h1>
         </div>
 
-        <div class="menuinfmobile col-12 d-block d-lg-none fixed-bottom py-2">
-            <div class="col-3">
-                <a href="/cart/" class="carrin btn text-decoration-none fw-semibold fs-5">Carrinho</a>
+        <div class="menuinfmobile col-12 d-flex justify-content-center d-block d-lg-none fixed-bottom py-2 bg-light">
+            <div class="col-6 col-sm-4 text-center">
+                <a href="{% url 'carrinho:visualizar_carrinho' %}" class="carrin btn text-decoration-none fw-semibold fs-6 fs-sm-5">🛒 Carrinho</a>
             </div>
         </div>
     </div>
