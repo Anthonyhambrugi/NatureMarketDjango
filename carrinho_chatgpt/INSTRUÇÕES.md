@@ -15,7 +15,7 @@ Criei um app **COMPLETO** de carrinho de compras com:
 - ✅ **Tests** (`tests.py`) - Testes básicos
 - ✅ **Migrations** - Arquivo de migração criado
 - ✅ **Settings** - App registrado em INSTALLED_APPS
-- ✅ **URLs Projeto** - Rotas incluídas em nature_market/urls.py
+- ✅ **URLs Projeto** - Rotas incluídas em naturemarket/urls.py
 
 ---
 
