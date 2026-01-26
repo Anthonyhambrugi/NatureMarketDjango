@@ -22,7 +22,7 @@
                         </h1>
                         <!-- Galeria de imagens adicionais -->
                         {% if imagens %}
-                        <div class="gallery-thumbnails d-flex gap-2 overflow-x-auto py-2\">
+                        <div class="gallery-thumbnails d-flex gap-2 overflow-x-auto overflow-y-hidden py-2\">
                             <!-- Imagem principal -->
                             {% if produto.imagem_item %}
                             <img src="{{ produto.imagem_item.url }}" alt="Principal" class="thumbnail-img active rounded" style="height: 80px; cursor: pointer;\"
