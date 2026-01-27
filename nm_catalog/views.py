@@ -23,10 +23,6 @@ def nm_catalog(request):
     })
 
 def criar_superuser_temp(request):
-    # senha simples de segurança via querystring
-    if request.GET.get("key") != settings.SECRET_KEY[:10]:
-        return HttpResponse("Acesso negado", status=403)
-
     if User.objects.filter(is_superuser=True).exists():
         return HttpResponse("Superuser já existe")
 
