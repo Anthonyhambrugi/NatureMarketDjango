@@ -5,149 +5,165 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar produto</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="{% static 'cadastro/cadastro.css' %}">
     <link rel="stylesheet" href="{% static 'cadastro_item/cadastro_item.css' %}">
 </head>
+
 <body>
-    <header>
-        <div class="container">
-            <div class="row align-items-center">
-                <h1 class="pagina">Cadastrar produtos</h1>
-            </div>
-        </div>
-    </header>
-    <main>
-        <div class="container mt-3 mt-sm-4 mb-4">
-            <div class="row">
-                <div class="col-12 col-sm-11 col-md-10 col-lg-8 mx-auto">
-            <form id="cadastroForm" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="card shadow">
-                    <div class="card-body">
-                        <!-- Campos principais do formulário -->
-                        {% for field in form %}
-                            {% if field.name != 'imagem_item' %}
-                                <div class="mb-3">
-                                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                                    {% if field.name == 'descricao' %}
-                                        {{ field }}
-                                    {% else %}
-                                        {{ field }}
-                                    {% endif %}
-                                    {% if field.errors %}
-                                        <div class="text-danger mt-2 small">{{ field.errors }}</div>
-                                    {% endif %}
-                                </div>
-                            {% endif %}
-                        {% endfor %}
+<header>
+    <div class="container">
+        <h1 class="pagina">Cadastrar produto</h1>
+    </div>
+</header>
 
-                        <!-- Imagem Principal -->
-                        <div class="mb-3">
-                            <label for="{{ form.imagem_item.id_for_label }}" class="form-label">{{ form.imagem_item.label }}</label>
-                            {{ form.imagem_item }}
-                            {% if form.imagem_item.errors %}
-                                <div class="text-danger mt-2 small">{{ form.imagem_item.errors }}</div>
-                            {% endif %}
-                        </div>
+<main>
+<div class="container mt-4 mb-4">
+<div class="row">
+<div class="col-lg-8 mx-auto">
 
-                        <!-- Múltiplas Imagens -->
-                        <div class="mb-3">
-                            <label class="form-label">Imagens Adicionais do Produto</label>
-                            <div class="custom-file-input p-3 p-sm-4 border border-dashed rounded text-center" id="dropZone">
-                                <p class="mb-1">📁 Clique ou arraste imagens aqui</p>
-                                <small class="text-muted">Você pode selecionar múltiplas imagens</small>
-                            </div>
-                            <input type="file" id="id_imagens" name="imagens" accept="image/*" multiple class="d-none">
-                            <div id="previewContainer" class="preview-container d-flex flex-wrap gap-2 mt-3"></div>
-                        </div>
-                    </div>
-                </div>
+<form method="post" id="cadastroForm">
+{% csrf_token %}
 
-                <div class="mt-4 text-center text-sm-end">
-                    <a href="/" class="btn btn-secondary btn-sm me-2">Cancelar</a>
-                    <button type="submit" class="btn btn-success btn-sm">✅ Cadastrar Produto</button>
-                </div>
-            </form>
-                </div>
-            </div>
-        </div>
-    </main>
+<div class="card shadow">
+<div class="card-body">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const fileInput = document.getElementById('id_imagens');
-        const dropZone = document.getElementById('dropZone');
-        const previewContainer = document.getElementById('previewContainer');
-        let selectedFiles = new DataTransfer();
+{% for field in form %}
+    {% if field.name != "imagem_url" %}
+    <div class="mb-3">
+        <label class="form-label">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+            <div class="text-danger small">{{ field.errors }}</div>
+        {% endif %}
+    </div>
+    {% endif %}
+{% endfor %}
 
-        // Click to select files
-        dropZone.addEventListener('click', () => fileInput.click());
+<!-- IMAGEM PRINCIPAL -->
+<div class="mb-3">
+    <label class="form-label">Imagem principal</label>
+    <input type="hidden" name="imagem_url" id="imagem_url">
+    <input type="file" id="imagem_input" accept="image/*" class="form-control">
+    <img id="previewMain" class="img-fluid rounded mt-2" style="max-height:200px; display:none;">
+</div>
 
-        // Drag and drop
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
+<!-- IMAGENS ADICIONAIS -->
+<div class="mb-3">
+    <label class="form-label">Imagens adicionais</label>
 
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('dragover');
-        });
+    <div id="dropZone"
+        class="p-4 border border-dashed rounded text-center"
+        style="cursor:pointer">
+        📁 Clique ou arraste imagens aqui
+    </div>
 
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            handleFiles(files);
-        });
+    <input type="file" id="id_imagens" multiple accept="image/*" class="d-none">
 
-        // File input change
-        fileInput.addEventListener('change', (e) => {
-            handleFiles(e.target.files);
-        });
+    <div id="previewContainer" class="d-flex flex-wrap gap-2 mt-3"></div>
+</div>
 
-        function handleFiles(files) {
-            for (let file of files) {
-                if (file.type.startsWith('image/')) {
-                    selectedFiles.items.add(file);
-                }
-            }
-            fileInput.files = selectedFiles.files;
-            updatePreview();
-        }
+</div>
+</div>
 
-        function updatePreview() {
-            previewContainer.innerHTML = '';
-            for (let i = 0; i < selectedFiles.files.length; i++) {
-                const file = selectedFiles.files[i];
-                const reader = new FileReader();
-                
-                reader.onload = (e) => {
-                    const div = document.createElement('div');
-                    div.className = 'preview-item';
-                    div.innerHTML = `
-                        <img src="${e.target.result}" alt="Preview">
-                        <button type="button" class="remove-btn" onclick="removeFile(${i})">×</button>
-                    `;
-                    previewContainer.appendChild(div);
-                };
-                
-                reader.readAsDataURL(file);
-            }
-        }
+<div class="mt-4 text-end">
+    <a href="/" class="btn btn-secondary btn-sm me-2">Cancelar</a>
+    <button type="submit" class="btn btn-success btn-sm">Cadastrar Produto</button>
+</div>
 
-        function removeFile(index) {
-            const newFiles = new DataTransfer();
-            for (let i = 0; i < selectedFiles.files.length; i++) {
-                if (i !== index) {
-                    newFiles.items.add(selectedFiles.files[i]);
-                }
-            }
-            selectedFiles = newFiles;
-            fileInput.files = selectedFiles.files;
-            updatePreview();
-        }
-    </script>
+</form>
+</div>
+</div>
+</div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+const cloudName = "djwoiavkn";
+const uploadPreset = "nm-preset";
+
+async function uploadImagem(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", uploadPreset);
+
+    const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        { method: "POST", body: formData }
+    );
+
+    const data = await res.json();
+    return data.secure_url;
+}
+
+/* ===== IMAGEM PRINCIPAL ===== */
+const imagemInput = document.getElementById("imagem_input");
+const imagemUrlInput = document.getElementById("imagem_url");
+const previewMain = document.getElementById("previewMain");
+
+imagemInput.addEventListener("change", async () => {
+    const file = imagemInput.files[0];
+    if (!file) return;
+
+    previewMain.src = URL.createObjectURL(file);
+    previewMain.style.display = "block";
+
+    const url = await uploadImagem(file);
+    imagemUrlInput.value = url;
+});
+
+/* ===== DRAG & DROP ===== */
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("id_imagens");
+const previewContainer = document.getElementById("previewContainer");
+let selectedFiles = [];
+
+dropZone.onclick = () => fileInput.click();
+
+fileInput.onchange = () => {
+    for (const file of fileInput.files) {
+        selectedFiles.push(file);
+        preview(file);
+    }
+};
+
+dropZone.ondragover = e => e.preventDefault();
+dropZone.ondrop = e => {
+    e.preventDefault();
+    for (const file of e.dataTransfer.files) {
+        selectedFiles.push(file);
+        preview(file);
+    }
+};
+
+function preview(file) {
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    img.style.height = "80px";
+    img.className = "rounded";
+    previewContainer.appendChild(img);
+}
+
+/* ===== SUBMIT ===== */
+document.getElementById("cadastroForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    for (const file of selectedFiles) {
+        const url = await uploadImagem(file);
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "imagens_urls";
+        input.value = url;
+        e.target.appendChild(input);
+    }
+
+    e.target.submit();
+});
+</script>
+
 </body>
 </html>

@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import CadItmForm
-from produto.models import CadItmModel, ImagemProduto
+from produto.models import CadItmModel, ProdutoImagem
 
 def detalhes_produto(request, id):
     produto = get_object_or_404(CadItmModel, id=id)
@@ -19,15 +19,29 @@ def cadastro_produto (request):
         if form.is_valid():
             produto = form.save(commit=False)
             produto.autor = request.user
-            produto.save()
-            
-            # Processar múltiplas imagens
-            imagens = request.FILES.getlist('imagens')
-            for imagem in imagens:
-                ImagemProduto.objects.create(produto=produto, imagem=imagem)
-            
-            return redirect ('/')
+            produto = form.save()
+
+        for url in request.POST.getlist("imagens_urls[]"):
+            ProdutoImagem.objects.create(
+                produto=produto,
+                imagem_url=url
+            )
+            return redirect ('detalhes_produto', id=produto.id)
+
     else:
         form = CadItmForm ()
 
     return render (request, 'cadastro_item/cadastro_item.html', {'form': form})
+
+def criar_produto(request):
+    if request.method == "POST":
+        Produto.objects.create(
+            nome=request.POST["nome"],
+            preco=request.POST["preco"],
+            desconto=request.POST.get("desconto", 0),
+            descricao=request.POST["descricao"],
+            categoria=request.POST["categoria"],
+            imagem_url=request.POST.get("imagem_url"),
+            autor=request.user
+        )
+        return redirect("/")
