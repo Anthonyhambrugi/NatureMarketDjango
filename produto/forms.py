@@ -16,7 +16,7 @@ class CadItmForm(forms.ModelForm):
             "preco": "Preço (R$)",
             "desconto": "Desconto (%)",
             "descricao": "Descrição",
-            "imagem_item": "Imagem Principal (Opcional)"
+            "imagem_item": "Imagem Principal"
         }
 
 
@@ -24,4 +24,4 @@ class ImagemProdutoForm(forms.ModelForm):
     class Meta:
         model = ImagemProduto
         fields = ['imagem']
-        labels = {'imagem': 'Imagem'}
+        labels = {'imagem': 'Imagem secundária'}

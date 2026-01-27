@@ -22,19 +22,46 @@
                         </h1>
                         <!-- Galeria de imagens adicionais -->
                         {% if imagens %}
-                        <div class="gallery-thumbnails d-flex gap-2 overflow-x-auto overflow-y-hidden py-2\">
-                            <!-- Imagem principal -->
-                            {% if produto.imagem_item %}
-                            <img src="{{ produto.imagem_item.url }}" alt="Principal" class="thumbnail-img active rounded" style="height: 80px; cursor: pointer;\"
-                                 onclick="changeMainImage('{{ produto.imagem_item.url }}', this)">
+                            <div class="gallery-thumbnails d-flex gap-2 overflow-x-auto overflow-y-hidden py-2">
+                                
+                                {% if produto.imagem_item %}
+                                <img src="{{ produto.imagem_item.url }}"
+                                    alt="Principal"
+                                    class="thumbnail-img active rounded"
+                                    style="height: 80px; cursor: pointer;"
+                                    onclick="changeMainImage('{{ produto.imagem_item.url }}', this)">
+                                {% endif %}
+
+                                {% if imagens %}
+                                <div class="gallery-thumbnails d-flex gap-2 mt-3 overflow-auto">
+
+                                    {# imagem principal também aparece como thumb #}
+                                    {% if produto.imagem_item %}
+                                    <img
+                                        src="{{ produto.imagem_item.url }}"
+                                        class="thumbnail-img active rounded"
+                                        style="height: 80px; cursor: pointer;"
+                                        onclick="changeMainImage('{{ produto.imagem_item.url }}', this)"
+                                        alt="Imagem principal"
+                                    >
+                                    {% endif %}
+
+                                    {% for imagem in imagens %}
+                                    <img
+                                        src="{{ imagem.imagem.url }}"
+                                        class="thumbnail-img rounded"
+                                        style="height: 80px; cursor: pointer;"
+                                        onclick="changeMainImage('{{ imagem.imagem.url }}', this)"
+                                        alt="Imagem de {{ produto.nome }}"
+                                    >
+                                    {% endfor %}
+
+                                </div>
+                                {% endif %}
+
+
+                            </div>
                             {% endif %}
-                            <!-- Imagens adicionais -->
-                            {% for imagem in imagens %}
-                            <img src="{{ imagem.imagem.url }}" alt="{{ produto.nome }}" class="thumbnail-img rounded" style="height: 80px; cursor: pointer;\"
-                                 onclick="changeMainImage('{{ imagem.imagem.url }}', this)">
-                            {% endfor %}
-                        </div>
-                        {% endif %}
                     </div>
                     <div class="col-12 col-sm-12 col-md-6 col-lg-4 order-2 order-sm-2 order-md-2"></div>
                 </div>
@@ -89,25 +116,23 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Mudança de imagem com feedback visual
-        function changeMainImage(src, element) {
-            const mainImage = document.getElementById('mainImage');
-            mainImage.style.opacity = '0.5';
-            
-            setTimeout(() => {
-                mainImage.src = src;
-                mainImage.style.opacity = '1';
-            }, 150);
+    function changeMainImage(src, element) {
+        const mainImage = document.getElementById('mainImage');
 
-            // Remove classe active de todas
-            document.querySelectorAll('.thumbnail-img').forEach(img => {
-                img.classList.remove('active');
-            });
-            
-            // Adiciona classe active ao clicado
-            element.classList.add('active');
-        }
+        mainImage.style.opacity = '0.5';
 
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = '1';
+        }, 150);
+
+        document.querySelectorAll('.thumbnail-img')
+            .forEach(img => img.classList.remove('active'));
+
+        element.classList.add('active');
+    }
+    </script>
+    <script>
         // Feedback ao adicionar ao carrinho
         const addCartForm = document.getElementById('addCartForm');
         const addCartBtn = document.getElementById('addCartBtn');

@@ -23,7 +23,7 @@ def cadastro_produto (request):
 
         for url in request.POST.getlist("imagens_urls[]"):
             ImagemProduto.objects.create(
-                produto=produto
+                produto=produto, imagem=url
             )
             return redirect ('detalhes_produto', id=produto.id)
 
