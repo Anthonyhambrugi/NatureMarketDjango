@@ -1,5 +1,5 @@
 from django import forms
-from .models import CadItmModel, ProdutoImagem
+from .models import CadItmModel, ImagemProduto
 
 class CadItmForm(forms.ModelForm):
     class Meta:
@@ -9,21 +9,19 @@ class CadItmForm(forms.ModelForm):
             "preco",
             "desconto",
             "descricao",
-            "categoria",
-            "imagem_url"
+            "imagem_item"
         ]
         labels = {
             "nome": "Nome do Produto",
             "preco": "Preço (R$)",
             "desconto": "Desconto (%)",
             "descricao": "Descrição",
-            "categoria": "Categoria",
-            "imagem_url": "Imagem Principal (Opcional)"
+            "imagem_item": "Imagem Principal (Opcional)"
         }
 
 
 class ImagemProdutoForm(forms.ModelForm):
     class Meta:
-        model = ProdutoImagem
-        fields = ['imagem_url']
-        labels = {'imagem_url': 'Imagem'}
+        model = ImagemProduto
+        fields = ['imagem']
+        labels = {'imagem': 'Imagem'}

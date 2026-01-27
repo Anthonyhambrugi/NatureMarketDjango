@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from produto.models import CadItmModel, ProdutoImagem
+from produto.models import CadItmModel, ImagemProduto
 from django.db.models import Q
 
 def nm_catalog(request):

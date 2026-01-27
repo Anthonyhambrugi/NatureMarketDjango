@@ -19,37 +19,33 @@
                    class="text-decoration-none text-dark">
                     <div class="card produto-card my-3" style="min-width: 160px;">
                         <div class="card-body text-center p-2 p-sm-3">
-    <!-- Imagem principal -->
-                        {% if produto.imagem_url %}
-                        <img
-                            src="{{ produto.imagem_url }}"
-                            class="thumbnail-img rounded active"
-                            style="height: 80px; cursor: pointer;"
-                            onclick="changeMainImage('{{ produto.imagem_url }}', this)"
-                        >
-                        {% else %}
-                            <div class="d-flex align-items-center justify-content-center card-img-top bg-light text-muted"
-                                 style="height: 130px;">
-                                Sem imagem
-                            </div>
-                        {% endif %}
+                            {% if produto.imagem_item %}
+                                <img src="{{ produto.imagem_item.url }}"
+                                     class="card-img-top"
+                                     style="height: 130px;">
+                            {% else %}
+                                <div class="d-flex align-items-center justify-content-center card-img-top bg-light text-muted"
+                                     style="height: 130px;">
+                                    Sem imagem
+                                </div>
+                            {% endif %}
 
-                        <h3 class="card-title fs-6 fs-sm-5 mt-2">
-                            {{ produto.nome }}
-                        </h3>
+                            <h3 class="card-title fs-6 fs-sm-5 mt-2">
+                                {{ produto.nome }}
+                            </h3>
 
-                        <h4 class="card-subtitle fw-bolder text-success">
-                            R$ {{ produto.preco|floatformat:2 }}
-                        </h4>
+                            <h4 class="card-subtitle fw-bolder text-success">
+                                R$ {{ produto.preco }}
+                            </h4>
 
-                        {% if produto.desconto %}
+                            {% if produto.desconto %}
                             <small class="badge bg-danger">-{{ produto.desconto }}%</small>
-                        {% endif %}
-
-                        <p class="card-text produto-desc overflow-y-hidden small">
-                            {{ produto.descricao }}
-                        </p>
-                    </div>
+                            {% endif %}
+                            
+                            <p class="card-text produto-desc overflow-y-hidden small">
+                                {{ produto.descricao }}
+                            </p>
+                        </div>
                     </div>
                 </a>
             {% empty %}
@@ -73,8 +69,8 @@
                    class="text-decoration-none text-dark">
                     <div class="card produto-card my-3" style="min-width: 160px;">
                         <div class="card-body text-center p-2 p-sm-3">
-                            {% if produto.imagem_url %}
-                                <img src="{{ produto.imagem_url }}"
+                            {% if produto.imagem_item %}
+                                <img src="{{ produto.imagem_item.url }}"
                                      class="card-img-top"
                                      style="height: 130px;">
                             {% else %}
@@ -120,8 +116,8 @@
                    class="text-decoration-none text-dark">
                     <div class="card produto-card my-3" style="min-width: 160px;">
                         <div class="card-body text-center p-2 p-sm-3">
-                            {% if produto.imagem_url %}
-                                <img src="{{ produto.imagem_url }}"
+                            {% if produto.imagem_item %}
+                                <img src="{{ produto.imagem_item.url }}"
                                      class="card-img-top"
                                      style="height: 130px;">
                             {% else %}
@@ -170,8 +166,8 @@
                    class="text-decoration-none text-dark">
                     <div class="card produto-card my-3" style="min-width: 160px;">
                         <div class="card-body text-center p-2 p-sm-3">
-                            {% if produto.imagem_url %}
-                                <img src="{{ produto.imagem_url }}"
+                            {% if produto.imagem_item %}
+                                <img src="{{ produto.imagem_item.url }}"
                                      class="card-img-top"
                                      style="height: 130px;">
                             {% else %}
