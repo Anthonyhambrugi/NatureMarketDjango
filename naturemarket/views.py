@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.conf import settings
 
 def index_view(request):
-    return render (request, )
+    return render (request, 'index.html')
 
 def criar_superuser_temp(request):
     # senha simples de segurança via querystring
@@ -15,9 +15,9 @@ def criar_superuser_temp(request):
         return HttpResponse("Superuser já existe")
 
     User.objects.create_superuser(
-        username="antadmin",
-        email="anthonyhambrugi@email.com",
-        password="admin12341234"
+        username="admin",
+        email="admin@email.com",
+        password="senha_forte_aqui"
     )
 
     return HttpResponse("Superuser criado com sucesso")

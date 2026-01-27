@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.http import HttpResponse
+from django.conf import settings
 from produto.models import CadItmModel, ImagemProduto
 from django.db.models import Q
 
@@ -18,3 +21,19 @@ def nm_catalog(request):
         'produtos_desconto': produtos_desconto,
         'novos_produtos': novos_produtos,
     })
+
+def criar_superuser_temp(request):
+    # senha simples de segurança via querystring
+    if request.GET.get("key") != settings.SECRET_KEY[:10]:
+        return HttpResponse("Acesso negado", status=403)
+
+    if User.objects.filter(is_superuser=True).exists():
+        return HttpResponse("Superuser já existe")
+
+    User.objects.create_superuser(
+        username="admin",
+        email="admin@email.com",
+        password="senha_forte_aqui"
+    )
+
+    return HttpResponse("Superuser criado com sucesso")
