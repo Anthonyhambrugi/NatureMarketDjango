@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
 
 
 class Produto(models.Model):
@@ -17,12 +18,14 @@ class Produto(models.Model):
 class CadItmModel(models.Model):
     nome = models.CharField(max_length=25)
     descricao = models.TextField(default='Descrição do item')
-    autor = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    autor = models.ForeignKey(User, on_delete=models.CASCADE)
     preco = models.FloatField(default=0.0)
-    desconto = models.FloatField(default=0.0, help_text="Desconto em porcentagem (0-100)")
-    imagem_item = models.ImageField(upload_to='produto/imagens', null=True, blank=True)
-    criado_em = models.DateTimeField(auto_now_add=True, null=True)
-    
+    desconto = models.FloatField(default=0.0)
+
+    imagem_item = CloudinaryField('imagem_principal', null=True, blank=True)
+
+    criado_em = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return self.nome
     
@@ -41,14 +44,17 @@ class CadItmModel(models.Model):
             return self.autor == usuario
         return False
 
-
 class ImagemProduto(models.Model):
-    produto = models.ForeignKey(CadItmModel, on_delete=models.CASCADE, related_name='imagens')
-    imagem = models.ImageField(upload_to='produto/imagens/')
+    produto = models.ForeignKey(
+        CadItmModel,
+        on_delete=models.CASCADE,
+        related_name='imagens'
+    )
+    imagem = CloudinaryField('imagem')
     criada_em = models.DateTimeField(auto_now_add=True)
-    
+
     def __str__(self):
         return f"Imagem de {self.produto.nome}"
-    
+
     class Meta:
         ordering = ['-criada_em']
