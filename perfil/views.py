@@ -4,21 +4,28 @@ from .forms import EditarPerfilForm
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Perfil
 from produto.models import CadItmModel
+from cadastro.models import NmUserSort
 
 @login_required(login_url='/login/')
 def perfil_view(request, username):
     username = get_object_or_404(User, username=username)
 
     perfil_obj, _ = Perfil.objects.get_or_create(user=username)
+    perfil_obj.tipo_user = NmUserSort.objects.get(user=username).tipo_user
+    perfil_obj.save()
     
     # Pega os produtos cujo autor é o usuário
     produtos_do_usuario = CadItmModel.objects.filter(autor=username)
+    botoes = (request.user == username)
+    if request.user != perfil_obj.user:
+        botoes = False
 
     return render(request, 'perfil/perfil.html', {
         'user': username,
         'perfil': perfil_obj,
         'hide_dropdown': True,
-        'produtos_do_usuario': produtos_do_usuario
+        'produtos_do_usuario': produtos_do_usuario,
+        'botoes': botoes,
     })
     
 @login_required

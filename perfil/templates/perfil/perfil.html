@@ -23,14 +23,17 @@
                 <h1 class="mb-2 mb-sm-4 fs-4 fs-sm-3">{{ user.first_name }} {{ user.last_name }}</h1>
                 <p class="text-muted">{{ user.username }}</p>
                 </div>
+                {% if botoes %}
+                <div class="justify-content-end align-self-start ms-auto d-flex gap-2">
+                    <a href="{% url 'perfil:editar_perfil' user.username %}"><img src="{% static 'perfil/img/edit-dark.png' %}" alt="Editar Perfil" class="editar-perfil-icon"></a>
+                </div>
+                {% endif %}
             </div>
             <div class="mt-4">
                 <p><strong>Contato para e-mail:</strong> {{ user.email }}</p>
+                <p><strong>Cargo: </strong>{{ perfil.tipo_user }}</p>
                 <p>{{ perfil.bio }}</p>
             </div>
-        </div>
-        <div class="col-12 d-flex justify-content-center my-4">
-            <a href="{% url 'perfil:editar_perfil' user.username %}" class="btn btn-primary mx-2">Editar Perfil</a>
         </div>
         {% if produtos_do_usuario.exists %}
         <div class="col-12 mt-3 mt-sm-4">

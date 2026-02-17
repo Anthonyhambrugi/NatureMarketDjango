@@ -15,20 +15,24 @@ def detalhes_produto(request, id):
 @login_required
 def cadastro_produto (request):
     if request.method == 'POST':
-        form = CadItmForm (request.POST, request.FILES)
+        form = CadItmForm(request.POST, request.FILES)
+
         if form.is_valid():
             produto = form.save(commit=False)
             produto.autor = request.user
-            produto = form.save()
+            produto.save()
 
-        for url in request.POST.getlist("imagens_urls[]"):
-            ImagemProduto.objects.create(
-                produto=produto, imagem=url
-            )
-            return redirect ('detalhes_produto', id=produto.id)
+            imagens = request.FILES.getlist("imagens")
 
+            for img in imagens:
+                ImagemProduto.objects.create(
+                    produto=produto,
+                    imagem=img
+                )
+
+            return redirect('detalhes_produto', id=produto.id)
     else:
-        form = CadItmForm ()
+        form = CadItmForm()
 
     return render (request, 'cadastro_item/cadastro_item.html', {'form': form})
 

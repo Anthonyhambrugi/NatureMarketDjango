@@ -43,35 +43,37 @@
     overflow: hidden;
 }
 header {
-    background-color: #2f7d32;
-    border-radius: 15px;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
+    background-color: var(--nm-green);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    color: var(--nm-soft);
+    padding: 10px 20px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
 }
 header .titulo{
     width: 150px;
     height: auto;
 }
 .carrin {
-  color: #fafafa;
+  color: var();
   margin: 10px;
   --bs-btn-hover-color: #81C784;
   border: none;
 }
 .search-nav input{
-    background-color: #fff4d7 !important;
+    background-color: var(--nm-cream) !important;
     margin: 10px;
     border-radius: 15px;
     align-items: stretch;
 }
 .search-nav input:focus{
-    background-color: #fff4d7 !important;
+    background-color: var(--nm-cream-light) !important;
     margin: 10px;
     border-radius: 15px;
     align-items: stretch;
 }
 body{
-    background-color: #fff4d7;
+    background-color: var(--nm-cream);
 }
 .footerend{
     background-color: #2f7d32;
@@ -137,4 +139,394 @@ body{
     --bs-btn-hover-bg: #81C784;
     --bs-btn-hover-color: #2f7d32;
     --bs-btn-active-color: #fafafa;
+}
+
+:root{
+    --nm-green: #2f7d32;
+    --nm-green-2: #81C784;
+    --nm-cream: #fff4d7;
+    --nm-soft: #fafafa;
+    --nm-dark: #234d28;
+    --nm-shadow: 0 8px 30px rgba(47,125,50,0.08);
+    --nm-radius: 12px;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+html,body{
+    height:100%;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background: var(--nm-cream);
+    color: var(--nm-dark);
+    -webkit-font-smoothing:antialiased;
+}
+
+/* Header / Navbar */
+header{
+    background: var(--nm-green);
+    color: var(--nm-soft);
+    padding: 0.6rem 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    box-shadow: var(--nm-shadow);
+}
+
+header .titulo{
+    width:150px;
+    height:auto;
+}
+
+/* Primary action used across templates */
+.carrin{
+    background: transparent;
+    color: var(--nm-soft);
+    padding: 0.45rem 0.7rem;
+    border-radius: 10px;
+    transition: transform .12s ease, background .12s ease;
+}
+.carrin:hover{ transform: translateY(-2px); }
+
+/* Forms: keep simple and consistent with Bootstrap */
+.search-nav input,
+.search-bar,
+.form-control.custom-soft{
+    background: var(--nm-cream) !important;
+    border-radius: var(--nm-radius);
+    border: 1px solid rgba(36,87,36,0.06);
+    padding: .5rem .75rem;
+}
+.search-nav input:focus,
+.form-control.custom-soft:focus{
+    box-shadow: 0 6px 18px rgba(36,87,36,0.06);
+    outline: none;
+    border-color: var(--nm-green-2);
+}
+
+/* Mobile fixed menu */
+.menuinfmobile{
+    background: var(--nm-cream);
+    border: 3px solid var(--nm-green);
+    border-radius: 14px;
+    padding: .5rem .75rem;
+    box-shadow: 0 14px 40px rgba(47,125,50,0.08);
+}
+
+.menuinfmobile .carrin{
+    background: linear-gradient(180deg,var(--nm-green),var(--nm-green-2));
+    color: #fff;
+}
+
+/* Card and product catalog */
+.card{
+    background: var(--nm-soft);
+    border-radius: var(--nm-radius);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    border: none;
+}
+
+.catalogo-x{
+    display:flex;
+    gap:1rem;
+    overflow-x:auto;
+    padding: .5rem;
+}
+.produto-card{ width:12rem; display:flex; flex-direction:column; gap:.5rem; }
+.produto-card img, .card img{ width:100%; height:140px; object-fit:cover; border-radius:10px; }
+.produto-card .card-title{ font-weight:600; font-size:1rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.produto-card .card-text{ min-height:3.5em; max-height:3.5em; overflow:hidden; }
+
+/* Scrollbar */
+.catalogo-x::-webkit-scrollbar{ height:10px; }
+.catalogo-x::-webkit-scrollbar-thumb{ background: linear-gradient(180deg,var(--nm-green),var(--nm-green-2)); border-radius:10px; }
+.catalogo-x::-webkit-scrollbar-track{ background:transparent; }
+
+/* Dropdown & inputs refined */
+.dropdown-menu{ background: var(--nm-cream); border: 2px solid var(--nm-green); border-radius: 12px; }
+.dropdown-toggle{ color: var(--nm-dark); background: var(--nm-soft); border: none; }
+
+/* Utility */
+.title{ color: var(--nm-green); margin:1rem 0; font-size:1.1rem; }
+.lupa{ width:22px; }
+
+/* Footer */
+.footerend{ background: var(--nm-green); color: var(--nm-soft); padding:1rem; border-radius: 12px 12px 0 0; text-align:center; }
+
+/* Shared form/modal rules moved from app CSS */
+.formularo form input,
+.formularo form select,
+.formularo form textarea {
+    background-color: var(--nm-cream) !important;
+    margin: 10px;
+    border: 2px solid var(--nm-green);
+    border-radius: 12px;
+    row-gap: 0px;
+    color: var(--nm-dark);
+    padding: .5rem .75rem;
+}
+.input-group-text{ background-color: var(--nm-cream) !important; margin-top:10px; margin-bottom:10px; border: 1px solid var(--nm-green); border-radius: 12px; }
+.input-group input{ background-color: var(--nm-cream) !important; margin-top:10px; margin-bottom:10px; border: 1px solid var(--nm-green); border-left: none; border-radius: 12px; }
+.modal-content{ background-color: var(--nm-cream); border: 2px dotted var(--nm-green); border-radius: 12px; color: var(--nm-dark); }
+.formularo .is-invalid{ color: #dc3545; background-color: var(--nm-cream); }
+.formularo{ border: 2px solid var(--nm-green); border-radius: 12px; background-color: var(--nm-cream); padding: 16px; box-shadow: 0 6px 18px rgba(36,87,36,0.04); }
+
+/* Responsive tweaks */
+@media (max-width: 600px){
+    .produto-card img, .card img{ height:120px; }
+    .titulo{ width:120px; }
+    .search-nav input{ margin:0; padding:.5rem; }
+    .menuinfmobile{ left:12px; right:12px; bottom:12px; position:fixed; z-index:1100; }
+}
+
+@media (max-width: 600px) {
+    /* Layout geral */
+    body{
+        padding-bottom: 92px; /* espaço para menu inferior fixo */
+    }
+
+    header{
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 6px 18px rgba(47,125,50,0.12);
+        border-radius: 12px;
+    }
+
+    header .titulo{
+        width: 120px;
+    }
+
+    .search-nav{
+        flex: 1 1 auto;
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+
+    .search-nav input{
+        margin: 0;
+        padding: 8px 12px;
+        font-size: 0.95rem;
+        border-radius: 12px;
+        box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+    }
+
+    /* Menu inferior fixo e com estilo */
+    .menuinfmobile{
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 8px 10px;
+        z-index: 1100;
+        box-shadow: 0 10px 30px rgba(47,125,50,0.14);
+        border-radius: 14px;
+        background-color: #fff4d7 !important;
+    }
+
+    .menuinfmobile .carrin{
+        background: linear-gradient(180deg,#2f7d32,#81C784);
+        color: #ffffff;
+        padding: 8px 10px;
+        border-radius: 10px;
+        box-shadow: 0 6px 18px rgba(47,125,50,0.18);
+    }
+
+    /* Catálogo horizontal mais compacto */
+    .catalogo-x{
+        gap: 0.75rem;
+        padding: 8px 10px;
+    }
+
+    .catalogo-x::-webkit-scrollbar {
+        height: 10px;
+    }
+    .catalogo-x::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg,#2f7d32,#81C784);
+        border-radius: 10px;
+    }
+
+    .produto-wrapper{
+        padding: 6px 2px;
+    }
+
+    .produto-card{
+        width: 10.5rem;
+        min-height: 13rem;
+        gap: 8px !important;
+        padding: 8px;
+        border-radius: 12px;
+    }
+
+    .produto-card img, .card img{
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .card{
+        padding: 10px;
+        border-radius: 12px;
+    }
+
+    .produto-card .card-title{
+        font-size: 0.98rem;
+    }
+
+    .produto-card span{
+        font-size: 0.92rem;
+    }
+
+    .produto-card .card-text{
+        min-height: 3.5em;
+        max-height: 3.5em;
+    }
+
+    .title{
+        font-size: 1.05rem;
+        margin: 12px 8px;
+    }
+
+    .input-group .btn{
+        padding: 0.45rem 0.6rem;
+        border-radius: 10px;
+    }
+
+    .dropdown-menu{
+        margin: 6px 10px;
+        border-radius: 12px;
+    }
+
+    .lupa{
+        width: 22px;
+    }
+
+    .foryou, .lastdiscount{
+        font-weight: 600;
+    }
+
+    /* Ajustes sutis para o rodapé em mobile */
+    .footerend{
+        padding: 18px 12px;
+        border-radius: 12px 12px 0 0;
+    }
+}
+
+/* Dark theme variables - apply by adding the class `theme-dark` to the <body> element */
+.theme-dark{
+    --nm-green: #2f7d32; /* keep brand green */
+    --nm-green-2: #60a060; /* slightly muted accent */
+    --nm-cream: #0b1410; /* page background in dark mode */
+    --nm-soft: #0f1a14; /* card / surface */
+    --nm-dark: #e6f1e6; /* primary text on dark bg */
+    --nm-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}
+
+/* Dark-mode adjustments for components that use the variables */
+.theme-dark body,
+.theme-dark .page-bg{
+    background: var(--nm-cream) !important;
+    color: var(--nm-dark) !important;
+}
+
+.theme-dark header{
+    background: var(--nm-green);
+    color: var(--nm-soft);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+
+.theme-dark .card{
+    background: var(--nm-soft);
+    color: var(--nm-dark);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.theme-dark .dropdown-menu{
+    background: #0e2016; /* slightly lighter than page */
+    border-color: rgba(47,125,50,0.14);
+}
+
+.theme-dark .input-group-text,
+.theme-dark .input-group input,
+.theme-dark .formularo form input,
+.theme-dark .formularo form select,
+.theme-dark .formularo form textarea{
+    background: #08120d !important;
+    border-color: rgba(47,125,50,0.18);
+    color: var(--nm-dark) !important;
+}
+
+.theme-dark .modal-content{
+    background: #07110b;
+    border-color: rgba(47,125,50,0.18);
+    color: var(--nm-dark);
+}
+
+/* Scrollbar for dark mode */
+.theme-dark .catalogo-x::-webkit-scrollbar-thumb{
+    background: linear-gradient(180deg,var(--nm-green-2),var(--nm-green));
+}
+
+/* Ensure links/buttons remain visible */
+.theme-dark a,
+.theme-dark .btn,
+.theme-dark .dropdown-item{
+    color: var(--nm-dark) !important;
+}
+
+/* small helper to preview components that depend on page bg */
+.page-bg{ background: var(--nm-cream); }
+
+/* Shadow utilities - adiciona profundidade a cards, imagens e botões */
+:root{
+    --nm-shadow-xs: 0 2px 6px rgba(0,0,0,0.06);
+    --nm-shadow-sm: 0 6px 18px rgba(0,0,0,0.08);
+    --nm-shadow-md: 0 12px 28px rgba(0,0,0,0.12);
+    --nm-shadow-lg: 0 18px 48px rgba(0,0,0,0.16);
+}
+
+.shadow-xs{ box-shadow: var(--nm-shadow-xs) !important; }
+.shadow-sm{ box-shadow: var(--nm-shadow-sm) !important; }
+.shadow-md{ box-shadow: var(--nm-shadow-md) !important; }
+.shadow-lg{ box-shadow: var(--nm-shadow-lg) !important; }
+
+/* Enhance existing components with subtle elevation and hover lift */
+.card{
+    box-shadow: var(--nm-shadow-sm);
+    transition: box-shadow .18s ease;
+}
+.card:hover{ box-shadow: var(--nm-shadow-md); }
+
+.produto-card img, .card img{
+    box-shadow: var(--nm-shadow-xs);
+    transition: box-shadow .18s ease;
+}
+.produto-card img:hover, .card img:hover{
+    box-shadow: var(--nm-shadow-sm);
+}
+
+.btn, .carrin, a{
+    transition: box-shadow .12s ease, transform .12s ease;
+}
+.btn:focus, .btn:hover, .carrin:hover, a:focus, a:hover{
+    box-shadow: var(--nm-shadow-xs);
+    transform: translateY(-2px);
+}
+
+/* Use green-tinted shadows in dark theme for better contrast */
+.theme-dark{
+    --nm-shadow-xs: 0 2px 6px rgba(47,125,50,0.06);
+    --nm-shadow-sm: 0 6px 18px rgba(47,125,50,0.08);
+    --nm-shadow-md: 0 12px 28px rgba(47,125,50,0.10);
+    --nm-shadow-lg: 0 18px 48px rgba(47,125,50,0.14);
 }

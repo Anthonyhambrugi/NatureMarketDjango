@@ -8,12 +8,15 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="text-center">Criar conta</h1>
-
-<div class="col-12 justify-content-center text-center d-flex">
-    <form method="post">
+<div class="py-4 py-sm-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+                <h1 class="text-center mb-4">Crie seu acesso ao Nature Market</h1>
+                <form method="post">
         {% csrf_token %}
         {{ form.non_field_errors }}
+        {{ form2.non_field_errors }}
 
         <div class="mb-3">
             <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
@@ -38,8 +41,17 @@
             {{ form.password2 }}
             {{ form.password2.errors }}
         </div>
+        <div class="mb-3 d-block">
+            <label for="{{ form2.tipo_user.id_for_label }}">Tipo de usuário</label>
+            {{ form2.tipo_user }}
+            {{ form2.tipo_user.errors }}
+        </div>
 
         <button class="btn btn-success">Cadastrar</button>
-    </form>
+                </form>
+                <div class="text-center py-3"><h5>Já tem uma conta? <a href="/login">Acesse-a aqui!</a></h5></div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

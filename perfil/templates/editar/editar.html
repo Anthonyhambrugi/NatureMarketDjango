@@ -1,31 +1,77 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Perfil</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Nature Market{% endblock %}
+
+{% block content %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'perfil/editar/editar.css' %}">
+{% endblock %}
     <main class="py-4 py-sm-5">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
                     <h1 class="mb-4 fs-4 fs-sm-3 text-center">Editar Perfil</h1>
-                    <form action="" method="post" enctype="multipart/form-data" class="needs-validation">
-                        {% csrf_token %}
-                        <div class="form-group mb-3">
-                            {{ form.as_p }}
-                        </div>
-                        <div class="d-flex gap-2 justify-content-center justify-content-sm-between">
-                            <button type="submit" class="btn btn-success btn-sm">💾 Salvar Alterações</button>
-                            <a href="{% url 'perfil:perfil' request.user.username %}" class="btn btn-secondary btn-sm">← Voltar</a>
-                        </div>
-                    </form>
+                    <div class="card formularo-edit">
+                        <form action="" method="post" enctype="multipart/form-data" class="needs-validation">
+                            {% csrf_token %}
+                            {{ form.non_field_errors }}
+                            <!-- Avatar preview e upload -->
+                            <div class="form-group mb-4 text-center flex-column align-items-center p-4">
+                                <div class="avatar-preview mb-3">
+                                    {% if form.fotodeperfil.value %}
+                                        <img id="avatarImg" src="{{ form.fotodeperfil.value.url }}" alt="Foto de Perfil">
+                                    {% else %}
+                                        <img id="avatarImg" src="https://via.placeholder.com/96?text=Foto" alt="Sem foto">
+                                    {% endif %}
+                                </div>
+                                {{ form.fotodeperfil.label_tag }}
+                                {{ form.fotodeperfil }}
+                                {% if form.fotodeperfil.errors %}
+                                    <div class="text-danger mt-2 small">{{ form.fotodeperfil.errors }}</div>
+                                {% endif %}
+                            </div>
+                                <label for="{{ form.first_name.id_for_label }}" class="form-label">Primeiro Nome</label>
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}
+                                    <div class="text-danger mt-2 small">{{ form.first_name.errors }}</div>
+                                {% endif %}
+                                {{ form.username}}
+                                {% if form.username.errors %}
+                                    <div class="text-danger mt-2 small">{{ form.username.errors }}</div>
+                                {% endif %}
+                                {{ form.bio }}
+                                {% if form.bio.errors %}
+                                    <div class="text-danger mt-2 small">{{ form.bio.errors }}</div>
+                                {% endif %}
+                            <div class="actions-row">
+                                <button type="submit" class="btn btn-success btn-sm">💾 Salvar Alterações</button>
+                                <a href="{% url 'perfil:perfil' request.user.username %}" class="btn btn-secondary btn-sm">← Voltar</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    {% block extra_js %}
+    <script>
+        // Script para pré-visualização do avatar
+        const avatarInput = document.getElementById('id_fotodeperfil');
+        const avatarImg = document.getElementById('avatarImg');
+
+        avatarInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    avatarImg.setAttribute('src', e.target.result);
+                }
+                reader.readAsDataURL(file);
+            } else {
+                avatarImg.setAttribute('src', 'https://via.placeholder.com/96?text=Foto');
+            }
+        });
+    </script>
+    {% endblock %}
+{% endblock %}

@@ -12,56 +12,51 @@
                 <div class="row align-items-center g-2 g-sm-3 g-md-3">
                     <div class="col-12 col-sm-12 col-md-6 col-lg-8 order-1 order-sm-1 order-md-1">
                         <h1 class="my-2 my-sm-3 d-flex justify-content-center\">
-                            {% if produto.imagem_item %}
-                                <img id="mainImage" src="{{ produto.imagem_item.url }}" class="card-img-top imagem justify-content-end main-product-image img-fluid rounded\" alt="{{ produto.titulo }}" style="max-height: 400px;\">
-                            {% else %}
-                                <div id="mainImage" class="d-flex align-items-center justify-content-center card-img-top bg-light text-muted main-product-image\" style="height: 300px; width: 100%;\">
-                                Sem imagem
-                                </div>
-                            {% endif %} 
-                        </h1>
-                        <!-- Galeria de imagens adicionais -->
-                        {% if imagens %}
-                            <div class="gallery-thumbnails d-flex gap-2 overflow-x-auto overflow-y-hidden py-2">
-                                
+                            {# Imagem principal #}
                                 {% if produto.imagem_item %}
-                                <img src="{{ produto.imagem_item.url }}"
-                                    alt="Principal"
+                                <img
+                                    id="mainImage"
+                                    src="{{ produto.imagem_item.url }}"
+                                    class="card-img-top main-product-image img-fluid rounded"
+                                    alt="{{ produto.nome }}"
+                                    style="max-height: 400px;"
+                                >
+                                {% else %}
+                                <div class="d-flex align-items-center justify-content-center bg-light text-muted"
+                                    style="height: 300px;">
+                                    Sem imagem
+                                </div>
+                                {% endif %}
+
+                            {# Galeria de thumbs #}
+                        </h1>
+                        <div class="gallery-thumbnails flex-row gap-2 mt-3 overflow-auto col-12 justify-content-center">
+
+                            {# Thumb da imagem principal #}
+                            {% if produto.imagem_item %}
+                            <img
+                                src="{{ produto.imagem_item.url }}"
                                     class="thumbnail-img active rounded"
                                     style="height: 80px; cursor: pointer;"
-                                    onclick="changeMainImage('{{ produto.imagem_item.url }}', this)">
+                                    onclick="changeMainImage('{{ produto.imagem_item.url }}', this)"
+                                    alt="Imagem principal"
+                                >
                                 {% endif %}
 
-                                {% if imagens %}
-                                <div class="gallery-thumbnails d-flex gap-2 mt-3 overflow-auto">
-
-                                    {# imagem principal também aparece como thumb #}
-                                    {% if produto.imagem_item %}
-                                    <img
-                                        src="{{ produto.imagem_item.url }}"
-                                        class="thumbnail-img active rounded"
-                                        style="height: 80px; cursor: pointer;"
-                                        onclick="changeMainImage('{{ produto.imagem_item.url }}', this)"
-                                        alt="Imagem principal"
-                                    >
-                                    {% endif %}
-
-                                    {% for imagem in imagens %}
-                                    <img
-                                        src="{{ imagem.imagem.url }}"
-                                        class="thumbnail-img rounded"
-                                        style="height: 80px; cursor: pointer;"
-                                        onclick="changeMainImage('{{ imagem.imagem.url }}', this)"
-                                        alt="Imagem de {{ produto.nome }}"
-                                    >
-                                    {% endfor %}
-
-                                </div>
-                                {% endif %}
-
+                                {# Thumbs das imagens adicionais #}
+                                {% for imagem in produto.imagens.all %}
+                                <img
+                                    src="{{ imagem.imagem.url }}"
+                                    class="thumbnail-img rounded"
+                                    style="height: 80px; cursor: pointer;"
+                                    onclick="changeMainImage('{{ imagem.imagem.url }}', this)"
+                                    alt="Imagem de {{ produto.nome }}"
+                                >
+                                {% empty %}
+                                <span class="text-muted small">Sem imagens adicionais</span>
+                                {% endfor %}    
 
                             </div>
-                            {% endif %}
                     </div>
                     <div class="col-12 col-sm-12 col-md-6 col-lg-4 order-2 order-sm-2 order-md-2"></div>
                 </div>
@@ -80,7 +75,7 @@
                     <div class="px-2 px-sm-3 py-2 py-sm-3 desc content-box w-100">
                         <div class="mb-2">
                             <h5 class="fs-6">Produtor(a)</h5>
-                            <p class="text-muted mb-1">{{ produto.autor.username }}</p>
+                            <a href="{% url 'perfil:perfil' produto.autor.username %}">{{ produto.autor.username }}</a>
                         </div>
                         <h5 class="fs-6">{{ produto.criado_em|date:"d/m/Y" }}</h5>
                         <h5 class="fs-6 mt-2">Descrição do produto</h5>
