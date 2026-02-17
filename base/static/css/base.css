@@ -422,6 +422,45 @@ header .titulo{
     }
 }
 
+/* Mobile menu: center and floating toggle */
+.menuinfmobile{
+    position: fixed;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+    width: calc(100% - 48px);
+    max-width: 420px;
+    z-index: 1200;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    align-items: center;
+    gap: .25rem;
+}
+.menuinfmobile.hidden{ display: none; opacity: 0; pointer-events: none; }
+.menuinfmobile.open{ display: flex; opacity: 1; pointer-events: auto; }
+
+.nm-mobile-menu-button{
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1300;
+    background: var(--nm-green);
+    color: #fff;
+    border: none;
+    box-shadow: 0 8px 20px rgba(47,125,50,0.18);
+}
+.nm-mobile-menu-button:active{ transform: scale(.98); }
+
+@media (min-width: 992px){
+    .nm-mobile-menu-button, .menuinfmobile{ display: none !important; }
+}
+
 /* Dark theme variables - apply by adding the class `theme-dark` to the <body> element */
 .theme-dark{
     --nm-green: #2f7d32; /* keep brand green */
@@ -529,4 +568,53 @@ header .titulo{
     --nm-shadow-sm: 0 6px 18px rgba(47,125,50,0.08);
     --nm-shadow-md: 0 12px 28px rgba(47,125,50,0.10);
     --nm-shadow-lg: 0 18px 48px rgba(47,125,50,0.14);
+}
+
+/* Generic styles for non-Bootstrap/default elements to keep UI consistent */
+/* Basic reset for images, media and code blocks */
+img, video, svg{ max-width:100%; height:auto; display:block; }
+pre, code{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace; background: rgba(0,0,0,0.04); padding: .25rem .5rem; border-radius: 6px; }
+pre{ padding: .75rem; overflow:auto; border-radius: 8px; }
+
+/* Links */
+a{ color: var(--nm-green); text-decoration: underline; text-decoration-thickness: 1px; }
+a:hover, a:focus{ color: var(--nm-green-2); text-decoration-color: var(--nm-green-2); }
+
+/* Form defaults (non-bootstrap inputs) */
+input, select, textarea, button{
+    font-family: inherit;
+    color: inherit;
+    border-radius: 8px;
+}
+input[type="text"], input[type="number"], textarea, select{
+    border: 1px solid rgba(36,87,36,0.08);
+    padding: .45rem .6rem;
+    background: var(--nm-soft);
+}
+
+button{ cursor:pointer; }
+
+/* Tables */
+table{ width:100%; border-collapse: collapse; font-size: .95rem; }
+table th, table td{ padding: .5rem .75rem; border: 1px solid rgba(36,87,36,0.06); }
+table thead th{ background: rgba(47,125,50,0.04); }
+
+/* Blockquote */
+blockquote{ border-left: 4px solid var(--nm-green); padding: .5rem 1rem; margin: .75rem 0; background: rgba(47,125,50,0.03); }
+
+/* Horizontal rule */
+hr{ border: none; height: 1px; background: rgba(36,87,36,0.08); margin: 1rem 0; }
+
+/* Theme-toggle button styling (consistent appearance) */
+.nm-theme-toggle{
+    min-width: 44px; min-height: 36px; display:inline-flex; align-items:center; justify-content:center; padding: .35rem .5rem; border-radius: 8px;
+}
+
+/* Small utility for non-Bootstrap lists */
+ul, ol{ padding-left: 1.25rem; }
+
+/* Ensure default/native controls look pleasant on mobile */
+@media (max-width:600px){
+    input, select, textarea{ font-size: .95rem; }
+    .nm-theme-toggle{ padding: .4rem .6rem; }
 }
