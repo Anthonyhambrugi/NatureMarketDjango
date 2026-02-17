@@ -1,5 +1,23 @@
 /* Carrinho de Compras - Estilos */
-
+:root {
+    --nm-green: #2f7d32;
+    --nm-green-2: #81C784;
+    --nm-cream: #fff4d7;
+    --nm-soft: #fafafa;
+    --nm-dark: #234d28;
+    --nm-shadow: 0 8px 30px rgba(47,125,50,0.08);
+    --nm-radius: 12px;
+    --nm-warning: #ffc107;
+    --nm-error: #dc3545;
+}
+.theme-dark{
+    --nm-green: #2f7d32; /* keep brand green */
+    --nm-green-2: #60a060; /* slightly muted accent */
+    --nm-cream: #0b1410; /* page background in dark mode */
+    --nm-soft: #0f1a14; /* card / surface */
+    --nm-dark: #e6f1e6; /* primary text on dark bg */
+    --nm-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}
 .carrinho-container {
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -22,7 +40,7 @@
 .tabela-carrinho {
     width: 100%;
     border-collapse: collapse;
-    background-color: #fff;
+    background-color: var(--cor-fundo);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
@@ -30,8 +48,8 @@
 }
 
 .tabela-carrinho thead {
-    background-color: #28a745;
-    color: #fff;
+    background-color: var(--nm-green);
+    color: var(--nm-soft);
 }
 
 .tabela-carrinho th {
@@ -97,12 +115,12 @@
 
 .preco {
     font-weight: 600;
-    color: #28a745;
+    color: var(--nm-green);
     font-size: 1.1rem;
 }
 
 .btn-remover {
-    background-color: #dc3545;
+    background-color: var(--nm-error);
     color: #fff;
     border: none;
     padding: 0.5rem 1rem;
@@ -113,23 +131,23 @@
 }
 
 .btn-remover:hover {
-    background-color: #c82333;
+    background-color: rgba(220,53,69,0.9);
     text-decoration: none;
     color: #fff;
 }
 
 .resumo-carrinho {
-    background-color: #f8f9fa;
+    background-color: var(--nm-soft);
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
     margin-bottom: 2rem;
 }
 
 .resumo-carrinho h4 {
     margin-bottom: 1.5rem;
     font-weight: 700;
-    color: #333;
+    color: var(--nm-dark);
 }
 
 .linha-resumo {
@@ -144,10 +162,10 @@
     border-bottom: none;
     font-weight: 700;
     font-size: 1.2rem;
-    color: #28a745;
+    color: var(--nm-green);
     padding-top: 1rem;
     margin-top: 1rem;
-    border-top: 2px solid #dee2e6;
+    border-top: 2px solid rgba(0,0,0,0.06);
 }
 
 .acoes-carrinho {
@@ -158,8 +176,8 @@
 }
 
 .btn-primario {
-    background-color: #28a745;
-    color: #fff;
+    background-color: var(--nm-green);
+    color: var(--nm-soft);
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 4px;
@@ -172,8 +190,8 @@
 }
 
 .btn-primario:hover {
-    background-color: #218838;
-    color: #fff;
+    background-color: var(--nm-green-2);
+    color: var(--nm-soft);
     text-decoration: none;
 }
 
@@ -215,48 +233,38 @@
 }
 
 /* Responsividade */
+/* Responsividade: prefer usar classes utilitárias do Bootstrap para controle responsivo
+   (ex: adicionar `d-md-none`, `d-lg-block`, `col-12 col-md-6`, etc. no HTML). Este bloco
+   é um fallback para telas pequenas caso não seja desejável alterar HTML imediatamente. */
 @media (max-width: 768px) {
-    .tabela-carrinho {
-        font-size: 0.9rem;
-    }
-
-    .tabela-carrinho th,
-    .tabela-carrinho td {
-        padding: 0.75rem;
-    }
-
-    .item-produto {
-        gap: 0.5rem;
-    }
-
-    .item-produto img {
-        width: 50px;
-        height: 50px;
-    }
-
-    .quantidade-input {
-        width: 60px;
-        padding: 0.4rem;
-        font-size: 0.8rem;
-    }
-
-    .acoes-carrinho {
-        flex-direction: column;
-    }
-
-    .btn-primario,
-    .btn-secundario,
-    .btn-limpar {
-        width: 100%;
-        text-align: center;
-    }
-
-    .resumo-carrinho {
-        padding: 1.5rem;
-    }
-
-    .resumo-carrinho h4 {
-        margin-bottom: 1rem;
-        font-size: 1.1rem;
-    }
+    .tabela-carrinho { font-size: 0.95rem; }
+    .tabela-carrinho th, .tabela-carrinho td { padding: 0.75rem; }
+    .item-produto { gap: 0.5rem; }
+    .item-produto img { width: 50px; height: 50px; }
+    .quantidade-input { width: 60px; padding: 0.4rem; font-size: 0.88rem; }
+    .acoes-carrinho { flex-direction: column; }
+    .btn-primario, .btn-secundario, .btn-limpar { width: 100%; text-align: center; }
+    .resumo-carrinho { padding: 1.5rem; }
+    .resumo-carrinho h4 { margin-bottom: 1rem; font-size: 1.1rem; }
 }
+
+/* NOTE: Prefer moving these responsivity rules into HTML with Bootstrap utilities
+   for clearer structure. Examples: replace `.acoes-carrinho { flex-direction: column }`
+   with `d-flex flex-column flex-md-row` in the markup. */
+
+/* Dark-theme-specific overrides for consistent appearance */
+.theme-dark .carrinho-vazio { background-color: var(--nm-soft); color: var(--nm-dark); }
+.theme-dark .carrinho-vazio i { color: rgba(230,241,230,0.65); }
+.theme-dark .tabela-carrinho { background-color: var(--nm-soft); box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
+.theme-dark .tabela-carrinho thead { background-color: var(--nm-green); color: var(--nm-soft); }
+.theme-dark .tabela-carrinho tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); }
+.theme-dark .tabela-carrinho tbody tr:hover { background-color: rgba(255,255,255,0.02); }
+.theme-dark .item-info h6, .theme-dark .linha-resumo, .theme-dark .resumo-carrinho h4 { color: var(--nm-dark); }
+.theme-dark .item-info small { color: rgba(230,241,230,0.6); }
+.theme-dark .btn-remover { background-color: rgba(220,53,69,0.95); }
+.theme-dark .btn-primario { background-color: var(--nm-green); color: var(--nm-soft); }
+.theme-dark .btn-primario:hover { background-color: var(--nm-green-2); }
+.theme-dark .btn-secundario { background-color: #5a6268; }
+.theme-dark .resumo-carrinho { background-color: var(--nm-soft); box-shadow: 0 2px 8px rgba(0,0,0,0.45); }
+.theme-dark table th, .theme-dark table td { border-color: rgba(255,255,255,0.04); }
+

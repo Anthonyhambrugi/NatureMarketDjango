@@ -297,6 +297,8 @@ header .titulo{
         justify-content: space-between;
         box-shadow: 0 6px 18px rgba(47,125,50,0.12);
         border-radius: 12px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
     }
 
     header .titulo{
