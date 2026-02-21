@@ -14,6 +14,8 @@ def detalhes_produto(request, id):
 
 @login_required
 def cadastro_produto (request):
+    if not request.user.groups.filter(name='Vendedor').exists():
+        return redirect('/')
     if request.method == 'POST':
         form = CadItmForm(request.POST, request.FILES)
 

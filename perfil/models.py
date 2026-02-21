@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 class Perfil(models.Model):
     user = models.ForeignKey(
@@ -8,11 +9,7 @@ class Perfil(models.Model):
     null=True,
     blank=True
 )
-    fotodeperfil = models.ImageField(
-        upload_to='perfil/imagens/',
-        blank=True,
-        null=True
-    )
+    fotodeperfil = CloudinaryField('foto de perfil', null=True, blank=True)
     bio = models.TextField(blank=True, null=True)
 
     def __str__(self):

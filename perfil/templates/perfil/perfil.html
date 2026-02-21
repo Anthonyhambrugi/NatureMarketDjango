@@ -41,29 +41,33 @@
             <div class="catalogo-x d-flex flex-nowrap overflow-x-auto gap-2 gap-sm-3 py-2">
                 {% for produto in produtos_do_usuario %}
                     <a href="/produto/detalhes/{{ produto.id }}/"
-                       class="text-decoration-none text-dark">
-                        <div class="card produto-card my-3">
-                            <div class="card-body text-center">
+                    class="text-decoration-none text-dark">
+                        <div class="card produto-card my-3" style="min-width: 160px;">
+                            <div class="card-body text-center p-2 p-sm-3">
                                 {% if produto.imagem_item %}
                                     <img src="{{ produto.imagem_item.url }}"
-                                         class="card-img-top"
-                                         style="height: 150px;">
+                                        class="card-img-top"
+                                        style="height: 130px;">
                                 {% else %}
                                     <div class="d-flex align-items-center justify-content-center card-img-top bg-light text-muted"
-                                         style="height: 150px;">
+                                        style="height: 130px;">
                                         Sem imagem
                                     </div>
                                 {% endif %}
 
-                                <h3 class="card-title fs-5">
+                                <h3 class="card-title fs-6 fs-sm-5 mt-2">
                                     {{ produto.nome }}
                                 </h3>
 
-                                <h4 class="card-subtitle fw-bolder">
+                                <h4 class="card-subtitle fw-bolder text-success">
                                     R$ {{ produto.preco }}
                                 </h4>
 
-                                <p class="card-text produto-desc overflow-y-hidden">
+                                {% if produto.desconto %}
+                                <small class="badge bg-danger">-{{ produto.desconto }}%</small>
+                                {% endif %}
+                                
+                                <p class="card-text produto-desc overflow-y-hidden small">
                                     {{ produto.descricao }}
                                 </p>
                             </div>
@@ -73,7 +77,15 @@
             </div>
         </div>
         {% endif %}
-
+        {% if botoes %}
+        {% if perfil.tipo_user == "Vendedor" %}
+            <div class="col-12 d-flex justify-content-center mt-3 mt-sm-4">
+                <a href="/produto/cadastrar-produto">
+                    <img src="{% static 'perfil/img/add-dark.png' %}" style="width: 70px;">
+                </a>
+            </div>
+        {% endif %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}

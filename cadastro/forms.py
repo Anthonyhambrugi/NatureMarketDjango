@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from cadastro.models import NmUserSort
 
-
 class CadastroForm (UserCreationForm):
     email = forms.EmailField(required=True)
 

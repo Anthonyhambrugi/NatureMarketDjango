@@ -13,14 +13,18 @@ def cadastro(request):
     if request.method == 'POST':
         form = CadastroForm(request.POST)
         form2 = NmUserSortForm(request.POST)
+
         if form.is_valid() and form2.is_valid():
             user = form.save()
             nm_user_sort = form2.save(commit=False)
             nm_user_sort.user = user
             nm_user_sort.save()
             auth_login(request, user)
-            return redirect('/')
+            return redirect('perfil:editar_perfil', username=user.username)
     else:
         form = CadastroForm()
         form2 = NmUserSortForm()
-    return render (request, 'cadastro/cadastro.html', {'form': form, 'form2': form2})
+    return render (request, 'cadastro/cadastro.html', {'form': form, 'form2': form2}, preco_formatado=preco_formatado)
+
+def preco_formatado(self):
+    return f'R$ {self.preco:.2f}'.replace('.', ',')

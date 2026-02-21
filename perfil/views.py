@@ -27,6 +27,9 @@ def perfil_view(request, username):
         'produtos_do_usuario': produtos_do_usuario,
         'botoes': botoes,
     })
+
+    def preco_formatado(self):
+        return f'R$ {self.preco:.2f}'.replace('.', ',')
     
 @login_required
 def editar_perfil(request, username):
