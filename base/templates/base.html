@@ -68,7 +68,7 @@
             </div>
 
             <div class="col-1 order-sm-3 order-lg-4 d-flex align-items-center">
-                <button class="nm-theme-toggle btn btn-outline-light me-2 d-none d-md-block" title="Alternar tema" aria-pressed="false">☀️</button>
+                <button class="nm-theme-toggle btn btn-outline-light me-2 d-none d-md-block" title="Alternar tema" aria-pressed="false"><img src="{% static 'img/sun.png' %}" alt="Alternar tema"></button>
             </div>
 
             <div class="col-sm-2 col-md-2 col-lg-1 order-5 d-none d-lg-block mt-2 mt-sm-0 mt-lg-0">
@@ -82,7 +82,7 @@
 <footer>
     <div class="container">
         <div class="row">
-            <h1 class="footerend col-12 text-center">Teste footer</h1>
+            <h5 class="footerend col-12 text-center">&copy; 2025 Nature Market. Todos os direitos reservados.</h5>
         </div>
 
         <div id="nm-mobile-menu" class="menuinfmobile d-flex justify-content-center d-block d-lg-none hidden bg-light pl-3 pr-0 border-top" role="dialog" aria-modal="false" aria-hidden="true">
@@ -90,7 +90,7 @@
                 <a href="{% url 'carrinho:visualizar_carrinho' %}" class="carrin btn text-decoration-none fw-semibold fs-6 fs-sm-5">🛒 Carrinho</a>
             </div>
             <div class="col-6 col-sm-4 text-center">
-                <button class="nm-theme-toggle btn btn-outline-secondary">🌙</button>
+                <button class="nm-theme-toggle btn btn-outline-secondary"><img src="{% static 'img/moon.png' %}" alt="Alternar tema"></button>
             </div>
         </div>
         <button id="nm-mobile-menu-btn" class="nm-mobile-menu-button" aria-controls="nm-mobile-menu" aria-expanded="false" aria-label="Abrir menu móvel">☰</button>
@@ -113,7 +113,10 @@ document.addEventListener('DOMContentLoaded', function(){
     function updateButtons(){
         const dark = document.body.classList.contains('theme-dark');
         buttons.forEach(btn => {
-            btn.textContent = dark ? '🌙' : '☀️';
+            const img = btn.querySelector('img');
+            if(img){
+                img.src = dark ? '{% static "img/moon.png" %}' : '{% static "img/sun.png" %}';
+            }
             btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
         });
     }
@@ -122,6 +125,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const isDark = document.body.classList.toggle('theme-dark');
         try{ localStorage.setItem('nm-theme', isDark ? 'dark' : 'light'); }catch(e){}
         updateButtons();
+        darkModeImages();
     }));
 
     updateButtons();
@@ -153,6 +157,21 @@ document.addEventListener('DOMContentLoaded', function(){
         setMenu(false);
     }
 });
+    function darkModeImages(){
+    const dark = document.body.classList.contains('theme-dark');
+
+    document.querySelectorAll('.auto-dark').forEach(img => {
+
+        if(dark){
+            if(!img.src.includes('-dark')){
+                img.src = img.src.replace(/(\.png|\.jpg|\.jpeg|\.svg)$/, '-dark$1');
+            }
+        } else {
+            img.src = img.src.replace('-dark', '');
+        }
+
+    });
+}
 </script>
 {% block extra_js %}{% endblock %}
 

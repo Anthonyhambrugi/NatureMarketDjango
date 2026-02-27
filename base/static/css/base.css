@@ -340,7 +340,7 @@ header .titulo{
         color: #ffffff;
         padding: 8px 10px;
         border-radius: 10px;
-        box-shadow: 0 6px 18px rgba(47,125,50,0.18);
+        box-shadow: 0 6px 18px #2f7d322e;
     }
 
     /* Catálogo horizontal mais compacto */

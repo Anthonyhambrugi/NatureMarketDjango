@@ -25,7 +25,7 @@
                 </div>
                 {% if botoes %}
                 <div class="justify-content-end align-self-start ms-auto d-flex gap-2">
-                    <a href="{% url 'perfil:editar_perfil' user.username %}"><img src="{% static 'perfil/img/edit-dark.png' %}" alt="Editar Perfil" class="editar-perfil-icon"></a>
+                    <a href="{% url 'perfil:editar_perfil' user.username %}"><img src="{% static 'perfil/img/edit.png' %}" alt="Editar Perfil" class="editar-perfil-icon auto-dark"></a>
                 </div>
                 {% endif %}
             </div>
@@ -81,7 +81,7 @@
         {% if perfil.tipo_user == "Vendedor" %}
             <div class="col-12 d-flex justify-content-center mt-3 mt-sm-4">
                 <a href="/produto/cadastrar-produto">
-                    <img src="{% static 'perfil/img/add-dark.png' %}" style="width: 70px;">
+                    <img src="{% static 'perfil/img/add.png' %}" style="width: 70px;" class="auto-dark">
                 </a>
             </div>
         {% endif %}
