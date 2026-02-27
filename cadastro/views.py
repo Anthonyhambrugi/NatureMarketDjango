@@ -24,7 +24,7 @@ def cadastro(request):
     else:
         form = CadastroForm()
         form2 = NmUserSortForm()
-    return render (request, 'cadastro/cadastro.html', {'form': form, 'form2': form2}, preco_formatado=preco_formatado)
+    return render (request, 'cadastro/cadastro.html', {'form': form, 'form2': form2})
 
 def preco_formatado(self):
     return f'R$ {self.preco:.2f}'.replace('.', ',')
