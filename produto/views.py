@@ -52,6 +52,6 @@ def detalhes_produto(request, id):
 
     return render(
         request,
-        "cadastro_item/detalhes_produto.html",
+        "cadastro_item/detalhes.html",
         {"produto": produto, "imagens": imagens}
     )
