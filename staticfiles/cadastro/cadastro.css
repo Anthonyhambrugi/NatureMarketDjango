@@ -1,0 +1,167 @@
+/* Cadastro - base form styling */
+
+h1 {
+    color: var(--nm-green);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+/* Form container */
+form {
+    background: var(--nm-soft);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--nm-shadow-sm);
+    border: 1px solid rgba(36, 87, 36, 0.04);
+    max-width: 400px;
+    margin: 0 auto;
+    transition: box-shadow .18s ease;
+}
+
+form:hover {
+    box-shadow: var(--nm-shadow-md);
+}
+
+/* Form labels */
+label {
+    font-weight: 600;
+    color: var(--nm-dark);
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* Input fields */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid rgba(36, 87, 36, 0.08);
+    border-radius: 10px;
+    background-color: var(--nm-cream);
+    color: var(--nm-dark);
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    box-shadow: var(--nm-shadow-xs);
+    transition: all .12s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus {
+    outline: none;
+    border-color: var(--nm-green-2);
+    box-shadow: 0 6px 18px rgba(36, 87, 36, 0.06);
+    background-color: #ffffff;
+}
+
+/* Error messages */
+.errorlist,
+.errorlist li {
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    list-style: none;
+    padding: 0;
+}
+
+.errorlist {
+    margin-bottom: 0.5rem;
+}
+
+/* Button styling */
+.btn {
+    font-weight: 600;
+    padding: 0.7rem 1.5rem;
+    border-radius: 10px;
+    transition: all .12s ease;
+    border: none;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.btn-success {
+    background-color: var(--nm-green);
+    color: var(--nm-soft);
+}
+
+.btn-success:hover {
+    background-color: #1e5526;
+    transform: translateY(-2px);
+    box-shadow: var(--nm-shadow-md);
+}
+
+.btn-success:active {
+    transform: translateY(0);
+    box-shadow: var(--nm-shadow-sm);
+}
+
+/* Link styling */
+a {
+    color: var(--nm-green);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color .12s ease;
+}
+
+a:hover {
+    color: #1e5526;
+    text-decoration: underline;
+}
+
+/* Sign in link section */
+.text-center.py-3 {
+    margin-top: 1.5rem;
+    color: var(--nm-dark);
+}
+
+.text-center.py-3 h5 {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    form {
+        padding: 1rem;
+        margin: 1rem;
+    }
+
+    label {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 0.6rem 1.25rem;
+    }
+}
+
+/* Dark theme support */
+.theme-dark form {
+    background: var(--nm-soft);
+    border-color: rgba(47, 125, 50, 0.12);
+}
+
+.theme-dark form:hover {
+    box-shadow: 0 12px 28px rgba(47, 125, 50, 0.10);
+}
+
+.theme-dark input[type="text"],
+.theme-dark input[type="email"],
+.theme-dark input[type="password"],
+.theme-dark select {
+    background-color: #08120d;
+    border-color: rgba(47, 125, 50, 0.12);
+    color: var(--nm-dark);
+}
+
+.theme-dark input[type="text"]:focus,
+.theme-dark input[type="email"]:focus,
+.theme-dark input[type="password"]:focus,
+.theme-dark select:focus {
+    background-color: #0f1a14;
+    border-color: rgba(129, 199, 132, 0.3);
+}

@@ -9,4 +9,7 @@ urlpatterns = [
     path("criar-superuser/", views.criar_superuser_temp),
     path('logout/', LogoutView.as_view(next_page='/login/'), name='logout'),
     path('login/', include('login.urls')),
+    path('cadastro/', include('cadastro.urls')),
+    path('perfil/', include('perfil.urls')),
+    path('produto/', include('produto.urls')),
 ]

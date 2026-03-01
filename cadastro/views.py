@@ -2,14 +2,10 @@ from django.contrib.auth import login as auth_login
 from django.shortcuts import render, redirect
 from .forms import CadastroForm
 from .forms import NmUserSortForm
-
+from django.contrib.auth.models import Group
+from cadastro.models import NmUserSort
 
 def cadastro(request):
-    """
-    View pra fazer o cadastro maneiro
-    Se vier POST, valida e salva o usuário
-    Se não, só mostra o formulário
-    """
     if request.method == 'POST':
         form = CadastroForm(request.POST)
         form2 = NmUserSortForm(request.POST)
@@ -25,6 +21,3 @@ def cadastro(request):
         form = CadastroForm()
         form2 = NmUserSortForm()
     return render (request, 'cadastro/cadastro.html', {'form': form, 'form2': form2})
-
-def preco_formatado(self):
-    return f'R$ {self.preco:.2f}'.replace('.', ',')

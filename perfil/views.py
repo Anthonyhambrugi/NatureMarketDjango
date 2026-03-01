@@ -5,14 +5,20 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Perfil
 from produto.models import CadItmModel
 from cadastro.models import NmUserSort
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 
 @login_required(login_url='/login/')
 def perfil_view(request, username):
     username = get_object_or_404(User, username=username)
+    #colocar o user no grupo de acordo com o tipo_user
+    grupo_cliente, _ = Group.objects.get_or_create(name='Cliente')
+    grupo_vendedor, _ = Group.objects.get_or_create(name='Vendedor')
 
     perfil_obj, _ = Perfil.objects.get_or_create(user=username)
     perfil_obj.tipo_user = NmUserSort.objects.get(user=username).tipo_user
     perfil_obj.save()
+
     
     # Pega os produtos cujo autor é o usuário
     produtos_do_usuario = CadItmModel.objects.filter(autor=username)
@@ -22,14 +28,12 @@ def perfil_view(request, username):
 
     return render(request, 'perfil/perfil.html', {
         'user': username,
+        'cargo': perfil_obj.tipo_user,
         'perfil': perfil_obj,
         'hide_dropdown': True,
         'produtos_do_usuario': produtos_do_usuario,
         'botoes': botoes,
     })
-
-    def preco_formatado(self):
-        return f'R$ {self.preco:.2f}'.replace('.', ',')
     
 @login_required
 def editar_perfil(request, username):

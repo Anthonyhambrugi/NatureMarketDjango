@@ -142,3 +142,16 @@ def obter_info_carrinho(request):
         'valor_total': str(carrinho.valor_total),
         'itens': list(carrinho.itens.values('id', 'produto__nome', 'quantidade', 'preco_unitario', 'subtotal'))
     })
+
+@login_required
+def finalizar_compra(request):
+    #manda uma notificação pro vendedor, limpa o carrinho, redireciona pra página de confirmação
+    try:
+        carrinho = Carrinho.objects.get(usuario=request.user)
+        if carrinho.total_itens == 0:
+            messages.warning(request, 'Seu carrinho está vazio!')
+            sendNotific(request, f"Nova compra realizada por {request.user.username}!")
+            carrinho.itens.all().delete()
+            return redirect('carrinho:visualizar_carrinho')
+    finally:
+        pass
