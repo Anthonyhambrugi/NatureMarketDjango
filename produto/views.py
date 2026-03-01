@@ -48,10 +48,12 @@ def cadastro_produto(request):
 
 def detalhes_produto(request, id):
     produto = get_object_or_404(CadItmModel, id=id)
+    autor = produto.autor
+    
     imagens = ImagemProduto.objects.filter(produto=produto)
 
     return render(
         request,
-        "cadastro_item/detalhes.html",
-        {"produto": produto, "imagens": imagens}
+        "produto/detalhes.html",
+        {"produto": produto, "imagens": imagens, "autor": autor}
     )
