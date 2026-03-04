@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import EditarPerfilForm
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Perfil
+from cadastro.models import UserMod
 from produto.models import CadItmModel
 from cadastro.models import NmUserSort
 from django.contrib.auth.decorators import login_required
@@ -15,8 +15,8 @@ def perfil_view(request, username):
     grupo_cliente, _ = Group.objects.get_or_create(name='Cliente')
     grupo_vendedor, _ = Group.objects.get_or_create(name='Vendedor')
 
-    perfil_obj, _ = Perfil.objects.get_or_create(user=username)
-    perfil_obj.tipo_user = NmUserSort.objects.get(user=username).tipo_user
+    perfil_obj, _ = UserMod.objects.get_or_create(user=username)
+    perfil_obj.tipo_user = UserMod.objects.get(user=username).tipo_user
     perfil_obj.save()
 
     
@@ -42,7 +42,7 @@ def editar_perfil(request, username):
     if request.user != user:
         return redirect('perfil:perfil', username=username)
 
-    perfil_obj, _ = Perfil.objects.get_or_create(user=user)
+    perfil_obj, _ = UserMod.objects.get_or_create(user=user)
 
     if request.method == 'POST':
         form = EditarPerfilForm(request.POST, request.FILES, instance=user)

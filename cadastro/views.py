@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .forms import CadastroForm
 from .forms import NmUserSortForm
 from django.contrib.auth.models import Group
-from cadastro.models import NmUserSort
+from cadastro.models import NmUserSort, UserMod
 
 def cadastro(request):
     if request.method == 'POST':
@@ -15,6 +15,7 @@ def cadastro(request):
             nm_user_sort = form2.save(commit=False)
             nm_user_sort.user = user
             nm_user_sort.save()
+            user_mod = UserMod.objects.create(user=user, tipo_user=nm_user_sort.tipo_user)
             auth_login(request, user)
             return redirect('perfil:editar_perfil', username=user.username)
     else:

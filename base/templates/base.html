@@ -37,7 +37,7 @@
                 <input type="text" placeholder="Pesquisar..." class="search-bar form-control text-center">
             </div>
 
-            <div class="dropdown order-3 order-sm-4 order-lg-3 col-1 col-sm-1 col-md-1 d-md-block" {% if hide_dropdown %}style="display: none;"{% endif %}>
+            <div class="dropdown-center order-3 order-sm-4 order-lg-3 col-1 col-sm-1 col-md-1 d-md-block" {% if hide_dropdown %}style="display: none;"{% endif %}>
                 <button class="btn dropdown-toggle fs-6 fs-sm-5 fs-md-5 text-decoration-none fw-semibold " type="button" data-bs-toggle="dropdown">
                     Perfil
                 </button>
@@ -48,6 +48,14 @@
                                 Meu perfil
                             </a>
                         </li>
+                        {% if request.user.nmusersort.tipo_user == "Vendedor" %}
+                        <li>
+                            <a class="dropdown-item" href="produto/cadastrar-produto">
+                                Cadastrar um produto
+                            </a>
+                        </li>
+                        {% endif %}
+                        <li><hr class="dropdown-divider divider"></li>
                         <li>
                             <form method="post" action="{% url 'nm_catalog:logout' %}">
                                 {% csrf_token %}

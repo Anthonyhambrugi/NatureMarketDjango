@@ -132,6 +132,9 @@ body{
     --bs-dropdown-link-active-color: #000000;
     --bs-dropdown-link-hover-bg: #92c895;
 }
+.dropdown-divider{
+    border-top: 1px solid rgba(0,0,0,.15);;
+}
 .dropdown-toggle{
     color: #2f7d32;
     background-color: #fafafa;
@@ -619,4 +622,7 @@ ul, ol{ padding-left: 1.25rem; }
 @media (max-width:600px){
     input, select, textarea{ font-size: .95rem; }
     .nm-theme-toggle{ padding: .4rem .6rem; }
+}
+.dropdown-divider{
+    border-top: 1px solid #112a1c;
 }
