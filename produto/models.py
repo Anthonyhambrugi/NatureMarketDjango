@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
+from cadastro.models import UserMod, UserEndereco
 
 
 class Produto(models.Model):
@@ -19,12 +20,15 @@ class CadItmModel(models.Model):
     nome = models.CharField(max_length=25)
     descricao = models.TextField(default='Descrição do item')
     autor = models.ForeignKey(User, on_delete=models.CASCADE)
+    contato = models.CharField(max_length=20, blank=True, null=True)
     preco = models.FloatField(default=0.0)
     desconto = models.FloatField(default=0.0)
 
     imagem_item = CloudinaryField('imagem_principal', null=True, blank=True)
 
     criado_em = models.DateTimeField(auto_now_add=True)
+
+    id = models.AutoField(primary_key=True)
 
     def __str__(self):
         return self.nome

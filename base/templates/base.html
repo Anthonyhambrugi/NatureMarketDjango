@@ -50,7 +50,7 @@
                         </li>
                         {% if request.user.nmusersort.tipo_user == "Vendedor" %}
                         <li>
-                            <a class="dropdown-item" href="produto/cadastrar-produto">
+                            <a class="dropdown-item" href="{% url 'produto:cadastrar_produto' %}">
                                 Cadastrar um produto
                             </a>
                         </li>

@@ -19,7 +19,8 @@
                                     src="{{ produto.imagem_item.url }}"
                                     class="card-img-top main-product-image img-fluid rounded"
                                     alt="{{ produto.nome }}"
-                                    style="max-height: 400px;"
+                                    style="max-height: fit-content; max-width: fit-content;"
+
                                 >
                                 {% else %}
                                 <div class="d-flex align-items-center justify-content-center bg-light text-muted"

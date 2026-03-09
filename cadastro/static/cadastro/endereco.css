@@ -1,0 +1,7 @@
+.modal-body {
+    padding: 20px;
+    color: var();
+}
+.modal-body .dark-mode-toggle {
+    font-palette: dark;
+}

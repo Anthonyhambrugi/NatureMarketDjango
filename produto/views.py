@@ -35,7 +35,7 @@ def cadastro_produto(request):
                     imagem=img
                 )
 
-            return redirect('detalhes_produto', id=produto.id)
+            return redirect('produto:detalhes_produto', id=produto.id)
 
     else:
         form = CadItmForm()
@@ -55,5 +55,5 @@ def detalhes_produto(request, id):
     return render(
         request,
         "produto/detalhes.html",
-        {"produto": produto, "imagens": imagens, "autor": autor}
+        {"produto": produto, "imagens": imagens, "autor": autor, "id": id}
     )

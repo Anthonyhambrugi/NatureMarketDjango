@@ -30,7 +30,11 @@
                 {% endif %}
             </div>
             <div class="mt-4">
-                <p><strong>Contato para e-mail:</strong> {{ user.email }}</p>
+                <p><strong>Contatos</strong></p>
+                <p>E-mail: {{ user.email }}</p>
+                {% if perfil.contatowspp != None %}
+                <p>Whatsapp: <a href="https://wa.me/{{ perfil.contatowspp }}">{{ perfil.contatowspp }}</a></p>
+                {% endif %}
                 <p><strong>Cargo: </strong>{{ perfil.tipo_user }}</p>
                 <p>{{ perfil.bio }}</p>
             </div>

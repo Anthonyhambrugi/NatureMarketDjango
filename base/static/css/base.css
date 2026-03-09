@@ -154,6 +154,13 @@ body{
     --nm-radius: 12px;
 }
 
+.modal-body{
+    background-color: var(--nm-cream);
+    border: 2px dotted var(--nm-green);
+    border-radius: 12px;
+    color: var(--nm-dark);
+}
+
 *{
     box-sizing: border-box;
 }
@@ -482,7 +489,12 @@ header .titulo{
     background: var(--nm-cream) !important;
     color: var(--nm-dark) !important;
 }
-
+.modal-body .theme-dark{
+    background-color: var(--nm-cream) !important;
+    border: 2px dotted var(--nm-green);
+    border-radius: 12px;
+    color: var(--nm-dark) !important;
+}
 .theme-dark header{
     background: var(--nm-green);
     color: var(--nm-soft);

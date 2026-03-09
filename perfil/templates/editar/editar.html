@@ -55,7 +55,20 @@
                             </div>
                             <div class="actions-row">
                                 <button type="submit" class="btn btn-success btn-sm">💾 Salvar Alterações</button>
-                                <a href="{% url 'perfil:perfil' request.user.username %}" class="btn btn-secondary btn-sm">← Voltar</a>
+                                {# Se o usuário não tiver completado o perfil, manda completar, pois tem como pular no cadastro #}
+                                {% if not request.user.first_name or not request.user.last_name %}
+                                    <a href="{% url 'cadastro:endereco' %}" class="btn btn-primary mt-3">
+                                        Adicionar endereço
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'cadastro:endereco' %}" class="btn btn-primary mt-3">
+                                        Editar endereço
+                                    </a>
+                                {% endif %}
+                                {% if "/endereco" in request.META.HTTP_REFERER %}
+                                {% else %}
+                                    <a href="{% url 'perfil:perfil' request.user.username %}" class="btn btn-secondary btn-sm">← Voltar</a>
+                                {% endif %}
                             </div>
                         </form>
                     </div>

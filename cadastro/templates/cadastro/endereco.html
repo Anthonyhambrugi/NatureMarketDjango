@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Endereço de {{ user.get_full_name }} {% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'cadastro/endereco.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Endereço de {{ user.get_full_name }}</h1>
+    <div class="card mb-4">
+        <div class="card-body">
+            {% if endereco %}
+                <p><strong>Rua:</strong> {{ endereco.rua }}</p>
+                <p><strong>Número:</strong> {{ endereco.numero }}</p>
+                <p><strong>Bairro:</strong> {{ endereco.bairro }}</p>
+                <p><strong>Cidade:</strong> {{ endereco.cidade }}</p>
+                <p><strong>Estado:</strong> {{ endereco.estado }}</p>
+                <p><strong>CEP:</strong> {{ endereco.cep }}</p>
+                {% if endereco.complemento %}
+                    <p><strong>Complemento:</strong> {{ endereco.complemento }}</p>
+                {% endif %}
+            {% else %}
+                <p>Você ainda não adicionou um endereço.</p>
+            {% endif %}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#enderecoModal">
+                    Adicionar Endereço
+                </button>
+                {% if "/carrinho" in request.META.HTTP_REFERER %}
+                    <a href="{% url 'carrinho:visualizar_carrinho' %}" class="btn text-danger">Cancelar</a>
+                {% else %}
+                    <a href="{% url 'perfil:editar_perfil' request.user.username %}" class="btn-primario">Pular por agora →</a>
+                {% endif %}
+                <button type="submit" class="btn justify-content-end">Salvar Endereço</button>
+                <div class="modal fade" id="enderecoModal" tabindex="-1" aria-labelledby="enderecoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="enderecoModalLabel">Adicionar Endereço</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    {{ form.non_field_errors }}
+                                    <div class="mb-3">
+                                        <label for="{{ form.cep.id_for_label }}">{{ form.cep.label }}</label>
+                                        {{ form.cep }}
+                                        {{ form.cep.errors }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="{{ form.rua.id_for_label }}">{{ form.rua.label }}</label>
+                                        {{ form.rua }}
+                                        {{ form.rua.errors }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="{{ form.numero.id_for_label }}">{{ form.numero.label }}</label>
+                                        {{ form.numero }}
+                                        {{ form.numero.errors }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="{{ form.bairro.id_for_label }}">{{ form.bairro.label }}</label>
+                                        {{ form.bairro }}
+                                        {{ form.bairro.errors }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="{{ form.cidade.id_for_label }}">{{ form.cidade.label }}</label>
+                                        {{ form.cidade }}
+                                        {{ form.cidade.errors }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="{{ form.estado.id_for_label }}">{{ form.estado.label }}</label>
+                                        {{ form.estado }}
+                                        {{ form.estado.errors }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="{{ form.complemento.id_for_label }}">Complemento?</label>
+                                        {{ form.complemento }}
+                                        {{ form.complemento.errors }}
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Salvar Endereço</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        document.getElementById('id_cep').addEventListener('input', function(e) {
+            let cep = e.target.value.replace(/\D/g, '');
+            
+            // Aplica uma máscara visual enquanto ele digita (opcional)
+            if (cep.length > 5) {
+                e.target.value = cep.replace(/^(\d{5})(\d)/, "$1-$2");
+            } else {
+                e.target.value = cep;
+            }
+
+            if (cep.length === 8) {
+                // Feedback visual de carregamento
+                const campos = ['id_rua', 'id_bairro', 'id_cidade'];
+                campos.forEach(id => document.getElementById(id).placeholder = "Buscando...");
+
+                fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data.erro) {
+                            document.getElementById('id_rua').value = data.logradouro;
+                            document.getElementById('id_bairro').value = data.bairro;
+                            document.getElementById('id_cidade').value = data.localidade;
+                            
+                            // O "Pulo do Gato": Foca no número pra economizar clique
+                            document.getElementById('id_numero').focus();
+                        } else {
+                            alert("CEP não encontrado, confere aí, irmão!");
+                            e.target.value = ""; // Limpa o CEP errado
+                        }
+                    })
+                    .catch(() => console.log("Erro na rede. Talvez o ViaCEP esteja descansando."));
+            }
+        });
+    </script>
+{% endblock %}

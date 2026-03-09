@@ -10,6 +10,14 @@ class EditarPerfilForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'username', 'email',]
 
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'required': False}),
+            'username': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'required': True}),
+        }
+
+
         
     
     def __init__(self, *args, **kwargs):

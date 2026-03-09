@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'produto',
     'perfil',
     'carrinho_chatgpt',
+    'poscompra',
 ]
 
 MIDDLEWARE = [

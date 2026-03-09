@@ -1,14 +1,14 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from cadastro.models import NmUserSort
+from cadastro.models import NmUserSort, UserEndereco, UserMod
 
 class CadastroForm (UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'password1', 'password2']
         
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -34,5 +34,39 @@ class NmUserSortForm(forms.ModelForm):
             'tipo_user': forms.Select(attrs={'class': 'form-select'})
         }
         labels = {
-            'tipo_user': 'Tipo de usuário'
+            'tipo_user': 'Tipo de usuário',
         }
+
+class NmUserSortForm(forms.ModelForm):
+    class Meta:
+        model = UserMod
+        fields = ['contatowspp']
+        widgets = {
+            'contatowspp': forms.Select(attrs={'class': 'form-select'})
+        }
+        labels = {
+            'contatowspp': 'Contato WhatsApp (opcional)',
+        }
+
+class UserEnderecoForm(forms.ModelForm):
+    class Meta:
+        model = UserEndereco
+        fields = ['cep', 'rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado']
+        widgets = {
+            'cep': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'rua': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'numero': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'complemento': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex.: Fica perto de um mercado'}),
+            'bairro': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'cidade': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+            'estado': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
+        }
+    labels = {
+        'cep': 'CEP',
+        'rua': 'Rua',
+        'numero': 'Número',
+        'complemento': 'Complemento',
+        'bairro': 'Bairro',
+        'cidade': 'Cidade',
+        'estado': 'Estado',
+    }

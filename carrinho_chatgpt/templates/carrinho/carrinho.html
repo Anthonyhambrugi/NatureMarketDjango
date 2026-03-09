@@ -138,7 +138,10 @@
 
                         <div class="acoes-carrinho">
                             <a href="/" class="btn-secundario flex-grow-1 text-center">← Continuar Comprando</a>
-                            <a href="#" class="btn-primario flex-grow-1 text-center">Finalizar Compra →</a>
+                            <a href="https://wa.me/{{ contatoautor }}?text=Olá!%20Fiz%20um%20pedido%20no%20Nature%20Market:%0A{% for item in itens %}- {{ item.produto.nome|urlencode }} (x{{ item.quantidade }})%0A{% endfor %}Endereço:%20{{ cliente_endereco.rua|urlencode }},%20{{ cliente_endereco.numero }},%20{{ cliente_endereco.bairro|urlencode }},%20{{ cliente_endereco.cidade|urlencode }}%20-%20{{ cliente_endereco.estado }}%20-CEP:%20{{ cliente_endereco.cep }}"
+                            class="btn">
+                            Finalizar Compra →
+                            </a>
                         </div>
                     </div>
                 </div>

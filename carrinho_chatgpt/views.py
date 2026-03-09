@@ -6,9 +6,11 @@ from django.views.decorators.http import require_POST
 from decimal import Decimal
 
 from .models import Carrinho, ItemCarrinho
+from cadastro.models import UserEndereco, UserMod
 from produto.models import CadItmModel
 from .forms import QuantidadeForm
-
+from cadastro.views import endereco
+from cadastro.models import UserEndereco, UserMod
 
 @login_required
 def visualizar_carrinho(request):
@@ -22,9 +24,13 @@ def visualizar_carrinho(request):
     context = {
         'carrinho': carrinho,
         'itens': itens,
+        'produtos': [ItemCarrinho.objects.get(id=item.id).produto for item in itens],
+        'contatoautor': itens.first().produto.autor.usermod.contatowspp if itens else None,
         'total_itens': carrinho.total_itens,
+        'cliente_endereco': UserEndereco.objects.filter(user=request.user).first(),
         'valor_total': carrinho.valor_total,
     }
+    print(context)
     return render(request, 'carrinho/carrinho.html', context)
 
 
@@ -155,3 +161,11 @@ def finalizar_compra(request):
             return redirect('carrinho:visualizar_carrinho')
     finally:
         pass
+
+@login_required
+def checkout(request):
+    endereco_usuario = UserEndereco.objects.filter(user=request.user).first()
+    if not endereco_usuario:
+        messages.warning(request, 'Por favor, cadastre um endereço antes de finalizar a compra.')
+        return redirect('cadastro:endereco')
+    return render(request, 'carrinho/comprafinali.html', {'endereco': endereco_usuario})

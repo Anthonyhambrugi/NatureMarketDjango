@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra finalizada</title>
+</head>
+<body>
+    <div>
+        <h1>Compra finalizada com sucesso!</h1>
+        <p>Obrigado por sua compra!</p>
+    </div>
+    <div>
+        <h3>Detalhes da Compra</h3>
+        <p><strong>Produtos:</strong></p>
+        <ul>
+            {% for item in carrinho.itens.all %}
+                <li>{{ item.produto.nome }} - Quantidade: {{ item.quantidade }} - Preço: R$ {{ item.preco }}</li>
+            {% endfor %}
+        </ul>
+        <p><strong>Total:</strong> R$ {{ carrinho.total }}</p>
+        <p><strong>Endereço de Entrega:</strong></p> <a href="{% url 'cadastro:endereco' %}">Editar endereço</a>
+        <p>{{ endereco.rua }}, {{ endereco.numero }} - {{ endereco.bairro }}, {{ endereco.cidade }} - {{ endereco.estado }} - CEP: {{ endereco.cep }}</p>
+        <button>Acompanhar entrega</button>
+        #não faz nada, só pra mostrar que tem essa opção depois de finalizar a compra
+    </div>
+</body>
+</html>
