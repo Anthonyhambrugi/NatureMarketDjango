@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Pedido Enviado - Nature Market{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-7 col-lg-5 text-center">
+
+            <div class="card p-4 p-sm-5">
+                <div class="mb-3" style="font-size:3rem">✅</div>
+                <h1 class="title fs-3 fw-bold mb-2">Pedido enviado!</h1>
+                <p class="text-muted mb-4">
+                    Seu pedido foi confirmado. O vendedor receberá os detalhes pelo WhatsApp e entrará em contato.
+                </p>
+
+                {% if itens %}
+                <div class="text-start mb-4">
+                    <p class="small fw-semibold text-muted mb-2" style="text-transform:uppercase;letter-spacing:.04em">Resumo</p>
+                    <ul class="list-unstyled mb-0">
+                        {% for item in itens %}
+                        <li class="d-flex justify-content-between py-1 border-bottom small">
+                            <span>{{ item.nome }} × {{ item.quantidade }}</span>
+                            <span class="fw-semibold">R$ {{ item.subtotal }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="d-flex justify-content-between pt-2 fw-bold text-success">
+                        <span>Total</span>
+                        <span>R$ {{ valor_total }}</span>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="d-flex flex-column gap-2">
+                    {% if wa_url %}
+                    <a href="{{ wa_url }}" target="_blank" class="btn btn-success">
+                        Abrir conversa no WhatsApp
+                    </a>
+                    {% endif %}
+                    <a href="/" class="btn btn-outline-secondary">
+                        Continuar comprando
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

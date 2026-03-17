@@ -3,156 +3,243 @@
 
 {% block title %}Nature Market{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'nature_market/home.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <div class="row align-items-center">
-        <!-- PARA VOCÊ -->
-        <div class="foryou col-12 text-left py-2">
-            <h1 class="title fs-4 fs-sm-3 fs-md-3 fw-semibold text-center text-sm-start text-md-start d-block">
-                Para você!
-            </h1>
-        </div>
+<div class="container-fluid px-2 px-md-4">
+    <div class="row g-3">
 
-        <div class="catalogo-x d-flex flex-nowrap overflow-x-auto gap-2 gap-sm-3 py-2">
-            {% for produto in produtos %}
-                <a href="/produto/detalhes/{{ produto.id }}/"
-                   class="text-decoration-none text-dark">
-                    <div class="card produto-card my-3" style="min-width: 160px;">
-                        <div class="card-body text-center p-2 p-sm-3">
-                            {% if produto.imagem_item %}
-                                <img src="{{ produto.imagem_item.url }}"
-                                     class="card-img-top"
-                                     style="height: 130px;">
-                            {% else %}
-                                <div class="d-flex align-items-center justify-content-center card-img-top bg-light text-muted"
-                                     style="height: 130px;">
-                                    Sem imagem
-                                </div>
-                            {% endif %}
+        <!-- SIDEBAR -->
+        <div class="col-12 col-md-3 col-lg-2">
 
-                            <h3 class="card-title fs-6 fs-sm-5 mt-2">
-                                {{ produto.nome }}
-                            </h3>
+            <!-- Botão de toggle no mobile -->
+            <button class="btn btn-outline-success w-100 d-md-none mb-2"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#sidebar-filtros"
+                    aria-expanded="false">
+                Filtros ▼
+            </button>
 
-                            <h4 class="card-subtitle fw-bolder text-success">
-                                R$ {{ produto.preco }}
-                            </h4>
+            <div class="collapse d-md-block" id="sidebar-filtros">
+                <form method="get" action="" class="sidebar-form p-3">
+                    <h6 class="fw-semibold mb-3 text-success">Filtros</h6>
 
-                            {% if produto.desconto %}
-                            <small class="badge bg-danger">-{{ produto.desconto }}%</small>
-                            {% endif %}
-                            
-                            <p class="card-text produto-desc overflow-y-hidden small">
-                                {{ produto.descricao }}
-                            </p>
+                    <!-- Busca -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Buscar</label>
+                        <input type="text"
+                               name="q"
+                               value="{{ q }}"
+                               class="form-control form-control-sm"
+                               placeholder="Nome ou descrição...">
+                    </div>
+
+                    <!-- Faixa de preço -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Preço (R$)</label>
+                        <div class="d-flex gap-1 align-items-center">
+                            <input type="number"
+                                   name="preco_min"
+                                   value="{{ preco_min }}"
+                                   class="form-control form-control-sm"
+                                   placeholder="Mín"
+                                   min="0" step="0.01">
+                            <span class="text-muted small">–</span>
+                            <input type="number"
+                                   name="preco_max"
+                                   value="{{ preco_max }}"
+                                   class="form-control form-control-sm"
+                                   placeholder="Máx"
+                                   min="0" step="0.01">
                         </div>
                     </div>
-                </a>
-            {% empty %}
-                <p class="text-center w-100">
-                    Nenhum produto disponível.
-                </p>
-            {% endfor %}
-        </div>
 
-        <!-- DESCONTOS IMPERDÍVEIS -->
-        {% if produtos_desconto %}
-        <div class="col-12 mt-4 mt-sm-5">
-            <h1 class="title fs-4 fs-sm-3 fs-md-3 fw-semibold text-center text-sm-start text-md-start">
-                Descontos imperdíveis 💰
-            </h1>
-        </div>
-
-        <div class="catalogo-x d-flex flex-nowrap overflow-x-auto gap-2 gap-sm-3 py-2">
-            {% for produto in produtos_desconto %}
-                <a href="/produto/detalhes/{{ produto.id }}/"
-                   class="text-decoration-none text-dark">
-                    <div class="card produto-card my-3" style="min-width: 160px;">
-                        <div class="card-body text-center p-2 p-sm-3">
-                            {% if produto.imagem_item %}
-                                <img src="{{ produto.imagem_item.url }}"
-                                     class="card-img-top"
-                                     style="height: 130px;">
-                            {% else %}
-                                <div class="d-flex align-items-center justify-content-center card-img-top bg-light text-muted"
-                                     style="height: 130px;">
-                                    Sem imagem
-                                </div>
-                            {% endif %}
-
-                            <h3 class="card-title fs-6 fs-sm-5 mt-2">
-                                {{ produto.nome }}
-                            </h3>    
-
-                            <h4 class="card-subtitle fw-bolder text-success">
-                                R$ {{ produto.preco|floatformat:2 }}
-                            </h4>
-
-                            {% if produto.desconto %}
-                            <small class="badge bg-danger">-{{ produto.desconto }}%</small>
-                            {% endif %}
-
-                            <p class="card-text produto-desc overflow-y-hidden small">
-                                {{ produto.descricao }}
-                            </p>
-                        </div>
+                    <!-- Só com desconto -->
+                    <div class="mb-3 form-check">
+                        <input type="checkbox"
+                               name="desconto"
+                               id="chk-desconto"
+                               class="form-check-input"
+                               value="1"
+                               {% if apenas_desconto %}checked{% endif %}>
+                        <label class="form-check-label small" for="chk-desconto">
+                            Só com desconto
+                        </label>
                     </div>
-                </a>
-            {% endfor %}
-        </div>
-        {% endif %}
 
-        <!-- NOVIDADES -->
-        {% if novos_produtos %}
-        <div class="col-12 mt-4 mt-sm-5">
-            <h1 class="title fs-4 fs-sm-3 fs-md-3 fw-semibold text-center text-sm-start text-md-start">
-                Novidades ✨
-            </h1>
-        </div>
-
-        <div class="catalogo-x d-flex flex-nowrap overflow-x-auto gap-2 gap-sm-3 py-2">
-            {% for produto in novos_produtos %}
-                <a href="/produto/detalhes/{{ produto.id }}/"
-                   class="text-decoration-none text-dark">
-                   
-                    <div class="card produto-card my-3" style="min-width: 160px;">
-                        <div class="card-body text-center p-2 p-sm-3">
-                            {% if produto.imagem_item %}
-                                <img src="{{ produto.imagem_item.url }}"
-                                     class="card-img-top"
-                                     style="height: 130px;">
-                            {% else %}
-                                <div class="d-flex align-items-center justify-content-center card-img-top bg-light text-muted"
-                                     style="height: 130px;">
-                                    Sem imagem
-                                </div>
-                            {% endif %}
-
-                            <h3 class="card-title fs-6 fs-sm-5 mt-2">
-                                {{ produto.nome }}
-                            </h3>
-
-                            <h4 class="card-subtitle fw-bolder text-success">
-                                R$ {{ produto.preco }}
-                            </h4>
-
-                            {% if produto.desconto %}
-                            <small class="badge bg-danger">-{{ produto.desconto }}%</small>
-                            {% endif %}
-                            
-                            <p class="card-text produto-desc overflow-y-hidden small">
-                                {{ produto.descricao }}
-                            </p>
-                        </div>
+                    <!-- Ordenar -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Ordenar por</label>
+                        <select name="ordem" class="form-select form-select-sm">
+                            <option value="-criado_em" {% if ordem == '-criado_em' %}selected{% endif %}>Mais recentes</option>
+                            <option value="criado_em"  {% if ordem == 'criado_em'  %}selected{% endif %}>Mais antigos</option>
+                            <option value="preco"      {% if ordem == 'preco'      %}selected{% endif %}>Menor preço</option>
+                            <option value="-preco"     {% if ordem == '-preco'     %}selected{% endif %}>Maior preço</option>
+                        </select>
                     </div>
-                </a>
-            {% empty %}
-                <p class="text-center w-100">
-                    Nenhum produto novo ainda.
-                </p>
-            {% endfor %}
+
+                    <button type="submit" class="btn btn-success btn-sm w-100">Filtrar</button>
+
+                    {% if tem_filtro %}
+                    <a href="/" class="btn btn-outline-secondary btn-sm w-100 mt-2">Limpar filtros</a>
+                    {% endif %}
+                </form>
+            </div>
         </div>
-        {% endif %}
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="col-12 col-md-9 col-lg-10">
+
+            {% if tem_filtro %}
+            <!-- RESULTADOS FILTRADOS -->
+            <h2 class="title fs-5 fw-semibold mb-3">
+                Resultados
+                {% if q %}<small class="text-muted fs-6">para "{{ q }}"</small>{% endif %}
+            </h2>
+
+            {% if produtos_filtrados %}
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-4 g-3">
+                {% for produto in produtos_filtrados %}
+                <div class="col">
+                    <a href="/produto/detalhes/{{ produto.id }}/"
+                       class="text-decoration-none text-dark">
+                        <div class="card produto-card h-100">
+                            <div class="card-body text-center p-2">
+                                {% if produto.imagem_item %}
+                                    <img src="{{ produto.imagem_item.url }}"
+                                         class="card-img-top">
+                                {% else %}
+                                    <div class="card-img-placeholder card-img-top bg-light text-muted">
+                                        Sem imagem
+                                    </div>
+                                {% endif %}
+
+                                <h3 class="card-title fs-6 mt-2">{{ produto.nome }}</h3>
+
+                                <h4 class="card-subtitle fw-bolder text-success">
+                                    R$ {{ produto.preco|floatformat:2 }}
+                                </h4>
+
+                                {% if produto.desconto %}
+                                <small class="badge bg-danger">-{{ produto.desconto }}%</small>
+                                {% endif %}
+
+                                <p class="card-text produto-desc overflow-y-hidden small mt-1">
+                                    {{ produto.descricao }}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-muted">Nenhum produto encontrado com esses filtros.</p>
+            {% endif %}
+
+            {% else %}
+            <!-- LAYOUT PADRÃO (sem filtros) -->
+
+            <!-- PARA VOCÊ -->
+            <div class="mb-2">
+                <h1 class="title fs-4 fw-semibold">Para você!</h1>
+            </div>
+            <div class="catalogo-x d-flex flex-nowrap overflow-x-auto gap-2 gap-sm-3 py-2">
+                {% for produto in produtos %}
+                    <a href="/produto/detalhes/{{ produto.id }}/"
+                       class="text-decoration-none text-dark">
+                        <div class="card produto-card my-3">
+                            <div class="card-body text-center aspect-fit">
+                                {% if produto.imagem_item %}
+                                    <img src="{{ produto.imagem_item.url }}" class="card-img-top">
+                                {% else %}
+                                    <div class="card-img-placeholder card-img-top bg-light text-muted">
+                                        Sem imagem
+                                    </div>
+                                {% endif %}
+                                <h3 class="card-title fs-6 mt-2">{{ produto.nome }}</h3>
+                                <h4 class="card-subtitle fw-bolder text-success">R$ {{ produto.preco }}</h4>
+                                {% if produto.desconto %}
+                                <small class="badge bg-danger">-{{ produto.desconto }}%</small>
+                                {% endif %}
+                                <p class="card-text produto-desc overflow-y-hidden small">{{ produto.descricao }}</p>
+                            </div>
+                        </div>
+                    </a>
+                {% empty %}
+                    <p class="text-center w-100">Nenhum produto disponível.</p>
+                {% endfor %}
+            </div>
+
+            <!-- DESCONTOS IMPERDÍVEIS -->
+            {% if produtos_desconto %}
+            <div class="mt-4">
+                <h1 class="title fs-4 fw-semibold">Descontos imperdíveis 💰</h1>
+            </div>
+            <div class="catalogo-x d-flex flex-nowrap overflow-x-auto gap-2 gap-sm-3 py-2">
+                {% for produto in produtos_desconto %}
+                    <a href="/produto/detalhes/{{ produto.id }}/"
+                       class="text-decoration-none text-dark">
+                        <div class="card produto-card my-3">
+                            <div class="card-body text-center p-2 p-sm-3">
+                                {% if produto.imagem_item %}
+                                    <img src="{{ produto.imagem_item.url }}" class="card-img-top">
+                                {% else %}
+                                    <div class="card-img-placeholder card-img-top bg-light text-muted">
+                                        Sem imagem
+                                    </div>
+                                {% endif %}
+                                <h3 class="card-title fs-6 mt-2">{{ produto.nome }}</h3>
+                                <h4 class="card-subtitle fw-bolder text-success">R$ {{ produto.preco|floatformat:2 }}</h4>
+                                {% if produto.desconto %}
+                                <small class="badge bg-danger">-{{ produto.desconto }}%</small>
+                                {% endif %}
+                                <p class="card-text produto-desc overflow-y-hidden small">{{ produto.descricao }}</p>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- NOVIDADES -->
+            {% if novos_produtos %}
+            <div class="mt-4">
+                <h1 class="title fs-4 fw-semibold">Novidades ✨</h1>
+            </div>
+            <div class="catalogo-x d-flex flex-nowrap overflow-x-auto gap-2 gap-sm-3 py-2">
+                {% for produto in novos_produtos %}
+                    <a href="/produto/detalhes/{{ produto.id }}/"
+                       class="text-decoration-none text-dark">
+                        <div class="card produto-card my-3">
+                            <div class="card-body text-center p-2 p-sm-3">
+                                {% if produto.imagem_item %}
+                                    <img src="{{ produto.imagem_item.url }}" class="card-img-top">
+                                {% else %}
+                                    <div class="card-img-placeholder card-img-top bg-light text-muted">
+                                        Sem imagem
+                                    </div>
+                                {% endif %}
+                                <h3 class="card-title fs-6 mt-2">{{ produto.nome }}</h3>
+                                <h4 class="card-subtitle fw-bolder text-success">R$ {{ produto.preco }}</h4>
+                                {% if produto.desconto %}
+                                <small class="badge bg-danger">-{{ produto.desconto }}%</small>
+                                {% endif %}
+                                <p class="card-text produto-desc overflow-y-hidden small">{{ produto.descricao }}</p>
+                            </div>
+                        </div>
+                    </a>
+                {% empty %}
+                    <p class="text-center w-100">Nenhum produto novo ainda.</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}

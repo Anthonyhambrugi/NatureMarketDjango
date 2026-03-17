@@ -8,141 +8,133 @@
 {% endblock %}
 
 {% block content %}
-<body data-auth-error="{% if error_message %}true{% else %}false{% endif %}">
-    <main>
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="d-flex justify-content-center">
-                    <h3 class="titulo d-block">Login</h3>
-                </div>
-            <div class="formularo col-12 d-flex justify-content-center">
-                <form action="" method="post" novalidate>
-                {% csrf_token %}
-                <div class="input-group mb-3" name="username" id="id_username" style="width: 500px;">
-                    <span class="input-group-text">@</span>
-                    {{ form.username }}
-                    <div class="invalid-feedback danger">
-                        {{ form.username.errors }}
-                    </div>
-                </div>
-                <div class="input-group password mb-3" name="password" id="id_password">
-                    <span class="input-group-text">123</span>
-                    {{ form.password }}
-                    <div class="invalid-feedback danger">
-                        {{ form.password.errors }}
-                    </div>
-                </div>
-                {% if form.non_field_errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ form.non_field_errors }}
-                    </div>
-                {% endif %}
-                <div class="acoes d-flex justify-content-between">
-                    <div>
-                        <button type="submit" id="loginBtn" class="btn login-acao d-block">Entrar</button>
-                    </div>
-                    <div class="voltar d-block">
-                        <button type="button" class="btn btn-danger cancelar-acao d-block" data-bs-toggle="modal" data-bs-target="#confirmCancel">Cancelar</button>
-                    </div>
-                </div>
-                </form>
-            </div>
-            <div><h5>Não tem uma conta? <a href="/cadastro">Crie uma aqui!</a></h5></div>
-            </div> <!--esse é do row, nn apagar-->
-        <div class="modal fade" id="confirmCancel" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="modal-title"><h5 class="fw-bold">Cancelar login</h5></div>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body fw-semibold">
-                        <h5>Tem certeza que deseja cancelar?</h5>
-                    </div>
+<main class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4">
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
-                        <a href="/" class="btn btn-danger">Sim, cancelar</a>
-                    </div>
+                <h3 class="titulo text-center mb-4">Entrar na conta</h3>
+
+                <div class="formularo">
+                    <form action="" method="post" novalidate>
+                        {% csrf_token %}
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">@</span>
+                            {{ form.username }}
+                            <div class="invalid-feedback">{{ form.username.errors }}</div>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">🔑</span>
+                            {{ form.password }}
+                            <div class="invalid-feedback">{{ form.password.errors }}</div>
+                        </div>
+
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ form.non_field_errors }}
+                        </div>
+                        {% endif %}
+
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <button type="submit" id="loginBtn" class="btn login-acao">
+                                Entrar
+                            </button>
+                            <button type="button"
+                                    class="btn btn-outline-danger btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#confirmCancel">
+                                Cancelar
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </div>
+
+                <p class="text-center mt-3">
+                    Não tem uma conta? <a href="/cadastro">Crie uma aqui!</a>
+                </p>
+
             </div>
         </div>
-    </main>
-    {% endblock %}
-    {% block extra_js %}
-    <script>
-    const usernameInput = document.querySelector('input[name="username"]');
-    const usernameFeedback = usernameInput.nextElementSibling;
+    </div>
 
-    const passwordInput = document.querySelector('input[name="password"]');
-    const passwordFeedback = passwordInput.nextElementSibling;
+    <!-- Modal cancelar -->
+    <div class="modal fade" id="confirmCancel" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Cancelar login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body fw-semibold">
+                    Tem certeza que deseja cancelar?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                    <a href="/" class="btn btn-danger">Sim, cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
 
-    const loginBtn = document.getElementById('loginBtn');
+{% block extra_js %}
+<script>
+const usernameInput    = document.querySelector('input[name="username"]');
+const usernameFeedback = usernameInput.nextElementSibling;
+const passwordInput    = document.querySelector('input[name="password"]');
+const passwordFeedback = passwordInput.nextElementSibling;
+const loginBtn         = document.getElementById('loginBtn');
 
-    function updateLoginButton() {
-        const usernameValid = usernameInput.classList.contains('is-valid');
-        const passwordValid = passwordInput.classList.contains('is-valid');
+function updateLoginButton() {
+    loginBtn.disabled = !(
+        usernameInput.classList.contains('is-valid') &&
+        passwordInput.classList.contains('is-valid')
+    );
+}
 
-        loginBtn.disabled = !(usernameValid && passwordValid);
-    }
+function clearServerError() {
+    usernameInput.classList.remove('is-invalid');
+    passwordInput.classList.remove('is-invalid');
+    updateLoginButton();
+}
 
-    // Remove erro vindo do backend quando o usuário digitar de novo
-    function clearServerError() {
+usernameInput.addEventListener('input', () => {
+    clearServerError();
+    const value = usernameInput.value.trim();
+    if (!value) {
+        usernameInput.classList.remove('is-valid', 'is-invalid');
+        usernameFeedback.style.display = 'none';
+    } else if (!value.startsWith('@')) {
+        usernameInput.classList.add('is-invalid');
+        usernameInput.classList.remove('is-valid');
+        usernameFeedback.style.display = 'block';
+    } else {
+        usernameInput.classList.add('is-valid');
         usernameInput.classList.remove('is-invalid');
-        passwordInput.classList.remove('is-invalid');
-        updateLoginButton();
+        usernameFeedback.style.display = 'none';
     }
+    updateLoginButton();
+});
 
-    /* USERNAME */
-    usernameInput.addEventListener('input', () => {
-        clearServerError();
-
-        const value = usernameInput.value.trim();
-
-        if (value.length === 0) {
-            usernameInput.classList.remove('is-valid', 'is-invalid');
-            usernameFeedback.style.display = 'none';
-            updateLoginButton();
-            return;
-        }
-
-        if (!value.startsWith('@')) {
-            usernameInput.classList.add('is-invalid');
-            usernameInput.classList.remove('is-valid');
-            usernameFeedback.style.display = 'block';
-        } else {
-            usernameInput.classList.add('is-valid');
-            usernameInput.classList.remove('is-invalid');
-            usernameFeedback.style.display = 'none';
-        }
-
-        updateLoginButton();
-    });
-
-    /* PASSWORD */
-    passwordInput.addEventListener('input', () => {
-        clearServerError();
-
-        const value = passwordInput.value;
-
-        if (value.length === 0) {
-            passwordInput.classList.remove('is-valid', 'is-invalid');
-            passwordFeedback.style.display = 'none';
-            updateLoginButton();
-            return;
-        }
-
-        if (value.length < 8) {
-            passwordInput.classList.add('is-invalid');
-            passwordInput.classList.remove('is-valid');
-            passwordFeedback.style.display = 'block';
-        } else {
-            passwordInput.classList.add('is-valid');
-            passwordInput.classList.remove('is-invalid');
-            passwordFeedback.style.display = 'none';
-        }
-
-        updateLoginButton();
-    });
-    {% endblock %}
+passwordInput.addEventListener('input', () => {
+    clearServerError();
+    const value = passwordInput.value;
+    if (!value) {
+        passwordInput.classList.remove('is-valid', 'is-invalid');
+        passwordFeedback.style.display = 'none';
+    } else if (value.length < 8) {
+        passwordInput.classList.add('is-invalid');
+        passwordInput.classList.remove('is-valid');
+        passwordFeedback.style.display = 'block';
+    } else {
+        passwordInput.classList.add('is-valid');
+        passwordInput.classList.remove('is-invalid');
+        passwordFeedback.style.display = 'none';
+    }
+    updateLoginButton();
+});
+</script>
+{% endblock %}

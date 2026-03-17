@@ -55,6 +55,6 @@ def editar_perfil(request, username):
     else:
         form = EditarPerfilForm(instance=user)
 
-    return render(request, 'editar/editar.html', {'form': form, 'perfil': perfil_obj})
+    return render(request, 'editar/editar.html', {'form': form, 'perfil': perfil_obj, 'passo_cadastro': 3})
 
 

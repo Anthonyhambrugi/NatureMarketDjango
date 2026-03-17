@@ -4,13 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
     <link rel="icon" href="{% static 'img/favicon.ico' %}">
     <link rel="icon" href="{% static 'favicon.ico' %}">
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
-    <!-- <link rel="manifest" href="{% static 'img/site.webmanifest' %}"> -->
 
     <title>{% block title %}Nature Market{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -23,161 +22,195 @@
 
 <header>
     <div class="container">
-        <div class="row align-items-center">
+        <div class="row align-items-center g-2">
 
-            <div class="header col-12 col-sm-8 col-md-11 col-lg-3 order-1 mb-2 mb-sm-0">
+            <!-- Logo -->
+            <div class="col-6 col-md-2 col-lg-2 order-1">
                 <a href="/">
                     <img src="{% static 'img/logonaturemarket.jpg' %}"
-                         class="titulo img-fluid d-flex mx-auto mx-sm-0 mx-md-0 h-auto"
-                         alt="">
+                         class="titulo img-fluid"
+                         alt="Nature Market">
                 </a>
             </div>
 
-            <div class="search-nav col-12 col-md-6 col-lg-4 order-3 order-md-3 order-lg-2 py-2 d-block mt-2 mt-md-0">
-                <input type="text" placeholder="Pesquisar..." class="search-bar form-control text-center">
-            </div>
+            <!-- Barra de pesquisa -->
+            <form class="search-nav col-12 col-md-6 col-lg-6 order-3 order-md-2 py-1"
+                  method="get"
+                  action="/"
+                  role="search">
+                <div class="input-group">
+                    <input type="text"
+                           name="q"
+                           value="{{ request.GET.q }}"
+                           placeholder="Pesquisar produtos..."
+                           class="form-control search-bar border-end-0"
+                           aria-label="Pesquisar produtos">
+                    <button type="submit" class="btn search-submit-btn" aria-label="Buscar">
+                        <img src="{% static 'nature_market/img/lupa.png' %}" class="lupa" alt="">
+                    </button>
+                </div>
+            </form>
 
-            <div class="dropdown-center order-3 order-sm-4 order-lg-3 col-1 col-sm-1 col-md-1 d-md-block" {% if hide_dropdown %}style="display: none;"{% endif %}>
-                <button class="btn dropdown-toggle fs-6 fs-sm-5 fs-md-5 text-decoration-none fw-semibold " type="button" data-bs-toggle="dropdown">
-                    Perfil
-                </button>
-                <ul class="dropdown-menu">
-                    {% if user.is_authenticated %}
-                        <li>
-                            <a class="dropdown-item" href="{% url 'perfil:perfil' user.username %}">
-                                Meu perfil
-                            </a>
-                        </li>
-                        {% if request.user.nmusersort.tipo_user == "Vendedor" %}
-                        <li>
-                            <a class="dropdown-item" href="{% url 'produto:cadastrar_produto' %}">
-                                Cadastrar um produto
-                            </a>
-                        </li>
+            <!-- Ações: perfil, tema, carrinho -->
+            <div class="col-6 col-md-auto ms-md-auto order-2 order-md-3 d-flex align-items-center justify-content-end gap-2">
+
+                <!-- Dropdown Perfil -->
+                <div class="dropdown-center" {% if hide_dropdown %}style="display:none"{% endif %}>
+                    <button class="btn dropdown-toggle fw-semibold" type="button" data-bs-toggle="dropdown">
+                        Perfil
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        {% if user.is_authenticated %}
+                            <li>
+                                <a class="dropdown-item" href="{% url 'perfil:perfil' user.username %}">
+                                    Meu perfil
+                                </a>
+                            </li>
+                            {% if request.user.nmusersort.tipo_user == "Vendedor" %}
+                            <li>
+                                <a class="dropdown-item" href="{% url 'produto:cadastrar_produto' %}">
+                                    Cadastrar produto
+                                </a>
+                            </li>
+                            {% endif %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="post" action="{% url 'nm_catalog:logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        Sair
+                                    </button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li><a class="dropdown-item" href="/login/">Login</a></li>
+                            <li><a class="dropdown-item" href="/cadastro/">Criar uma conta NM</a></li>
                         {% endif %}
-                        <li><hr class="dropdown-divider divider"></li>
-                        <li>
-                            <form method="post" action="{% url 'nm_catalog:logout' %}">
-                                {% csrf_token %}
-                                <button type="submit" class="dropdown-item text-danger">
-                                    Sair
-                                </button>
-                            </form>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a class="dropdown-item" href="/login/">Login</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="/cadastro/">Criar uma conta NM</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+                    </ul>
+                </div>
 
-            <div class="col-1 order-sm-3 order-lg-4 d-flex align-items-center">
-                <button class="nm-theme-toggle btn btn-outline-light me-2 d-none d-md-block" title="Alternar tema" aria-pressed="false"><img src="{% static 'img/sun.png' %}" alt="Alternar tema"></button>
-            </div>
+                <!-- Alternar tema -->
+                <button class="nm-theme-toggle btn btn-outline-light" title="Alternar tema" aria-pressed="false">
+                    <img src="{% static 'img/sun.png' %}" alt="Alternar tema">
+                </button>
 
-            <div class="col-sm-2 col-md-2 col-lg-1 order-5 d-none d-lg-block mt-2 mt-sm-0 mt-lg-0">
-                <a href="{% url 'carrinho:visualizar_carrinho' %}" class="carrin btn text-decoration-none fs-6 fs-sm-5 fs-md-5">Carrinho</a>
+                <!-- Carrinho (tablet+) -->
+                <a href="{% url 'carrinho:visualizar_carrinho' %}" class="carrin btn d-none d-md-flex text-decoration-none fw-semibold">
+                    🛒 Carrinho
+                </a>
+
             </div>
 
         </div>
     </div>
 </header>
+
 {% block content %}{% endblock %}
+
 <footer>
     <div class="container">
         <div class="row">
             <h5 class="footerend col-12 text-center">&copy; 2025 Nature Market. Todos os direitos reservados.</h5>
         </div>
 
-        <div id="nm-mobile-menu" class="menuinfmobile d-flex justify-content-center d-block d-lg-none hidden bg-light pl-3 pr-0 border-top" role="dialog" aria-modal="false" aria-hidden="true">
-            <div class="col-6 col-sm-4 text-center">
-                <a href="{% url 'carrinho:visualizar_carrinho' %}" class="carrin btn text-decoration-none fw-semibold fs-6 fs-sm-5">🛒 Carrinho</a>
+        <!-- Menu flutuante mobile -->
+        <div id="nm-mobile-menu"
+             class="menuinfmobile hidden"
+             role="dialog"
+             aria-modal="false"
+             aria-hidden="true">
+            <div class="col-6 text-center">
+                <a href="{% url 'carrinho:visualizar_carrinho' %}" class="carrin btn text-decoration-none fw-semibold">
+                    🛒 Carrinho
+                </a>
             </div>
-            <div class="col-6 col-sm-4 text-center">
-                <button class="nm-theme-toggle btn btn-outline-secondary"><img src="{% static 'img/moon.png' %}" alt="Alternar tema"></button>
+            <div class="col-6 text-center">
+                <button class="nm-theme-toggle btn btn-outline-secondary">
+                    <img src="{% static 'img/moon.png' %}" alt="Alternar tema">
+                </button>
             </div>
+        <button id="nm-mobile-menu-btn"
+                class="nm-mobile-menu-button"
+                aria-controls="nm-mobile-menu"
+                aria-expanded="false"
+                aria-label="Abrir menu móvel">☰
+        </button>
         </div>
-        <button id="nm-mobile-menu-btn" class="nm-mobile-menu-button" aria-controls="nm-mobile-menu" aria-expanded="false" aria-label="Abrir menu móvel">☰</button>
+        
     </div>
 </footer>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// Theme toggle: apply preference early, then wire all toggle buttons on DOMContentLoaded
-try{
-    if(localStorage.getItem('nm-theme') === 'dark'){
+// Aplica o tema salvo antes do paint para evitar flash
+try {
+    if (localStorage.getItem('nm-theme') === 'dark') {
         document.body.classList.add('theme-dark');
     }
-}catch(e){}
+} catch(e) {}
 
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function () {
     const buttons = Array.from(document.querySelectorAll('.nm-theme-toggle'));
-    if(!buttons.length) return;
 
-    function updateButtons(){
+    function updateButtons() {
         const dark = document.body.classList.contains('theme-dark');
         buttons.forEach(btn => {
             const img = btn.querySelector('img');
-            if(img){
+            if (img) {
                 img.src = dark ? '{% static "img/moon.png" %}' : '{% static "img/sun.png" %}';
             }
             btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
         });
     }
 
-    buttons.forEach(btn => btn.addEventListener('click', function(){
+    buttons.forEach(btn => btn.addEventListener('click', function () {
         const isDark = document.body.classList.toggle('theme-dark');
-        try{ localStorage.setItem('nm-theme', isDark ? 'dark' : 'light'); }catch(e){}
+        try { localStorage.setItem('nm-theme', isDark ? 'dark' : 'light'); } catch(e) {}
         updateButtons();
         darkModeImages();
     }));
 
     updateButtons();
-    // Mobile menu toggle
-    const mobileBtn = document.getElementById('nm-mobile-menu-btn');
+
+    // Menu flutuante mobile
+    const mobileBtn  = document.getElementById('nm-mobile-menu-btn');
     const mobileMenu = document.getElementById('nm-mobile-menu');
-    if(mobileBtn && mobileMenu){
-        function setMenu(open){
-            mobileMenu.classList.toggle('open', open);
+    if (mobileBtn && mobileMenu) {
+        function setMenu(open) {
+            mobileMenu.classList.toggle('open',   open);
             mobileMenu.classList.toggle('hidden', !open);
-            mobileMenu.setAttribute('aria-hidden', !open ? 'true' : 'false');
-            mobileBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            mobileMenu.setAttribute('aria-hidden', !open);
+            mobileBtn.setAttribute('aria-expanded', open);
         }
 
-        mobileBtn.addEventListener('click', function(e){
+        mobileBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             setMenu(!mobileMenu.classList.contains('open'));
         });
 
-        // Close when clicking outside
-        document.addEventListener('click', function(e){
-            if(mobileMenu.classList.contains('open') && !mobileMenu.contains(e.target) && e.target !== mobileBtn){
+        document.addEventListener('click', function (e) {
+            if (mobileMenu.classList.contains('open') && !mobileMenu.contains(e.target) && e.target !== mobileBtn) {
                 setMenu(false);
             }
         });
 
-        document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && mobileMenu.classList.contains('open')) setMenu(false); });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('open')) setMenu(false);
+        });
 
         setMenu(false);
     }
 });
-    function darkModeImages(){
+
+function darkModeImages() {
     const dark = document.body.classList.contains('theme-dark');
-
     document.querySelectorAll('.auto-dark').forEach(img => {
-
-        if(dark){
-            if(!img.src.includes('-dark')){
+        if (dark) {
+            if (!img.src.includes('-dark')) {
                 img.src = img.src.replace(/(\.png|\.jpg|\.jpeg|\.svg)$/, '-dark$1');
             }
         } else {
             img.src = img.src.replace('-dark', '');
         }
-
     });
 }
 </script>

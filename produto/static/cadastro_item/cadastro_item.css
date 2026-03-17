@@ -61,7 +61,7 @@
 .custom-file-input {
     display: block;
     padding: 20px;
-    border: 2px dashed #2f7d32;
+    border: 2px dashed var(--nm-green);
     border-radius: 8px;
     text-align: center;
     cursor: pointer;
@@ -71,13 +71,13 @@
 
 .custom-file-input:hover {
     background-color: #f0f0f0;
-    border-color: #1e5526;
+    border-color: var(--nm-dark);
     box-shadow: 0 2px 8px rgba(47, 125, 50, 0.1);
 }
 
 .custom-file-input.dragover {
-    background-color: #fff4d7;
-    border-color: #1e5526;
+    background-color: var(--nm-cream);
+    border-color: var(--nm-dark);
     box-shadow: 0 4px 12px rgba(47, 125, 50, 0.2);
     border-style: solid;
 }
@@ -85,12 +85,12 @@
 .custom-file-input p {
     margin: 0;
     font-weight: 600;
-    color: #2f7d32;
+    color: var(--nm-green);
 }
 
 /* ====== CARD SHADOW ====== */
 .card {
-    border: 2px solid #2f7d32;
+    border: 2px solid var(--nm-green);
     border-radius: 12px;
     animation: fadeIn 0.4s ease;
 }
@@ -103,13 +103,13 @@
 }
 
 .btn-success {
-    background-color: #2f7d32;
-    border-color: #2f7d32;
+    background-color: var(--nm-green);
+    border-color: var(--nm-green);
 }
 
 .btn-success:hover {
-    background-color: #1e5526;
-    border-color: #1e5526;
+    background-color: var(--nm-dark);
+    border-color: var(--nm-dark);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(47, 125, 50, 0.3);
 }
@@ -153,7 +153,7 @@
 /* ====== FORM LABELS ====== */
 .form-label {
     font-weight: 600;
-    color: #256B2E;
+    color: var(--nm-dark);
     margin-bottom: 8px;
 }
 

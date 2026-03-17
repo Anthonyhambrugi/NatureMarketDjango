@@ -22,6 +22,7 @@ urlpatterns = [
     path('produto/', include('produto.urls')),
     path('perfil/', include('perfil.urls')),
     path('carrinho/', include('carrinho_chatgpt.urls')),
+    path('poscompra/', include('poscompra.urls')),
     path("teste/", views.teste_template, name="teste_template"),
 ]
 

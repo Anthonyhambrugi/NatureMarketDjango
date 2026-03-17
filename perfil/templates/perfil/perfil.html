@@ -1,95 +1,110 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %} {{user.get_full_name}} no Nature Market {% endblock %}
+{% block title %}{{ user.get_full_name }} no Nature Market{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'perfil/perfil.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row my-3 my-sm-4 my-md-5">
-        <div class="aba-perfil col-12 col-sm-12 col-md-8 col-lg-6">
-            <div class="col-12 d-flex flex-column flex-sm-row align-items-start gap-2 gap-sm-3">
-                {% if perfil.fotodeperfil %}
-                <div class="mx-auto mx-sm-0">
-                    <img src="{{ perfil.fotodeperfil.url }}" alt=""  class="fotodeperfil" style="width: 140px; width: 140px; object-fit: cover;">
+<div class="container my-4 my-sm-5">
+    <div class="row g-4">
+
+        <!-- Card de perfil -->
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="aba-perfil">
+
+                <!-- Cabeçalho: foto + nome + botão editar -->
+                <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start gap-3 mb-4">
+                    {% if perfil.fotodeperfil %}
+                    <img src="{{ perfil.fotodeperfil.url }}" alt="" class="fotodeperfil flex-shrink-0">
+                    {% else %}
+                    <div class="fotodeperfil-placeholder flex-shrink-0"></div>
+                    {% endif %}
+
+                    <div class="flex-grow-1 text-center text-sm-start">
+                        <h1 class="fs-4 fw-bold mb-1">{{ user.first_name }} {{ user.last_name }}</h1>
+                        <p class="text-muted mb-0">{{ user.username }}</p>
+                    </div>
+
+                    {% if botoes %}
+                    <div class="flex-shrink-0">
+                        <a href="{% url 'perfil:editar_perfil' user.username %}">
+                            <img src="{% static 'perfil/img/edit.png' %}"
+                                 alt="Editar Perfil"
+                                 class="editar-perfil-icon auto-dark">
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
-                {% else %}
-                    <img src="" alt="">
-                {% endif %}
-                <div class="w-100 text-center text-sm-start">
-                <h1 class="mb-2 mb-sm-4 fs-4 fs-sm-3">{{ user.first_name }} {{ user.last_name }}</h1>
-                <p class="text-muted">{{ user.username }}</p>
+
+                <!-- Informações -->
+                <div class="perfil-info">
+                    <div class="info-item">
+                        <span class="info-label">Cargo</span>
+                        <span class="badge-cargo">{{ perfil.tipo_user }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">E-mail</span>
+                        <span>{{ user.email }}</span>
+                    </div>
+                    {% if perfil.contatowspp %}
+                    <div class="info-item">
+                        <span class="info-label">WhatsApp</span>
+                        <a href="https://wa.me/{{ perfil.contatowspp }}">{{ perfil.contatowspp }}</a>
+                    </div>
+                    {% endif %}
+                    {% if perfil.bio %}
+                    <div class="info-item">
+                        <span class="info-label">Bio</span>
+                        <span>{{ perfil.bio }}</span>
+                    </div>
+                    {% endif %}
                 </div>
-                {% if botoes %}
-                <div class="justify-content-end align-self-start ms-auto d-flex gap-2">
-                    <a href="{% url 'perfil:editar_perfil' user.username %}"><img src="{% static 'perfil/img/edit.png' %}" alt="Editar Perfil" class="editar-perfil-icon auto-dark"></a>
-                </div>
-                {% endif %}
-            </div>
-            <div class="mt-4">
-                <p><strong>Contatos</strong></p>
-                <p>E-mail: {{ user.email }}</p>
-                {% if perfil.contatowspp != None %}
-                <p>Whatsapp: <a href="https://wa.me/{{ perfil.contatowspp }}">{{ perfil.contatowspp }}</a></p>
-                {% endif %}
-                <p><strong>Cargo: </strong>{{ perfil.tipo_user }}</p>
-                <p>{{ perfil.bio }}</p>
+
             </div>
         </div>
+
+        <!-- Vitrine -->
         {% if produtos_do_usuario.exists %}
-        <div class="col-12 mt-3 mt-sm-4">
+        <div class="col-12 mt-2">
             <h2 class="vitrinelbl fs-5 fs-sm-4">Vitrine 🍎</h2>
             <div class="catalogo-x d-flex flex-nowrap overflow-x-auto gap-2 gap-sm-3 py-2">
                 {% for produto in produtos_do_usuario %}
-                    <a href="/produto/detalhes/{{ produto.id }}/"
-                    class="text-decoration-none text-dark">
-                        <div class="card produto-card my-3" style="min-width: 160px;">
-                            <div class="card-body text-center p-2 p-sm-3">
-                                {% if produto.imagem_item %}
-                                    <img src="{{ produto.imagem_item.url }}"
-                                        class="card-img-top"
-                                        style="height: 130px;">
-                                {% else %}
-                                    <div class="d-flex align-items-center justify-content-center card-img-top bg-light text-muted"
-                                        style="height: 130px;">
-                                        Sem imagem
-                                    </div>
-                                {% endif %}
-
-                                <h3 class="card-title fs-6 fs-sm-5 mt-2">
-                                    {{ produto.nome }}
-                                </h3>
-
-                                <h4 class="card-subtitle fw-bolder text-success">
-                                    R$ {{ produto.preco }}
-                                </h4>
-
-                                {% if produto.desconto %}
-                                <small class="badge bg-danger">-{{ produto.desconto }}%</small>
-                                {% endif %}
-                                
-                                <p class="card-text produto-desc overflow-y-hidden small">
-                                    {{ produto.descricao }}
-                                </p>
-                            </div>
+                <a href="/produto/detalhes/{{ produto.id }}/" class="text-decoration-none text-dark">
+                    <div class="card produto-card my-3">
+                        <div class="card-body text-center p-2 p-sm-3">
+                            {% if produto.imagem_item %}
+                            <img src="{{ produto.imagem_item.url }}" class="card-img-top">
+                            {% else %}
+                            <div class="card-img-placeholder card-img-top bg-light text-muted">Sem imagem</div>
+                            {% endif %}
+                            <h3 class="card-title fs-6 mt-2">{{ produto.nome }}</h3>
+                            <h4 class="card-subtitle fw-bolder text-success">R$ {{ produto.preco }}</h4>
+                            {% if produto.desconto %}
+                            <small class="badge bg-danger">-{{ produto.desconto }}%</small>
+                            {% endif %}
+                            <p class="card-text produto-desc overflow-y-hidden small">{{ produto.descricao }}</p>
                         </div>
-                    </a>
+                    </div>
+                </a>
                 {% endfor %}
             </div>
         </div>
         {% endif %}
+
+        <!-- Botão adicionar produto (vendedor) -->
         {% if botoes %}
         {% if perfil.tipo_user == "Vendedor" %}
-            <div class="col-12 d-flex justify-content-center mt-3 mt-sm-4">
-                <a href="/produto/cadastrar-produto">
-                    <img src="{% static 'perfil/img/add.png' %}" style="width: 70px;" class="auto-dark">
-                </a>
-            </div>
+        <div class="col-12 d-flex justify-content-center mt-2">
+            <a href="/produto/cadastrar-produto">
+                <img src="{% static 'perfil/img/add.png' %}" style="width: 70px;" class="auto-dark">
+            </a>
+        </div>
         {% endif %}
         {% endif %}
+
     </div>
 </div>
 {% endblock %}

@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block content %}
+{% include 'includes/progresso_cadastro.html' with passo=passo_cadastro %}
 <div class="container">
     <h1 class="my-4">Endereço de {{ user.get_full_name }}</h1>
     <div class="card mb-4">

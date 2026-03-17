@@ -1,43 +1,39 @@
+import urllib.parse
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-from decimal import Decimal
 
 from .models import Carrinho, ItemCarrinho
 from cadastro.models import UserEndereco, UserMod
 from produto.models import CadItmModel
 from .forms import QuantidadeForm
-from cadastro.views import endereco
-from cadastro.models import UserEndereco, UserMod
+
 
 @login_required
 def visualizar_carrinho(request):
-    """Exibe o carrinho do usuário"""
     try:
         carrinho = Carrinho.objects.get(usuario=request.user)
     except Carrinho.DoesNotExist:
         carrinho = Carrinho.objects.create(usuario=request.user)
-    
+
     itens = carrinho.itens.all()
     context = {
         'carrinho': carrinho,
         'itens': itens,
-        'produtos': [ItemCarrinho.objects.get(id=item.id).produto for item in itens],
         'contatoautor': itens.first().produto.autor.usermod.contatowspp if itens else None,
         'total_itens': carrinho.total_itens,
         'cliente_endereco': UserEndereco.objects.filter(user=request.user).first(),
         'valor_total': carrinho.valor_total,
     }
-    print(context)
     return render(request, 'carrinho/carrinho.html', context)
 
 
 @login_required
 @require_POST
 def adicionar_ao_carrinho(request, produto_id):
-    """Adiciona um produto ao carrinho"""
     produto = get_object_or_404(CadItmModel, id=produto_id)
     quantidade = int(request.POST.get('quantidade', 1))
 
@@ -46,7 +42,6 @@ def adicionar_ao_carrinho(request, produto_id):
     except Carrinho.DoesNotExist:
         carrinho = Carrinho.objects.create(usuario=request.user)
 
-    # Verifica se o item já está no carrinho
     item, criado = ItemCarrinho.objects.get_or_create(
         carrinho=carrinho,
         produto=produto,
@@ -54,13 +49,11 @@ def adicionar_ao_carrinho(request, produto_id):
     )
 
     if not criado:
-        # Se o item já existe, aumenta a quantidade
         item.quantidade += quantidade
         item.save()
 
     messages.success(request, f'{produto.nome} adicionado ao carrinho!')
-    
-    # Se for uma requisição AJAX, retorna JSON
+
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse({
             'sucesso': True,
@@ -75,11 +68,9 @@ def adicionar_ao_carrinho(request, produto_id):
 @login_required
 @require_POST
 def remover_do_carrinho(request, item_id):
-    """Remove um item do carrinho"""
     item = get_object_or_404(ItemCarrinho, id=item_id, carrinho__usuario=request.user)
     produto_nome = item.produto.nome
     carrinho = item.carrinho
-
     item.delete()
     messages.success(request, f'{produto_nome} removido do carrinho!')
 
@@ -97,7 +88,6 @@ def remover_do_carrinho(request, item_id):
 @login_required
 @require_POST
 def atualizar_quantidade(request, item_id):
-    """Atualiza a quantidade de um item no carrinho"""
     item = get_object_or_404(ItemCarrinho, id=item_id, carrinho__usuario=request.user)
     quantidade = int(request.POST.get('quantidade', 1))
 
@@ -107,7 +97,6 @@ def atualizar_quantidade(request, item_id):
 
     item.quantidade = quantidade
     item.save()
-
     messages.success(request, 'Quantidade atualizada!')
 
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -124,7 +113,6 @@ def atualizar_quantidade(request, item_id):
 @login_required
 @require_POST
 def limpar_carrinho(request):
-    """Limpa todos os itens do carrinho"""
     try:
         carrinho = Carrinho.objects.get(usuario=request.user)
         carrinho.itens.all().delete()
@@ -137,7 +125,6 @@ def limpar_carrinho(request):
 
 @login_required
 def obter_info_carrinho(request):
-    """Retorna informações do carrinho em JSON (para requisições AJAX)"""
     try:
         carrinho = Carrinho.objects.get(usuario=request.user)
     except Carrinho.DoesNotExist:
@@ -146,26 +133,82 @@ def obter_info_carrinho(request):
     return JsonResponse({
         'total_itens': carrinho.total_itens,
         'valor_total': str(carrinho.valor_total),
-        'itens': list(carrinho.itens.values('id', 'produto__nome', 'quantidade', 'preco_unitario', 'subtotal'))
+        'itens': list(carrinho.itens.values(
+            'id', 'produto__nome', 'quantidade', 'preco_unitario', 'subtotal'
+        ))
     })
 
-@login_required
-def finalizar_compra(request):
-    #manda uma notificação pro vendedor, limpa o carrinho, redireciona pra página de confirmação
-    try:
-        carrinho = Carrinho.objects.get(usuario=request.user)
-        if carrinho.total_itens == 0:
-            messages.warning(request, 'Seu carrinho está vazio!')
-            sendNotific(request, f"Nova compra realizada por {request.user.username}!")
-            carrinho.itens.all().delete()
-            return redirect('carrinho:visualizar_carrinho')
-    finally:
-        pass
 
 @login_required
 def checkout(request):
+    """Tela de revisão do pedido antes de confirmar."""
     endereco_usuario = UserEndereco.objects.filter(user=request.user).first()
     if not endereco_usuario:
-        messages.warning(request, 'Por favor, cadastre um endereço antes de finalizar a compra.')
+        messages.warning(request, 'Cadastre um endereço de entrega antes de finalizar.')
         return redirect('cadastro:endereco')
-    return render(request, 'carrinho/comprafinali.html', {'endereco': endereco_usuario})
+
+    try:
+        carrinho = Carrinho.objects.get(usuario=request.user)
+    except Carrinho.DoesNotExist:
+        messages.warning(request, 'Seu carrinho está vazio.')
+        return redirect('carrinho:visualizar_carrinho')
+
+    itens = carrinho.itens.select_related('produto__autor__usermod').all()
+    if not itens:
+        messages.warning(request, 'Seu carrinho está vazio.')
+        return redirect('carrinho:visualizar_carrinho')
+
+    # Monta a URL do WhatsApp antecipadamente para o template
+    try:
+        contato = itens[0].produto.autor.usermod.contatowspp or ''
+    except Exception:
+        contato = ''
+
+    linhas = '\n'.join(
+        f'- {item.produto.nome} (x{item.quantidade}) — R$ {item.subtotal}'
+        for item in itens
+    )
+    msg = (
+        f'Olá! Fiz um pedido no Nature Market:\n{linhas}\n\n'
+        f'Endereço de entrega:\n'
+        f'{endereco_usuario.rua}, {endereco_usuario.numero} - '
+        f'{endereco_usuario.bairro}, {endereco_usuario.cidade} - '
+        f'{endereco_usuario.estado}, CEP: {endereco_usuario.cep}\n\n'
+        f'Total: R$ {carrinho.valor_total}'
+    )
+    wa_url = f'https://wa.me/{contato}?text={urllib.parse.quote(msg)}' if contato else ''
+
+    return render(request, 'carrinho/comprafinali.html', {
+        'endereco': endereco_usuario,
+        'carrinho': carrinho,
+        'itens': itens,
+        'wa_url': wa_url,
+    })
+
+
+@login_required
+@require_POST
+def confirmar_compra(request):
+    """Limpa o carrinho e redireciona para a tela de sucesso."""
+    wa_url = request.POST.get('wa_url', '')
+
+    try:
+        carrinho = Carrinho.objects.get(usuario=request.user)
+        itens = list(carrinho.itens.select_related('produto').all())
+
+        request.session['poscompra_wa_url'] = wa_url
+        request.session['poscompra_valor_total'] = str(carrinho.valor_total)
+        request.session['poscompra_itens'] = [
+            {
+                'nome': item.produto.nome,
+                'quantidade': item.quantidade,
+                'subtotal': str(item.subtotal),
+            }
+            for item in itens
+        ]
+
+        carrinho.itens.all().delete()
+    except Carrinho.DoesNotExist:
+        pass
+
+    return redirect('poscompra:confirmacao')

@@ -1,7 +1,66 @@
-/* Keep only selectors that are specific to this template. Shared rules moved to base.css */
-.card-img-top{
+/* Home/Catálogo — estilos específicos. Regras globais em base.css */
+
+.card-img-top {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     height: 130px;
     width: 100%;
+}
+
+/* ======= SIDEBAR DE FILTROS ======= */
+.sidebar-form {
+    background: var(--nm-soft);
+    border: 1px solid rgba(47,125,50,0.12);
+    border-radius: var(--nm-radius);
+    box-shadow: var(--nm-shadow-xs);
+    font-size: 0.875rem;
+    position: sticky;
+    top: 1rem;
+}
+
+.sidebar-form h6 { letter-spacing: .03em; }
+
+.sidebar-form .form-control,
+.sidebar-form .form-select {
+    background: var(--nm-cream);
+    border-color: rgba(47,125,50,0.15);
+    font-size: 0.85rem;
+}
+
+.sidebar-form .form-control:focus,
+.sidebar-form .form-select:focus {
+    border-color: var(--nm-green-2);
+    box-shadow: 0 0 0 2px rgba(47,125,50,0.12);
+    background: var(--nm-cream);
+}
+
+.sidebar-form .form-check-input:checked {
+    background-color: var(--nm-green);
+    border-color: var(--nm-green);
+}
+
+.sidebar-form .btn-success {
+    background: var(--nm-green);
+    border-color: var(--nm-green);
+}
+.sidebar-form .btn-success:hover {
+    background: var(--nm-dark);
+    border-color: var(--nm-dark);
+}
+
+/* Mobile: collapse sem sticky */
+@media (max-width: 767px) {
+    .sidebar-form { position: static; }
+}
+
+/* Dark mode */
+.theme-dark .sidebar-form {
+    background: var(--nm-soft);
+    border-color: rgba(47,125,50,0.15);
+}
+.theme-dark .sidebar-form .form-control,
+.theme-dark .sidebar-form .form-select {
+    background: #08120d;
+    color: var(--nm-dark);
+    border-color: rgba(47,125,50,0.15);
 }

@@ -1,99 +1,101 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Nature Market{% endblock %}
+{% block title %}Editar Perfil - Nature Market{% endblock %}
 
-{% block content %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'perfil/editar/editar.css' %}">
 {% endblock %}
-    <main class="py-4 py-sm-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
-                    <h1 class="mb-4 fs-4 fs-sm-3 text-center">Editar Perfil</h1>
-                    <div class="card formularo-edit">
-                        <form action="" method="post" enctype="multipart/form-data" class="needs-validation">
-                            {% csrf_token %}
-                            {{ form.non_field_errors }}
-                            <!-- Avatar preview e upload -->
-                            <div class="form-group mb-4 text-center align-items-center p-4">
-                                <div class="avatar-preview mb-3">
-                                    {% if form.fotodeperfil.url %}
-                                        <img id="avatarImg" src="{{ form.fotodeperfil.url }}" alt="Foto de Perfil">
-                                    {% else %}
-                                        <img id="avatarImg" src="https://via.placeholder.com/96?text=Foto" alt="Sem foto">
-                                    {% endif %}
-                                </div>
-                                {{ form.fotodeperfil.label_tag }}
-                                {{ form.fotodeperfil }}
-                                {% if form.fotodeperfil.errors %}
-                                    <div class="text-danger mt-2 small">{{ form.fotodeperfil.errors }}</div>
-                                {% endif %}
-                            </div>
-                            <div class="justify-content-center d-flex flex-column gap-3 mb-4">
-                                <label for="{{ form.first_name.id_for_label }}" class="form-label">Primeiro Nome</label>
-                                {{ form.first_name }}
-                                {% if form.first_name.errors %}
-                                    <div class="text-danger mt-2 small">{{ form.first_name.errors }}</div>
-                                {% endif %}
-                                <label for="{{ form.last_name.id_for_label }}" class="form-label">Último Nome</label>
-                                {{ form.last_name }}
-                                {% if form.last_name.errors %}
-                                    <div class="text-danger mt-2 small">{{ form.last_name.errors }}</div>
-                                {% endif %}
-                                {{ form.username}}
-                                <label for="{{ form.username.id_for_label }}" class="form-label">Nome de Usuário</label>
-                                {% if form.username.errors %}
-                                    <div class="text-danger mt-2 small">{{ form.username.errors }}</div>
-                                {% endif %}
-                                <label for="{{ form.bio.id_for_label }}" class="form-label">Biografia</label>
-                                {{ form.bio }}
-                                {% if form.bio.errors %}
-                                    <div class="text-danger mt-2 small">{{ form.bio.errors }}</div>
-                                {% endif %}
-                            </div>
-                            <div class="actions-row">
-                                <button type="submit" class="btn btn-success btn-sm">💾 Salvar Alterações</button>
-                                {# Se o usuário não tiver completado o perfil, manda completar, pois tem como pular no cadastro #}
-                                {% if not request.user.first_name or not request.user.last_name %}
-                                    <a href="{% url 'cadastro:endereco' %}" class="btn btn-primary mt-3">
-                                        Adicionar endereço
-                                    </a>
+
+{% block content %}
+{% include 'includes/progresso_cadastro.html' with passo=passo_cadastro %}
+<main class="py-4 py-sm-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+                <h1 class="mb-4 fs-4 fs-sm-3 text-center">Editar Perfil</h1>
+                <div class="card formularo-edit">
+                    <form action="" method="post" enctype="multipart/form-data" class="needs-validation">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        <!-- Avatar preview e upload -->
+                        <div class="form-group mb-4 text-center align-items-center p-4">
+                            <div class="avatar-preview mb-3">
+                                {% if form.fotodeperfil.url %}
+                                    <img id="avatarImg" src="{{ form.fotodeperfil.url }}" alt="Foto de Perfil">
                                 {% else %}
-                                    <a href="{% url 'cadastro:endereco' %}" class="btn btn-primary mt-3">
-                                        Editar endereço
-                                    </a>
-                                {% endif %}
-                                {% if "/endereco" in request.META.HTTP_REFERER %}
-                                {% else %}
-                                    <a href="{% url 'perfil:perfil' request.user.username %}" class="btn btn-secondary btn-sm">← Voltar</a>
+                                    <img id="avatarImg" src="https://via.placeholder.com/96?text=Foto" alt="Sem foto">
                                 {% endif %}
                             </div>
-                        </form>
-                    </div>
+                            {{ form.fotodeperfil.label_tag }}
+                            {{ form.fotodeperfil }}
+                            {% if form.fotodeperfil.errors %}
+                                <div class="text-danger mt-2 small">{{ form.fotodeperfil.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="justify-content-center d-flex flex-column gap-3 mb-4">
+                            <label for="{{ form.first_name.id_for_label }}" class="form-label">Primeiro Nome</label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                                <div class="text-danger mt-2 small">{{ form.first_name.errors }}</div>
+                            {% endif %}
+                            <label for="{{ form.last_name.id_for_label }}" class="form-label">Último Nome</label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                                <div class="text-danger mt-2 small">{{ form.last_name.errors }}</div>
+                            {% endif %}
+                            {{ form.username}}
+                            <label for="{{ form.username.id_for_label }}" class="form-label">Nome de Usuário</label>
+                            {% if form.username.errors %}
+                                <div class="text-danger mt-2 small">{{ form.username.errors }}</div>
+                            {% endif %}
+                            <label for="{{ form.bio.id_for_label }}" class="form-label">Biografia</label>
+                            {{ form.bio }}
+                            {% if form.bio.errors %}
+                                <div class="text-danger mt-2 small">{{ form.bio.errors }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="actions-row">
+                            <button type="submit" class="btn btn-success btn-sm">💾 Salvar Alterações</button>
+                            {# Se o usuário não tiver completado o perfil, manda completar, pois tem como pular no cadastro #}
+                            {% if not request.user.first_name or not request.user.last_name %}
+                                <a href="{% url 'cadastro:endereco' %}" class="btn btn-primary mt-3">
+                                    Adicionar endereço
+                                </a>
+                            {% else %}
+                                <a href="{% url 'cadastro:endereco' %}" class="btn btn-primary mt-3">
+                                    Editar endereço
+                                </a>
+                            {% endif %}
+                            {% if "/endereco" in request.META.HTTP_REFERER %}
+                            {% else %}
+                                <a href="{% url 'perfil:perfil' request.user.username %}" class="btn btn-secondary btn-sm">← Voltar</a>
+                            {% endif %}
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </main>
-    {% block extra_js %}
-    <script>
-        // Script para pré-visualização do avatar
-        const avatarInput = document.getElementById('id_fotodeperfil');
-        const avatarImg = document.getElementById('avatarImg');
+    </div>
+</main>
+{% endblock %}
 
-        avatarInput.addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    avatarImg.setAttribute('src', e.target.result);
-                }
-                reader.readAsDataURL(file);
-            } else {
-                avatarImg.setAttribute('src', 'https://via.placeholder.com/96?text=Foto');
-            }
-        });
-    </script>
-    {% endblock %}
+{% block extra_js %}
+<script>
+const avatarInput = document.getElementById('id_fotodeperfil');
+const avatarImg = document.getElementById('avatarImg');
+
+avatarInput.addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            avatarImg.setAttribute('src', e.target.result);
+        }
+        reader.readAsDataURL(file);
+    } else {
+        avatarImg.setAttribute('src', 'https://via.placeholder.com/96?text=Foto');
+    }
+});
+</script>
 {% endblock %}

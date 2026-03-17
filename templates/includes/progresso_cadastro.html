@@ -1,0 +1,31 @@
+{% comment %}
+  Uso: {% include 'includes/progresso_cadastro.html' with passo=1 %}
+  passo: 1 = Conta, 2 = Endereço, 3 = Perfil
+{% endcomment %}
+<div class="progresso-cadastro container-fluid py-3">
+    <div class="d-flex justify-content-center align-items-center gap-0">
+
+        <!-- Passo 1 -->
+        <div class="prog-step {% if passo >= 1 %}ativo{% endif %} {% if passo > 1 %}concluido{% endif %}">
+            <div class="prog-circulo">{% if passo > 1 %}✓{% else %}1{% endif %}</div>
+            <span class="prog-label">Conta</span>
+        </div>
+
+        <div class="prog-linha {% if passo > 1 %}concluida{% endif %}"></div>
+
+        <!-- Passo 2 -->
+        <div class="prog-step {% if passo >= 2 %}ativo{% endif %} {% if passo > 2 %}concluido{% endif %}">
+            <div class="prog-circulo">{% if passo > 2 %}✓{% else %}2{% endif %}</div>
+            <span class="prog-label">Endereço</span>
+        </div>
+
+        <div class="prog-linha {% if passo > 2 %}concluida{% endif %}"></div>
+
+        <!-- Passo 3 -->
+        <div class="prog-step {% if passo >= 3 %}ativo{% endif %}">
+            <div class="prog-circulo">3</div>
+            <span class="prog-label">Perfil</span>
+        </div>
+
+    </div>
+</div>

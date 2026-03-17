@@ -1,13 +1,8 @@
-/* Shared globals moved to base.css; keep only cadastro-specific rules here */
-h2 {
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-}
-/* App-specific cadastro styles remain below */
-.titulo{
-    color: #2f7d32;
-}
-.formularo{ /* keep any cadastro-specific overrides here */
-    box-shadow: 0 5px 14px #2f7d3247;
+/* Estilos específicos do cadastro de produto. Regras globais em base.css */
+
+.titulo { color: var(--nm-green); }
+
+.formularo {
+    box-shadow: var(--nm-shadow-sm);
     justify-content: center;
 }

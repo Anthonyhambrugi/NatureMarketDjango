@@ -1,23 +1,10 @@
 /* Carrinho de Compras - Estilos */
+/* Variáveis globais definidas em base.css */
 :root {
-    --nm-green: #2f7d32;
-    --nm-green-2: #81C784;
-    --nm-cream: #fff4d7;
-    --nm-soft: #fafafa;
-    --nm-dark: #234d28;
-    --nm-shadow: 0 8px 30px rgba(47,125,50,0.08);
-    --nm-radius: 12px;
     --nm-warning: #ffc107;
     --nm-error: #dc3545;
 }
-.theme-dark{
-    --nm-green: #2f7d32; /* keep brand green */
-    --nm-green-2: #60a060; /* slightly muted accent */
-    --nm-cream: #0b1410; /* page background in dark mode */
-    --nm-soft: #0f1a14; /* card / surface */
-    --nm-dark: #e6f1e6; /* primary text on dark bg */
-    --nm-shadow: 0 8px 30px rgba(0,0,0,0.6);
-}
+
 .carrinho-container {
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -26,14 +13,15 @@
 .carrinho-vazio {
     text-align: center;
     padding: 3rem 0;
-    background-color: #f8f9fa;
-    border-radius: 8px;
+    background-color: var(--nm-soft);
+    border-radius: var(--nm-radius);
+    border: 1px solid rgba(47,125,50,0.08);
     margin: 2rem 0;
 }
 
 .carrinho-vazio i {
     font-size: 4rem;
-    color: #6c757d;
+    color: rgba(47,125,50,0.35);
     margin-bottom: 1rem;
 }
 
@@ -67,7 +55,7 @@
 }
 
 .tabela-carrinho tbody tr:hover {
-    background-color: #f8f9fa;
+    background-color: rgba(47,125,50,0.03);
 }
 
 .tabela-carrinho tbody tr:last-child {
@@ -93,14 +81,22 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+/* Imagem no card mobile do carrinho */
+.item-img-mobile {
+    height: 80px;
+    width: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
 .item-info h6 {
     margin-bottom: 0.3rem;
     font-weight: 600;
-    color: #333;
+    color: var(--nm-dark);
 }
 
 .item-info small {
-    color: #6c757d;
+    color: rgba(35,77,40,0.6);
     display: block;
 }
 
@@ -138,10 +134,11 @@
 
 .resumo-carrinho {
     background-color: var(--nm-soft);
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
-    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: var(--nm-radius);
+    box-shadow: var(--nm-shadow-sm);
+    border: 1px solid rgba(47,125,50,0.08);
+    margin-bottom: 1.5rem;
 }
 
 .resumo-carrinho h4 {
