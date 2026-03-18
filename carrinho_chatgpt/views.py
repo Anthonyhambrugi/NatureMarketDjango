@@ -1,4 +1,6 @@
 import urllib.parse
+import requests
+import os
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -153,6 +155,8 @@ def checkout(request):
         messages.warning(request, 'Seu carrinho está vazio.')
         return redirect('carrinho:visualizar_carrinho')
 
+    # Alerta: Atualmente o sistema considera o contato do PRIMEIRO item para o link do WhatsApp.
+    # Idealmente, o carrinho deveria bloquear múltiplos vendedores ou agrupar os pedidos.
     itens = carrinho.itens.select_related('produto__autor__usermod').all()
     if not itens:
         messages.warning(request, 'Seu carrinho está vazio.')
@@ -160,7 +164,9 @@ def checkout(request):
 
     # Monta a URL do WhatsApp antecipadamente para o template
     try:
-        contato = itens[0].produto.autor.usermod.contatowspp or ''
+        # Usa getattr para evitar erro se usermod não existir (RelatedObjectDoesNotExist)
+        usermod = getattr(itens[0].produto.autor, 'usermod', None)
+        contato = usermod.contatowspp if usermod else ''
     except Exception:
         contato = ''
 
@@ -194,7 +200,62 @@ def confirmar_compra(request):
 
     try:
         carrinho = Carrinho.objects.get(usuario=request.user)
-        itens = list(carrinho.itens.select_related('produto').all())
+        # Otimização: Já traz o autor e o perfil do autor (onde está o telefone)
+        itens = list(carrinho.itens.select_related('produto__autor__usermod').all())
+
+        # --- LÓGICA DO BOT (Agrupamento por Vendedor) ---
+        pedidos_por_vendedor = {}
+        for item in itens:
+            vendedor = item.produto.autor
+            if vendedor not in pedidos_por_vendedor:
+                pedidos_por_vendedor[vendedor] = []
+            pedidos_por_vendedor[vendedor].append(item)
+
+        # Aqui o sistema itera sobre cada vendedor para disparar as mensagens separadas
+        for vendedor, lista_itens in pedidos_por_vendedor.items():
+            try:
+                # Tenta pegar o telefone. Se não tiver UserMod, pula.
+                usermod = getattr(vendedor, 'usermod', None)
+                telefone_vendedor = usermod.contatowspp if usermod else None
+                
+                if telefone_vendedor:
+                    # Monta o texto específico para ESTE vendedor
+                    msg_bot = f"🔔 *NatureMarket: Novo Pedido!* 🔔\n\nComprador: {request.user.first_name}\n" 
+                    for item in lista_itens:
+                        msg_bot += f"- {item.quantidade}x {item.produto.nome}\n"
+                    
+                    # --- Integração Periskope (WhatsApp) ---
+                    # 1. Limpeza do telefone (remove ( ) - e espaços)
+                    telefone_limpo = ''.join(filter(str.isdigit, telefone_vendedor))
+                    
+                    # 2. Garante o código do país (55) se for um celular BR comum (10 ou 11 dígitos)
+                    if 10 <= len(telefone_limpo) <= 11:
+                        telefone_limpo = f"55{telefone_limpo}"
+
+                    api_url = os.getenv('PERISKOPE_URL')
+                    token = os.getenv('PERISKOPE_TOKEN')
+
+                    if api_url and token:
+                        # Ajuste este payload conforme a documentação exata da Periskope se necessário
+                        payload = {
+                            "to": telefone_limpo,
+                            "type": "text",
+                            "text": {"body": msg_bot}
+                        }
+                        headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+                        
+                        # O timeout=5 evita que seu site trave se a API demorar para responder
+                        try:
+                            requests.post(api_url, json=payload, headers=headers, timeout=5)
+                            print(f"--- [BOT] Mensagem enviada para {telefone_limpo} ---")
+                        except requests.exceptions.RequestException as e:
+                            print(f"[ERRO API WHATSAPP] Falha ao enviar para {telefone_limpo}: {e}")
+                    else:
+                        print(f"--- [MODO TESTE] Token não configurado. Msg para {telefone_limpo}: ---\n{msg_bot}")
+            
+            except Exception as e:
+                print(f"Erro ao processar envio para vendedor {vendedor}: {e}")
+        # ------------------------------------------------
 
         request.session['poscompra_wa_url'] = wa_url
         request.session['poscompra_valor_total'] = str(carrinho.valor_total)

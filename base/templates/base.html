@@ -34,7 +34,7 @@
             </div>
 
             <!-- Barra de pesquisa -->
-            <form class="search-nav col-12 col-md-6 col-lg-6 order-3 order-md-2 py-1"
+            <form class="search-nav col-12 col-md-6 col-lg-6 order-3 order-md-2 py-1 justify-content-center"
                   method="get"
                   action="/"
                   role="search">
@@ -46,7 +46,7 @@
                            class="form-control search-bar border-end-0"
                            aria-label="Pesquisar produtos">
                     <button type="submit" class="btn search-submit-btn" aria-label="Buscar">
-                        <img src="{% static 'nature_market/img/lupa.png' %}" class="lupa" alt="">
+                        <img src="{% static 'img/lupa.png' %}" class="lupa" alt="">
                     </button>
                 </div>
             </form>
@@ -107,36 +107,51 @@
 
 {% block content %}{% endblock %}
 
-<footer>
-    <div class="container">
-        <div class="row">
-            <h5 class="footerend col-12 text-center">&copy; 2025 Nature Market. Todos os direitos reservados.</h5>
+<footer class="footerend">
+    <div class="footer-grid">
+        <!-- Coluna 1: Identidade -->
+        <div class="footer-col">
+            <h5 class="footer-title">🌱 NatureMarket</h5>
+            <p>Conectando você diretamente aos pequenos produtores. Produtos frescos, artesanais e sustentáveis, direto da terra para sua casa.</p>
         </div>
 
-        <!-- Menu flutuante mobile -->
-        <div id="nm-mobile-menu"
-             class="menuinfmobile hidden"
-             role="dialog"
-             aria-modal="false"
-             aria-hidden="true">
-            <div class="col-6 text-center">
-                <a href="{% url 'carrinho:visualizar_carrinho' %}" class="carrin btn text-decoration-none fw-semibold">
-                    🛒 Carrinho
-                </a>
-            </div>
-            <div class="col-6 text-center">
-                <button class="nm-theme-toggle btn btn-outline-secondary">
-                    <img src="{% static 'img/moon.png' %}" alt="Alternar tema">
-                </button>
-            </div>
-        <button id="nm-mobile-menu-btn"
-                class="nm-mobile-menu-button"
-                aria-controls="nm-mobile-menu"
-                aria-expanded="false"
-                aria-label="Abrir menu móvel">☰
-        </button>
+        <!-- Coluna 2: Navegação -->
+        <div class="footer-col">
+            <h5 class="footer-title">Acesso Rápido</h5>
+            <ul class="footer-links">
+                <!-- Ajuste as URLs conforme os nomes reais das suas rotas -->
+                <li><a href="/">Início</a></li> 
+                <li><a href="{% url 'carrinho:visualizar_carrinho' %}">Meu Carrinho</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'perfil:perfil' user.username %}">Minha Conta</a></li>
+                {% else %}
+                    <li><a href="{% url 'login:login' %}">Entrar / Cadastrar</a></li>
+                {% endif %}
+            </ul>
         </div>
-        
+
+        <!-- Coluna 3: Contato -->
+        <div class="footer-col">
+            <h5 class="footer-title">Fale Conosco</h5>
+            <p>Dúvidas sobre seu pedido?</p>
+            
+            <a href="#" class="btn btn-outline-light btn-sm mt-2" style="border-radius: 20px;">
+                <!-- Supondo que você use Bootstrap Icons ou FontAwesome -->
+                <i class="bi bi-whatsapp"></i> Suporte WhatsApp
+            </a>
+            
+            <div style="margin-top: 1.5rem; display: flex; gap: 1rem; font-size: 1.2rem;">
+                <a href="#" style="color: white; opacity: 0.8;"><i class="bi bi-instagram"></i></a>
+                <a href="#" style="color: white; opacity: 0.8;"><i class="bi bi-facebook"></i></a>
+                <a href="#" style="color: white; opacity: 0.8;"><i class="bi bi-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-bottom">
+        <p>&copy; {% now "Y" %} NatureMarket. Todos os direitos reservados. Feito com 🍃 e código.</p>
     </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
