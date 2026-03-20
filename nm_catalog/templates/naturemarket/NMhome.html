@@ -9,6 +9,13 @@
 
 {% block content %}
 <div class="container-fluid px-2 px-md-4">
+    <!-- 1. HERO BANNER: Proposta de valor clara e imediata -->
+    <div class="p-4 p-md-5 mb-4 rounded text-white shadow-sm d-flex flex-column align-items-center justify-content-center py-3" 
+         style="background: linear-gradient(135deg, #198754 0%, #20c997 100%); min-height: 200px;">
+        <h1 class="display-5 fw-bold text-center">Nature Market</h1>
+        <p class="fs-5 text-center" style="max-width: 600px;">Produtos frescos, orgânicos e sustentáveis, direto dos produtores locais para a sua mesa.</p>
+    </div>
+
     <div class="row g-3">
 
         <!-- SIDEBAR -->
@@ -57,6 +64,9 @@
                         </div>
                     </div>
 
+                    <!-- Mantém a categoria atual selecionada se o usuário filtrar preço -->
+                    <input type="hidden" name="categoria" value="{{ categoria }}">
+
                     <!-- Só com desconto -->
                     <div class="mb-3 form-check">
                         <input type="checkbox"
@@ -93,6 +103,16 @@
         <!-- CONTEÚDO PRINCIPAL -->
         <div class="col-12 col-md-9 col-lg-10">
 
+            <!-- 2. NAVEGAÇÃO POR CHIPS: Categorias expostas facilitam a descoberta -->
+            <div class="d-flex gap-2 overflow-auto pb-3 mb-3" style="scrollbar-width: none; -ms-overflow-style: none;">
+                <a href="?categoria=" class="btn btn-sm rounded-pill text-nowrap {% if not categoria %}btn-success{% else %}btn-outline-success{% endif %}">Todas</a>
+                {% for cat in categorias %}
+                <a href="?categoria={{ cat }}" class="btn btn-sm rounded-pill text-nowrap {% if cat == categoria %}btn-success{% else %}btn-outline-success{% endif %}">
+                    {{ cat }}
+                </a>
+                {% endfor %}
+            </div>
+
             {% if tem_filtro %}
             <!-- RESULTADOS FILTRADOS -->
             <h2 class="title fs-5 fw-semibold mb-3">
@@ -127,9 +147,7 @@
                                 <small class="badge bg-danger">-{{ produto.desconto }}%</small>
                                 {% endif %}
 
-                                <p class="card-text produto-desc overflow-y-hidden small mt-1">
-                                    {{ produto.descricao }}
-                                </p>
+                                <!-- 3. CARD LIMPO: Removemos a descrição para focar na imagem/preço -->
                             </div>
                         </div>
                     </a>
@@ -165,7 +183,6 @@
                                 {% if produto.desconto %}
                                 <small class="badge bg-danger">-{{ produto.desconto }}%</small>
                                 {% endif %}
-                                <p class="card-text produto-desc overflow-y-hidden small">{{ produto.descricao }}</p>
                             </div>
                         </div>
                     </a>
@@ -197,7 +214,6 @@
                                 {% if produto.desconto %}
                                 <small class="badge bg-danger">-{{ produto.desconto }}%</small>
                                 {% endif %}
-                                <p class="card-text produto-desc overflow-y-hidden small">{{ produto.descricao }}</p>
                             </div>
                         </div>
                     </a>
@@ -228,7 +244,6 @@
                                 {% if produto.desconto %}
                                 <small class="badge bg-danger">-{{ produto.desconto }}%</small>
                                 {% endif %}
-                                <p class="card-text produto-desc overflow-y-hidden small">{{ produto.descricao }}</p>
                             </div>
                         </div>
                     </a>

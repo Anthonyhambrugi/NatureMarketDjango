@@ -1,18 +1,19 @@
 from django.contrib.auth import login as auth_login
 from django.shortcuts import render, redirect
-from .forms import CadastroForm, UserEnderecoForm, NmUserSortForm
+from .forms import CadastroForm, UserEnderecoForm, NmUserSortForm, UserModForm
 from cadastro.models import NmUserSort, UserMod, UserEndereco
 
 
 def cadastro(request):
     if request.method == 'POST':
-        form = CadastroForm(request.POST)
-        form2 = NmUserSortForm(request.POST)
+        formuser = CadastroForm(request.POST)
+        formcargo = NmUserSortForm(request.POST)
+        formwspp = UserModForm(request.POST)
 
-        if form.is_valid() and form2.is_valid():
-            user = form.save()
+        if formuser.is_valid() and formcargo.is_valid() and formwspp.is_valid():
+            user = formuser.save()
 
-            nm_user_sort = form2.save(commit=False)
+            nm_user_sort = formcargo.save(commit=False)
             nm_user_sort.user = user
             nm_user_sort.save()
 
@@ -24,16 +25,23 @@ def cadastro(request):
                 }
             )
 
+            # Salva o número formatado no perfil
+            if formwspp.cleaned_data.get('contatowspp'):
+                user_mod.contatowspp = formwspp.cleaned_data['contatowspp']
+                user_mod.save()
+
             auth_login(request, user)
             return redirect('cadastro:endereco')
 
     else:
-        form = CadastroForm()
-        form2 = NmUserSortForm()
+        formuser = CadastroForm()
+        formcargo = NmUserSortForm()
+        formwspp = UserModForm()
 
     return render(request, 'cadastro/cadastro.html', {
-        'form': form,
-        'form2': form2,
+        'form': formuser,
+        'form2': formcargo,
+        'formwspp': formwspp,
         'passo_cadastro': 1
     })
 

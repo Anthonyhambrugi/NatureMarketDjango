@@ -70,6 +70,15 @@
                     <p class="text-break mb-0">{{ produto.descricao }}</p>
                 </div>
 
+                <div class="content-box py-3">
+                    <p class="small text-muted mb-1">Categoria</p>
+                    <span id="lista-categorias" data-cats="{{ produto.categoria }}">
+                        <a href="/?categoria={{ produto.categoria }}" class="fw-semibold text-decoration-none">
+                            {{ produto.categoria }}
+                        </a>
+                    </span>
+                </div>
+
                 {% if eh_produto_proprio %}
                 <div class="content-box pt-3 d-flex gap-2">
                     <a href="{% url 'produto:editar_produto' produto.id %}"
@@ -165,5 +174,34 @@ if (addCartForm) {
         spinner.classList.remove('d-none');
     });
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const container = document.getElementById('lista-categorias');
+    if (!container) return;
+
+    const rawCats = container.getAttribute('data-cats') || "";
+    // Só executa a lógica se houver vírgula no texto
+    if (rawCats.includes(',')) {
+        const cats = rawCats.split(',');
+        container.innerHTML = ''; // Limpa o link único original
+
+        cats.forEach((cat, index) => {
+            const cleanCat = cat.trim();
+            if (cleanCat) {
+                const link = document.createElement('a');
+                // Cria o link individual para cada parte
+                link.href = `/?categoria=${encodeURIComponent(cleanCat)}`;
+                link.className = "fw-semibold text-decoration-none";
+                link.textContent = cleanCat;
+                container.appendChild(link);
+
+                // Adiciona vírgula visual entre os itens (menos no último)
+                if (index < cats.length - 1) {
+                    container.appendChild(document.createTextNode(", "));
+                }
+            }
+        });
+    }
+});
 </script>
 {% endblock %}

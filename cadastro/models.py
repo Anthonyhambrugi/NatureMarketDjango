@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 
 class NmUserSort(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
 
     TIPO_USER_CHOICES = [
         ('Cliente', 'Cliente'),
@@ -21,7 +21,7 @@ class NmUserSort(models.Model):
 
 
 class UserMod(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     fotodeperfil = CloudinaryField('foto de perfil', null=True, blank=True)
     bio = models.TextField(blank=True, null=True)
     tipo_user = models.CharField(max_length=20, default='Cliente')
@@ -36,6 +36,8 @@ class UserEndereco(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='endereco',
+        null=True,
+        blank=True
     )
     cep = models.CharField(max_length=20, blank=True, null=True)
     rua = models.CharField(max_length=100, blank=True, null=True)

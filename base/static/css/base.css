@@ -21,16 +21,17 @@
 
 /* Tema escuro — adiciona a classe `theme-dark` no <body> */
 .theme-dark {
-    --nm-green:     #2f7d32;
-    --nm-green-2:   #60a060;
-    --nm-cream:     #0b1410;
-    --nm-soft:      #0f1a14;
-    --nm-dark:      #e6f1e6;
+    /* Paleta Reimaginada: Menos preto, mais contraste e conforto */
+    --nm-green:     #4ade80; /* Verde "Folha Nova" - vibrante e orgânico */
+    --nm-green-2:   #86efac; /* Verde claro para destaques */
+    --nm-cream:     #0b120e; /* "Deep Forest": Um escuro profundo com toque de musgo */
+    --nm-soft:      #16241d; /* Superfícies: Verde escuro desaturado */
+    --nm-dark:      #ecfdf5; /* Texto: Branco gelo com subtom de menta */
+
     --nm-shadow:    none;
     --nm-shadow-xs: none;
     --nm-shadow-sm: none;
     --nm-shadow-md: 0 4px 12px rgba(0,0,0,0.5);
-    --nm-shadow-lg: 0 10px 20px rgba(0,0,0,0.5);
 }
 
 /* ============================================================
@@ -126,6 +127,7 @@ header {
     padding: 0.6rem 0;
     border-bottom-left-radius: 14px;
     border-bottom-right-radius: 14px;
+    transition: background-color .2s ease;
 }
 
 header .titulo { width: 150px; height: auto; }
@@ -133,22 +135,26 @@ header .titulo { width: 150px; height: auto; }
 .search-nav .input-group {
     border-radius: var(--nm-radius);
     overflow: hidden;
+    align-items: stretch; /* Garante que input e botão tenham a mesma altura */
+    box-shadow: var(--nm-shadow-xs);
 }
 
 .search-bar,
 .search-nav .form-control {
     background: var(--nm-cream) !important;
-    border: 1px solid rgba(36,87,36,0.15);
+    /* Borda da mesma cor do botão para parecer uma peça única */
+    border: 1px solid var(--nm-green);
     border-right: none;
     border-radius: 0;
     padding: .55rem .9rem;
     font-size: .95rem;
+    height: auto; /* Deixa o flexbox controlar a altura */
 }
 .search-bar:focus,
 .search-nav .form-control:focus {
     box-shadow: none;
     outline: none;
-    border-color: rgba(36,87,36,0.15);
+    border-color: var(--nm-green);
     background: var(--nm-cream) !important;
 }
 
@@ -156,10 +162,11 @@ header .titulo { width: 150px; height: auto; }
     background: var(--nm-green);
     border: 1px solid var(--nm-green);
     border-left: none;
-    border-radius: 0;
-    padding: .5rem .85rem;
+    border-radius: 0; /* Match input padding for consistent height */
+    padding: 0 1.1rem; /* Padding lateral apenas, altura via flex */
     display: flex;
     align-items: center;
+    justify-content: center;
     transition: background .15s ease;
 }
 .search-submit-btn:hover,
@@ -169,8 +176,11 @@ header .titulo { width: 150px; height: auto; }
     transform: none;
 }
 .search-submit-btn .lupa {
-    width: 18px;
-    filter: brightness(10);
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    /* Turns a dark icon white reliably */
+    filter: brightness(0) invert(1);
 }
 
 .form-control.custom-soft {
@@ -529,9 +539,16 @@ header .titulo { width: 150px; height: auto; }
 }
 
 .theme-dark header {
-    background: var(--nm-green);
-    color: var(--nm-soft);
+    background: var(--nm-soft); /* Header mais sutil, não mais verde sólido */
+    color: var(--nm-dark);
     border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.theme-dark .search-submit-btn:hover,
+.theme-dark .search-submit-btn:focus {
+    /* Fix: Evita que o fundo fique branco no hover do tema escuro */
+    background: var(--nm-green-2);
+    border-color: var(--nm-green-2);
 }
 
 .theme-dark .card {
@@ -541,34 +558,86 @@ header .titulo { width: 150px; height: auto; }
 }
 
 .theme-dark .dropdown-menu {
-    background: #0e2016;
-    border-color: rgba(47,125,50,0.14);
+    background: var(--nm-soft);
+    border-color: rgba(255,255,255,0.1);
+    --bs-dropdown-link-hover-bg: rgba(52, 211, 153, 0.1); /* Hover com a cor de destaque */
+    --bs-dropdown-link-active-bg: var(--nm-green);
+    --bs-dropdown-link-active-color: #0b120e;
+}
+
+.theme-dark .dropdown-item {
+    color: var(--nm-dark) !important; /* Manter o !important por causa da especificidade do BS */
+}
+
+.theme-dark .dropdown-divider {
+    border-top-color: rgba(255,255,255,0.1);
 }
 
 .theme-dark .input-group-text,
 .theme-dark .input-group input,
 .theme-dark .formularo form input,
 .theme-dark .formularo form select,
-.theme-dark .formularo form textarea {
-    background: #08120d !important;
-    border-color: rgba(47,125,50,0.18);
+.theme-dark .formularo form textarea,
+.theme-dark .form-control {
+    background: #060c09 !important; /* Input ultra-escuro orgânico */
+    border-color: rgba(255,255,255,0.15) !important;
     color: var(--nm-dark) !important;
+}
+
+.theme-dark .form-control::placeholder {
+    color: rgba(249, 250, 251, 0.4);
+}
+
+.theme-dark .form-control:focus {
+    border-color: var(--nm-green) !important;
+    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.2);
 }
 
 .theme-dark .modal-content,
 .theme-dark .modal-body {
-    background: #07110b;
-    border-color: rgba(47,125,50,0.18);
+    background: var(--nm-soft);
+    border-color: rgba(255,255,255,0.1);
     color: var(--nm-dark);
 }
 
 .theme-dark .catalogo-x::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--nm-green-2), var(--nm-green));
+    background: var(--nm-green);
 }
 
-.theme-dark a,
-.theme-dark .btn,
-.theme-dark .dropdown-item { color: var(--nm-dark) !important; }
+.theme-dark a {
+    color: var(--nm-green-2) !important; /* Links com a cor de destaque secundária */
+}
+.theme-dark a:hover {
+    color: var(--nm-green) !important; /* Hover para a cor primária */
+}
+
+/* Ajustes específicos para botões e textos */
+.theme-dark .btn-success {
+    background-color: var(--nm-green) !important;
+    border-color: var(--nm-green) !important;
+    color: #0b120e !important; /* Texto escuro para contraste no botão verde */
+}
+.theme-dark .btn-success:hover { filter: brightness(1.1); }
+
+.theme-dark .btn-outline-success {
+    color: var(--nm-green) !important;
+    border-color: var(--nm-green) !important;
+}
+.theme-dark .btn-outline-success:hover {
+    background-color: var(--nm-green) !important;
+    color: #0b120e !important;
+}
+
+.theme-dark .text-success { color: var(--nm-green) !important; }
+.theme-dark .text-muted { color: rgba(249, 250, 251, 0.5) !important; }
+
+/* Footer */
+.theme-dark .footerend {
+    background: #020604; /* Quase preto, mas com alma verde */
+    border-radius: 0;
+}
+.theme-dark .footer-links a { color: rgba(255,255,255,0.6) !important; }
+.theme-dark .footer-links a:hover { color: #fff !important; }
 
 /* ============================================================
    RESPONSIVO

@@ -13,12 +13,16 @@ def nm_catalog(request):
     preco_max     = request.GET.get('preco_max', '').strip()
     apenas_desconto = request.GET.get('desconto', '')
     ordem         = request.GET.get('ordem', '-criado_em')
+    categoria     = request.GET.get('categoria', '')
 
     ordens_validas = ['-criado_em', 'criado_em', 'preco', '-preco']
     if ordem not in ordens_validas:
         ordem = '-criado_em'
 
-    tem_filtro = bool(q or preco_min or preco_max or apenas_desconto)
+    tem_filtro = bool(q or preco_min or preco_max or apenas_desconto or categoria)
+
+    # Usa as categorias oficiais definidas no Model para os botões
+    categorias_existentes = [op[0] for op in CadItmModel.CADASTRO_CHOICES]
 
     contexto_base = {
         'q': q,
@@ -26,6 +30,8 @@ def nm_catalog(request):
         'preco_max': preco_max,
         'apenas_desconto': apenas_desconto,
         'ordem': ordem,
+        'categoria': categoria,
+        'categorias': categorias_existentes, # Envia a lista para o template
     }
 
     if tem_filtro:
@@ -45,6 +51,9 @@ def nm_catalog(request):
                 qs = qs.filter(preco__lte=float(preco_max))
             except ValueError:
                 pass
+
+        if categoria:
+            qs = qs.filter(categoria__icontains=categoria)
 
         if apenas_desconto:
             qs = qs.filter(desconto__gt=0)

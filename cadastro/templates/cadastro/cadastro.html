@@ -17,16 +17,19 @@
                 <form method="post">
         {% csrf_token %}
         {{ form.non_field_errors }}
+        {{ formcargo.non_field_errors }}
+        {{ formuser.non_field_errors }}
         {{ form2.non_field_errors }}
+        {{ formwspp.non_field_errors }}
 
         <div class="mb-3">
-            <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+            <label for="{{ formuser.username.id_for_label }}">{{ form.username.label }}</label>
             {{ form.username }}
             {{ form.username.errors }}
         </div>
 
         <div class="mb-3">
-            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+            <label for="{{ formuser.email.id_for_label }}">{{ form.email.label }}</label>
             {{ form.email }}
             {{ form.email.errors }}
         </div>
@@ -42,6 +45,11 @@
             {{ form.password2 }}
             {{ form.password2.errors }}
         </div>
+        <div class="mb-3">
+            <label for="{{ formwspp.id_for_label }}">{{ form.contatowspp.label }}</label>
+            {{ formwspp }}
+            {{ formwspp.errors }}
+        </div>
         <div class="mb-3 d-block">
             <label for="{{ form2.tipo_user.id_for_label }}">Tipo de usuário</label>
             {% for nome in form2.tipo_user.field.choices %}
@@ -49,6 +57,8 @@
                     <input class="form-check-input" type="radio" name="{{ form2.tipo_user.name }}" id="{{ form2.tipo_user.id_for_label }}_{{ forloop.counter }}" value="{{ nome.0 }}">
                     <label class="form-check-label" for="{{ form2.tipo_user.id_for_label }}_{{ forloop.counter }}">{{ nome.1 }}</label>
                 </div>
+            {% empty %}
+                <div class="text-danger small">Erro: Opções não carregadas. Verifique se 'form2' está no contexto da View.</div>
             {% endfor %}
             {{ form2.tipo_user.errors }}
         </div>

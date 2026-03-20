@@ -37,16 +37,30 @@ class NmUserSortForm(forms.ModelForm):
             'tipo_user': 'Tipo de usuário',
         }
 
-class NmUserSortForm(forms.ModelForm):
+class UserModForm(forms.ModelForm):
     class Meta:
         model = UserMod
         fields = ['contatowspp']
         widgets = {
-            'contatowspp': forms.Select(attrs={'class': 'form-select'})
+            'contatowspp': forms.TextInput(attrs={'class': 'form-control'})
         }
         labels = {
             'contatowspp': 'Contato WhatsApp (opcional)',
         }
+
+    def clean_contatowspp(self):
+        numero = self.cleaned_data.get('contatowspp')
+        if not numero:
+            return numero
+        numeros = ''.join(filter(str.isdigit, numero))
+        
+        # Se o JavaScript enviou com 55 (13 dígitos), removemos o 55 para padronizar a validação
+        if len(numeros) == 13 and numeros.startswith('55'):
+            numeros = numeros[2:]
+            
+        if len(numeros) == 11:
+            return f"+55 ({numeros[:2]}) {numeros[2:7]}-{numeros[7:]}"
+        return numero
 
 class UserEnderecoForm(forms.ModelForm):
     class Meta:

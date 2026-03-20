@@ -23,12 +23,25 @@ class CadItmModel(models.Model):
     contato = models.CharField(max_length=20, blank=True, null=True)
     preco = models.FloatField(default=0.0)
     desconto = models.FloatField(default=0.0)
+    categoria = models.CharField(max_length=50, blank=True, null=True)
 
     imagem_item = CloudinaryField('imagem_principal', null=True, blank=True)
 
     criado_em = models.DateTimeField(auto_now_add=True)
 
     id = models.AutoField(primary_key=True)
+
+    CADASTRO_CHOICES = [
+        ('Fruta', 'Fruta'),
+        ('Verdura', 'Verdura'),
+        ('Legume', 'Legume'),
+        ('Grãos', 'Grãos'),
+        ('Cereais', 'Cereais'),
+        ('Reciclados', 'Reciclados'),
+        ('Outros', 'Outros'),
+    ]
+
+
 
     def __str__(self):
         return self.nome

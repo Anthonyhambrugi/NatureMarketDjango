@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'perfil',
     'carrinho_chatgpt',
     'poscompra',
+    
 ]
 
 MIDDLEWARE = [
@@ -184,3 +185,7 @@ cloudinary.config(
 )
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Configuração de arquivos de Mídia (uploads de usuários)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

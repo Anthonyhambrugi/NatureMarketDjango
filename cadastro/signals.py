@@ -51,6 +51,7 @@ def criar_grupos(sender, **kwargs):
 def adicionar_usuario_ao_grupo(sender, instance, created, **kwargs):
     group = instance.nmusersort.tipo_user if hasattr(instance, 'nmusersort') else 'Anônimo'
     grupo, _ = Group.objects.get_or_create(name=group)
+    instance.groups.add(grupo)
 
 # Supondo que seu modelo de perfil se chame NmUserSort
 from .models import NmUserSort 

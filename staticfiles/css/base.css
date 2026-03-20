@@ -284,6 +284,27 @@ header .titulo{
     .menuinfmobile{ left:12px; right:12px; bottom:12px; position:fixed; z-index:1100; }
 }
 
+/* --- Tablet Responsive & App-like Tweaks (601px - 1024px) --- */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .produto-card {
+        width: 14rem; /* Cartões maiores no tablet para preencher melhor */
+    }
+    .produto-card .card-title {
+        font-size: 1.15rem;
+    }
+    header {
+        padding: 1rem 2rem;
+    }
+    /* Garante menu flutuante bonito e centralizado no tablet */
+    .menuinfmobile {
+        width: auto;
+        min-width: 320px;
+        max-width: 500px;
+        padding: 10px 20px;
+        bottom: 24px;
+    }
+}
+
 @media (max-width: 600px) {
     /* Layout geral */
     body{
@@ -332,7 +353,11 @@ header .titulo{
         z-index: 1100;
         box-shadow: 0 10px 30px rgba(47,125,50,0.14);
         border-radius: 14px;
-        background-color: #fff4d7 !important;
+        /* Glassmorphism para parecer App nativo moderno */
+        background-color: rgba(255, 244, 215, 0.92) !important;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(47, 125, 50, 0.2);
     }
 
     .menuinfmobile .carrin{
@@ -351,6 +376,7 @@ header .titulo{
 
     .catalogo-x::-webkit-scrollbar {
         height: 10px;
+        display: none; /* Esconde scrollbar visualmente p/ look mais limpo (scroll touch funciona) */
     }
     .catalogo-x::-webkit-scrollbar-thumb {
         background: linear-gradient(180deg,#2f7d32,#81C784);
@@ -367,6 +393,7 @@ header .titulo{
         gap: 8px !important;
         padding: 8px;
         border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Sombra mais suave */
     }
 
     .produto-card img, .card img{
@@ -431,7 +458,7 @@ header .titulo{
     bottom: 12px;
     transform: translateX(-50%);
     width: calc(100% - 48px);
-    max-width: 420px;
+    max-width: 480px; /* Um pouco mais largo para acomodar tablets pequenos */
     z-index: 1200;
     border-radius: 14px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
